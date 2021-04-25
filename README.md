@@ -1,1 +1,1 @@
-# -TgcUtn-HorrorGame-GoldEd
+# TgcUtn-HorrorGame-GoldEd
