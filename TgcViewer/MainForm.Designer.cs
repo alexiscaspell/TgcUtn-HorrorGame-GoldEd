@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,6 +53,7 @@
             this.textBoxExampleDescription = new System.Windows.Forms.TextBox();
             this.splitContainerUserVars = new System.Windows.Forms.SplitContainer();
             this.panel3d = new System.Windows.Forms.Panel();
+            this.botonLoading = new System.Windows.Forms.Button();
             this.splitContainerModifiers = new System.Windows.Forms.SplitContainer();
             this.groupBoxModifiers = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanelModifiers = new System.Windows.Forms.FlowLayoutPanel();
@@ -63,19 +65,25 @@
             this.logConsole = new System.Windows.Forms.RichTextBox();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerConsole)).BeginInit();
             this.splitContainerConsole.Panel1.SuspendLayout();
             this.splitContainerConsole.Panel2.SuspendLayout();
             this.splitContainerConsole.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerExamples)).BeginInit();
             this.splitContainerExamples.Panel1.SuspendLayout();
             this.splitContainerExamples.Panel2.SuspendLayout();
             this.splitContainerExamples.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerDescripcionExample)).BeginInit();
             this.splitContainerDescripcionExample.Panel1.SuspendLayout();
             this.splitContainerDescripcionExample.Panel2.SuspendLayout();
             this.splitContainerDescripcionExample.SuspendLayout();
             this.groupBoxExamples.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUserVars)).BeginInit();
             this.splitContainerUserVars.Panel1.SuspendLayout();
             this.splitContainerUserVars.Panel2.SuspendLayout();
             this.splitContainerUserVars.SuspendLayout();
+            this.panel3d.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerModifiers)).BeginInit();
             this.splitContainerModifiers.Panel1.SuspendLayout();
             this.splitContainerModifiers.Panel2.SuspendLayout();
             this.splitContainerModifiers.SuspendLayout();
@@ -87,20 +95,23 @@
             // 
             // menuStrip
             // 
+            this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivoToolStripMenuItem,
             this.verToolStripMenuItem,
             this.ayudaToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(781, 24);
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.menuStrip.Size = new System.Drawing.Size(1041, 30);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
+            this.menuStrip.Visible = false;
             // 
             // archivoToolStripMenuItem
             // 
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(73, 26);
             this.archivoToolStripMenuItem.Text = "Archivo";
             // 
             // verToolStripMenuItem
@@ -113,7 +124,7 @@
             this.ejecutarEnFullScreenToolStripMenuItem,
             this.mostrarPosiciónDeCámaraToolStripMenuItem});
             this.verToolStripMenuItem.Name = "verToolStripMenuItem";
-            this.verToolStripMenuItem.Size = new System.Drawing.Size(36, 20);
+            this.verToolStripMenuItem.Size = new System.Drawing.Size(44, 26);
             this.verToolStripMenuItem.Text = "Ver";
             // 
             // wireframeToolStripMenuItem
@@ -121,7 +132,7 @@
             this.wireframeToolStripMenuItem.CheckOnClick = true;
             this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
             this.wireframeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.W)));
-            this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
             this.wireframeToolStripMenuItem.Text = "Wireframe";
             this.wireframeToolStripMenuItem.Click += new System.EventHandler(this.wireframeToolStripMenuItem_Click);
             // 
@@ -130,7 +141,7 @@
             this.camaraPrimeraPersonaToolStripMenuItem.CheckOnClick = true;
             this.camaraPrimeraPersonaToolStripMenuItem.Name = "camaraPrimeraPersonaToolStripMenuItem";
             this.camaraPrimeraPersonaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.camaraPrimeraPersonaToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.camaraPrimeraPersonaToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
             this.camaraPrimeraPersonaToolStripMenuItem.Text = "Camara Primera Persona";
             this.camaraPrimeraPersonaToolStripMenuItem.Click += new System.EventHandler(this.camaraPrimeraPersonaToolStripMenuItem_Click);
             // 
@@ -140,7 +151,7 @@
             this.contadorFPSToolStripMenuItem.CheckOnClick = true;
             this.contadorFPSToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.contadorFPSToolStripMenuItem.Name = "contadorFPSToolStripMenuItem";
-            this.contadorFPSToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.contadorFPSToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
             this.contadorFPSToolStripMenuItem.Text = "Contador FPS";
             this.contadorFPSToolStripMenuItem.Click += new System.EventHandler(this.contadorFPSToolStripMenuItem_Click);
             // 
@@ -150,7 +161,7 @@
             this.ejesCartesianosToolStripMenuItem.CheckOnClick = true;
             this.ejesCartesianosToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ejesCartesianosToolStripMenuItem.Name = "ejesCartesianosToolStripMenuItem";
-            this.ejesCartesianosToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.ejesCartesianosToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
             this.ejesCartesianosToolStripMenuItem.Text = "Ejes cartesianos";
             this.ejesCartesianosToolStripMenuItem.Click += new System.EventHandler(this.ejesCartesianosToolStripMenuItem_Click);
             // 
@@ -159,7 +170,7 @@
             this.ejecutarEnFullScreenToolStripMenuItem.CheckOnClick = true;
             this.ejecutarEnFullScreenToolStripMenuItem.Name = "ejecutarEnFullScreenToolStripMenuItem";
             this.ejecutarEnFullScreenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this.ejecutarEnFullScreenToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.ejecutarEnFullScreenToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
             this.ejecutarEnFullScreenToolStripMenuItem.Text = "Ejecutar en Full Screen (BETA)";
             // 
             // mostrarPosiciónDeCámaraToolStripMenuItem
@@ -167,7 +178,7 @@
             this.mostrarPosiciónDeCámaraToolStripMenuItem.CheckOnClick = true;
             this.mostrarPosiciónDeCámaraToolStripMenuItem.Name = "mostrarPosiciónDeCámaraToolStripMenuItem";
             this.mostrarPosiciónDeCámaraToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
-            this.mostrarPosiciónDeCámaraToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.mostrarPosiciónDeCámaraToolStripMenuItem.Size = new System.Drawing.Size(333, 26);
             this.mostrarPosiciónDeCámaraToolStripMenuItem.Text = "Mostrar posición de cámara";
             this.mostrarPosiciónDeCámaraToolStripMenuItem.Click += new System.EventHandler(this.mostrarPosiciónDeCámaraToolStripMenuItem_Click);
             // 
@@ -176,51 +187,57 @@
             this.ayudaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.acercaDeTgcViewerToolStripMenuItem});
             this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(65, 26);
             this.ayudaToolStripMenuItem.Text = "Ayuda";
             // 
             // acercaDeTgcViewerToolStripMenuItem
             // 
             this.acercaDeTgcViewerToolStripMenuItem.Name = "acercaDeTgcViewerToolStripMenuItem";
-            this.acercaDeTgcViewerToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.acercaDeTgcViewerToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
             this.acercaDeTgcViewerToolStripMenuItem.Text = "Acerca de TgcViewer";
             this.acercaDeTgcViewerToolStripMenuItem.Click += new System.EventHandler(this.acercaDeTgcViewerToolStripMenuItem_Click);
             // 
             // toolStrip
             // 
-            this.toolStrip.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(781, 25);
+            this.toolStrip.Size = new System.Drawing.Size(1041, 31);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "toolStrip1";
+            this.toolStrip.Visible = false;
             // 
             // statusStrip
             // 
+            this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusCurrentExample,
             this.toolStripStatusPosition});
-            this.statusStrip.Location = new System.Drawing.Point(0, 528);
+            this.statusStrip.Location = new System.Drawing.Point(0, 650);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(781, 22);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip.Size = new System.Drawing.Size(1041, 27);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "statusStrip1";
+            this.statusStrip.Visible = false;
             // 
             // toolStripStatusCurrentExample
             // 
             this.toolStripStatusCurrentExample.BackColor = System.Drawing.Color.GreenYellow;
             this.toolStripStatusCurrentExample.Name = "toolStripStatusCurrentExample";
-            this.toolStripStatusCurrentExample.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusCurrentExample.Size = new System.Drawing.Size(0, 21);
             // 
             // toolStripStatusPosition
             // 
             this.toolStripStatusPosition.Name = "toolStripStatusPosition";
-            this.toolStripStatusPosition.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusPosition.Size = new System.Drawing.Size(0, 21);
             // 
             // splitContainerConsole
             // 
             this.splitContainerConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerConsole.IsSplitterFixed = true;
-            this.splitContainerConsole.Location = new System.Drawing.Point(0, 49);
+            this.splitContainerConsole.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerConsole.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainerConsole.Name = "splitContainerConsole";
             this.splitContainerConsole.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -232,8 +249,9 @@
             // 
             this.splitContainerConsole.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitContainerConsole.Panel2.Controls.Add(this.groupBoxConsole);
-            this.splitContainerConsole.Size = new System.Drawing.Size(781, 479);
-            this.splitContainerConsole.SplitterDistance = 386;
+            this.splitContainerConsole.Size = new System.Drawing.Size(1041, 677);
+            this.splitContainerConsole.SplitterDistance = 545;
+            this.splitContainerConsole.SplitterWidth = 5;
             this.splitContainerConsole.TabIndex = 3;
             // 
             // splitContainerExamples
@@ -241,6 +259,7 @@
             this.splitContainerExamples.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerExamples.IsSplitterFixed = true;
             this.splitContainerExamples.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerExamples.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainerExamples.Name = "splitContainerExamples";
             // 
             // splitContainerExamples.Panel1
@@ -250,14 +269,16 @@
             // splitContainerExamples.Panel2
             // 
             this.splitContainerExamples.Panel2.Controls.Add(this.splitContainerUserVars);
-            this.splitContainerExamples.Size = new System.Drawing.Size(781, 386);
-            this.splitContainerExamples.SplitterDistance = 113;
+            this.splitContainerExamples.Size = new System.Drawing.Size(1041, 545);
+            this.splitContainerExamples.SplitterDistance = 150;
+            this.splitContainerExamples.SplitterWidth = 5;
             this.splitContainerExamples.TabIndex = 0;
             // 
             // splitContainerDescripcionExample
             // 
             this.splitContainerDescripcionExample.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerDescripcionExample.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerDescripcionExample.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainerDescripcionExample.Name = "splitContainerDescripcionExample";
             this.splitContainerDescripcionExample.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -268,8 +289,9 @@
             // splitContainerDescripcionExample.Panel2
             // 
             this.splitContainerDescripcionExample.Panel2.Controls.Add(this.textBoxExampleDescription);
-            this.splitContainerDescripcionExample.Size = new System.Drawing.Size(113, 386);
-            this.splitContainerDescripcionExample.SplitterDistance = 293;
+            this.splitContainerDescripcionExample.Size = new System.Drawing.Size(150, 545);
+            this.splitContainerDescripcionExample.SplitterDistance = 413;
+            this.splitContainerDescripcionExample.SplitterWidth = 5;
             this.splitContainerDescripcionExample.TabIndex = 1;
             // 
             // groupBoxExamples
@@ -278,37 +300,45 @@
             this.groupBoxExamples.Controls.Add(this.treeViewExamples);
             this.groupBoxExamples.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxExamples.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxExamples.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxExamples.Name = "groupBoxExamples";
-            this.groupBoxExamples.Size = new System.Drawing.Size(113, 293);
+            this.groupBoxExamples.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxExamples.Size = new System.Drawing.Size(150, 413);
             this.groupBoxExamples.TabIndex = 0;
             this.groupBoxExamples.TabStop = false;
             this.groupBoxExamples.Text = "Ejemplos";
+            this.groupBoxExamples.Visible = false;
             // 
             // treeViewExamples
             // 
             this.treeViewExamples.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewExamples.Location = new System.Drawing.Point(3, 16);
+            this.treeViewExamples.Location = new System.Drawing.Point(4, 19);
+            this.treeViewExamples.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.treeViewExamples.Name = "treeViewExamples";
-            this.treeViewExamples.Size = new System.Drawing.Size(107, 274);
+            this.treeViewExamples.Size = new System.Drawing.Size(142, 390);
             this.treeViewExamples.TabIndex = 4;
-            this.treeViewExamples.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeViewExamples_MouseDoubleClick);
+            this.treeViewExamples.Visible = false;
             this.treeViewExamples.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewExamples_AfterSelect);
+            this.treeViewExamples.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeViewExamples_MouseDoubleClick);
             // 
             // textBoxExampleDescription
             // 
             this.textBoxExampleDescription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxExampleDescription.Location = new System.Drawing.Point(0, 0);
+            this.textBoxExampleDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxExampleDescription.Multiline = true;
             this.textBoxExampleDescription.Name = "textBoxExampleDescription";
             this.textBoxExampleDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxExampleDescription.Size = new System.Drawing.Size(113, 89);
+            this.textBoxExampleDescription.Size = new System.Drawing.Size(150, 127);
             this.textBoxExampleDescription.TabIndex = 0;
+            this.textBoxExampleDescription.Visible = false;
             // 
             // splitContainerUserVars
             // 
             this.splitContainerUserVars.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerUserVars.IsSplitterFixed = true;
             this.splitContainerUserVars.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerUserVars.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainerUserVars.Name = "splitContainerUserVars";
             // 
             // splitContainerUserVars.Panel1
@@ -318,23 +348,39 @@
             // splitContainerUserVars.Panel2
             // 
             this.splitContainerUserVars.Panel2.Controls.Add(this.splitContainerModifiers);
-            this.splitContainerUserVars.Size = new System.Drawing.Size(664, 386);
-            this.splitContainerUserVars.SplitterDistance = 548;
+            this.splitContainerUserVars.Size = new System.Drawing.Size(886, 545);
+            this.splitContainerUserVars.SplitterDistance = 731;
+            this.splitContainerUserVars.SplitterWidth = 5;
             this.splitContainerUserVars.TabIndex = 0;
             // 
             // panel3d
             // 
             this.panel3d.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panel3d.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel3d.BackgroundImage")));
+            this.panel3d.Controls.Add(this.botonLoading);
             this.panel3d.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3d.Location = new System.Drawing.Point(0, 0);
+            this.panel3d.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel3d.Name = "panel3d";
-            this.panel3d.Size = new System.Drawing.Size(548, 386);
+            this.panel3d.Size = new System.Drawing.Size(731, 545);
             this.panel3d.TabIndex = 0;
+            // 
+            // botonLoading
+            // 
+            this.botonLoading.AutoSize = true;
+            this.botonLoading.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("botonLoading.BackgroundImage")));
+            this.botonLoading.Location = new System.Drawing.Point(-155, 0);
+            this.botonLoading.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.botonLoading.Name = "botonLoading";
+            this.botonLoading.Size = new System.Drawing.Size(1037, 677);
+            this.botonLoading.TabIndex = 0;
+            this.botonLoading.UseVisualStyleBackColor = true;
             // 
             // splitContainerModifiers
             // 
             this.splitContainerModifiers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerModifiers.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerModifiers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainerModifiers.Name = "splitContainerModifiers";
             this.splitContainerModifiers.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -346,8 +392,9 @@
             // splitContainerModifiers.Panel2
             // 
             this.splitContainerModifiers.Panel2.Controls.Add(this.groupBoxUserVars);
-            this.splitContainerModifiers.Size = new System.Drawing.Size(112, 386);
-            this.splitContainerModifiers.SplitterDistance = 231;
+            this.splitContainerModifiers.Size = new System.Drawing.Size(150, 545);
+            this.splitContainerModifiers.SplitterDistance = 326;
+            this.splitContainerModifiers.SplitterWidth = 5;
             this.splitContainerModifiers.TabIndex = 1;
             // 
             // groupBoxModifiers
@@ -356,11 +403,14 @@
             this.groupBoxModifiers.Controls.Add(this.flowLayoutPanelModifiers);
             this.groupBoxModifiers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxModifiers.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxModifiers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxModifiers.Name = "groupBoxModifiers";
-            this.groupBoxModifiers.Size = new System.Drawing.Size(112, 231);
+            this.groupBoxModifiers.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxModifiers.Size = new System.Drawing.Size(150, 326);
             this.groupBoxModifiers.TabIndex = 0;
             this.groupBoxModifiers.TabStop = false;
             this.groupBoxModifiers.Text = "Modifiers";
+            this.groupBoxModifiers.Visible = false;
             // 
             // flowLayoutPanelModifiers
             // 
@@ -368,10 +418,12 @@
             this.flowLayoutPanelModifiers.AutoSize = true;
             this.flowLayoutPanelModifiers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelModifiers.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelModifiers.Location = new System.Drawing.Point(3, 16);
+            this.flowLayoutPanelModifiers.Location = new System.Drawing.Point(4, 19);
+            this.flowLayoutPanelModifiers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanelModifiers.Name = "flowLayoutPanelModifiers";
-            this.flowLayoutPanelModifiers.Size = new System.Drawing.Size(106, 212);
+            this.flowLayoutPanelModifiers.Size = new System.Drawing.Size(142, 303);
             this.flowLayoutPanelModifiers.TabIndex = 0;
+            this.flowLayoutPanelModifiers.Visible = false;
             this.flowLayoutPanelModifiers.WrapContents = false;
             // 
             // groupBoxUserVars
@@ -380,11 +432,14 @@
             this.groupBoxUserVars.Controls.Add(this.dataGridUserVars);
             this.groupBoxUserVars.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxUserVars.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxUserVars.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxUserVars.Name = "groupBoxUserVars";
-            this.groupBoxUserVars.Size = new System.Drawing.Size(112, 151);
+            this.groupBoxUserVars.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxUserVars.Size = new System.Drawing.Size(150, 214);
             this.groupBoxUserVars.TabIndex = 0;
             this.groupBoxUserVars.TabStop = false;
             this.groupBoxUserVars.Text = "User variables";
+            this.groupBoxUserVars.Visible = false;
             // 
             // dataGridUserVars
             // 
@@ -396,31 +451,35 @@
             this.ColumnName,
             this.ColumnValue});
             this.dataGridUserVars.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridUserVars.Location = new System.Drawing.Point(3, 16);
+            this.dataGridUserVars.Location = new System.Drawing.Point(4, 19);
+            this.dataGridUserVars.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridUserVars.MultiSelect = false;
             this.dataGridUserVars.Name = "dataGridUserVars";
             this.dataGridUserVars.ReadOnly = true;
             this.dataGridUserVars.RowHeadersWidth = 10;
             this.dataGridUserVars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridUserVars.Size = new System.Drawing.Size(106, 132);
+            this.dataGridUserVars.Size = new System.Drawing.Size(142, 191);
             this.dataGridUserVars.TabIndex = 0;
+            this.dataGridUserVars.Visible = false;
             // 
             // ColumnName
             // 
             this.ColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ColumnName.DataPropertyName = "Name";
             this.ColumnName.HeaderText = "Name";
+            this.ColumnName.MinimumWidth = 6;
             this.ColumnName.Name = "ColumnName";
             this.ColumnName.ReadOnly = true;
-            this.ColumnName.Width = 60;
+            this.ColumnName.Width = 74;
             // 
             // ColumnValue
             // 
             this.ColumnValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.ColumnValue.DataPropertyName = "Value";
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ColumnValue.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ColumnValue.DefaultCellStyle = dataGridViewCellStyle1;
             this.ColumnValue.HeaderText = "Value";
+            this.ColumnValue.MinimumWidth = 6;
             this.ColumnValue.Name = "ColumnValue";
             this.ColumnValue.ReadOnly = true;
             // 
@@ -429,8 +488,10 @@
             this.groupBoxConsole.Controls.Add(this.logConsole);
             this.groupBoxConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxConsole.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxConsole.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBoxConsole.Name = "groupBoxConsole";
-            this.groupBoxConsole.Size = new System.Drawing.Size(781, 89);
+            this.groupBoxConsole.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxConsole.Size = new System.Drawing.Size(1041, 127);
             this.groupBoxConsole.TabIndex = 0;
             this.groupBoxConsole.TabStop = false;
             this.groupBoxConsole.Text = "Console";
@@ -438,49 +499,59 @@
             // logConsole
             // 
             this.logConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logConsole.Location = new System.Drawing.Point(3, 16);
+            this.logConsole.Location = new System.Drawing.Point(4, 19);
+            this.logConsole.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logConsole.Name = "logConsole";
-            this.logConsole.Size = new System.Drawing.Size(775, 70);
+            this.logConsole.Size = new System.Drawing.Size(1033, 104);
             this.logConsole.TabIndex = 0;
             this.logConsole.Text = "";
+            this.logConsole.Visible = false;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(781, 550);
+            this.ClientSize = new System.Drawing.Size(1041, 677);
             this.Controls.Add(this.splitContainerConsole);
-            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
-            this.MinimumSize = new System.Drawing.Size(789, 558);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(1046, 676);
             this.Name = "MainForm";
             this.ShowIcon = false;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.splitContainerConsole.Panel1.ResumeLayout(false);
             this.splitContainerConsole.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerConsole)).EndInit();
             this.splitContainerConsole.ResumeLayout(false);
             this.splitContainerExamples.Panel1.ResumeLayout(false);
             this.splitContainerExamples.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerExamples)).EndInit();
             this.splitContainerExamples.ResumeLayout(false);
             this.splitContainerDescripcionExample.Panel1.ResumeLayout(false);
             this.splitContainerDescripcionExample.Panel2.ResumeLayout(false);
             this.splitContainerDescripcionExample.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerDescripcionExample)).EndInit();
             this.splitContainerDescripcionExample.ResumeLayout(false);
             this.groupBoxExamples.ResumeLayout(false);
             this.splitContainerUserVars.Panel1.ResumeLayout(false);
             this.splitContainerUserVars.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerUserVars)).EndInit();
             this.splitContainerUserVars.ResumeLayout(false);
+            this.panel3d.ResumeLayout(false);
+            this.panel3d.PerformLayout();
             this.splitContainerModifiers.Panel1.ResumeLayout(false);
             this.splitContainerModifiers.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerModifiers)).EndInit();
             this.splitContainerModifiers.ResumeLayout(false);
             this.groupBoxModifiers.ResumeLayout(false);
             this.groupBoxModifiers.PerformLayout();
@@ -526,6 +597,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnValue;
         private System.Windows.Forms.ToolStripMenuItem mostrarPosiciónDeCámaraToolStripMenuItem;
+        private System.Windows.Forms.Button botonLoading;
     }
 }
 

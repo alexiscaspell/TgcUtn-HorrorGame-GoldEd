@@ -355,6 +355,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="IconoTgc.ico" />
+    <None Include="imagenLoading.png" />
     <None Include="Resources\homeDirIcon.png" />
     <None Include="Resources\dir_icon.jpg" />
   </ItemGroup>

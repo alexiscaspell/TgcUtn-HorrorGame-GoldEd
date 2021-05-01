@@ -47,8 +47,8 @@ namespace TgcViewer.Utils.Ui
             fullScreenMode = false;
             defaultExampleName = "Logo de TGC";
             defaultExampleCategory = "Otros";
-            showModifiersPanel = true;
-            title = "TgcViewer - Técnicas de Gráficos por Computadora - UTN - FRBA";
+            showModifiersPanel = false;
+            title = "Escape From Hospital";
             showTitleBar = true;
         }
 

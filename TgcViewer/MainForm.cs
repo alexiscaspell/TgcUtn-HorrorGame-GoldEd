@@ -104,13 +104,32 @@ namespace TgcViewer
             GuiController guiController = GuiController.Instance;
             guiController.initGraphics(this, panel3d);
             this.resetMenuOptions();
+            bool ejecutandoJuego = false;
+
 
             while (MainForm.ApplicationRunning)
             {
                 //Solo renderizamos si la aplicacion tiene foco, para no consumir recursos innecesarios
-                if (this.applicationActive())
+                if (this.applicationActive()&& !ejecutandoJuego)
                 {
                     guiController.render();
+                    //TOSTADO MODIFICACION
+                    foreach (TreeNode node in this.treeViewExamples.Nodes)
+                    {
+                        if (node.Text.Equals("AlumnoEjemplos"))
+                        {
+                            foreach (TreeNode selectedNode in node.Nodes)
+                            {
+                                if (selectedNode.Text.Equals("Los Improvisados"))
+                                {
+                                    this.botonLoading.Visible = false;
+                                    ejecutandoJuego = true;
+                                    FullScreenEnable = true;
+                                    GuiController.Instance.executeSelectedExample(selectedNode, FullScreenEnable);
+                                }
+                            }
+                        }
+                    }
                 }
                 //Contemplar también la ventana del modo FullScreen
                 else if (this.FullScreenEnable && guiController.FullScreenPanel.ContainsFocus)
@@ -122,7 +141,7 @@ namespace TgcViewer
                     //Si no tenemos el foco, dormir cada tanto para no consumir gran cantida de CPU
                     System.Threading.Thread.Sleep(100); 
                 }
-                
+
                 // Process application messages
                 Application.DoEvents();
             }
@@ -328,7 +347,9 @@ namespace TgcViewer
             return false;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
 
-        
+        }
     }
 }

@@ -36,12 +36,16 @@ namespace TgcViewer.Example
         /// Carga los ejemplos dinámicamente en el TreeView de Ejemplo
         /// </summary>
         public void loadExamplesInGui(TreeView treeView, string[] exampleDirs)
+
+
         {
             //Cargar ejemplos dinamicamente
             currentExamples = new List<TgcExample>();
             foreach (string exampleDir in exampleDirs)
             {
+                //if (exampleDir.Contains("AlumnoEjemplos")) { 
                 currentExamples.AddRange(loadExamples(exampleDir));
+                //}
             }
 
             //Cargar el TreeView, agrupando ejemplos por categoria
