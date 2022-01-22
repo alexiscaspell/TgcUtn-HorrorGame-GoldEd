@@ -68,6 +68,8 @@ namespace TgcViewer
                 this.Text = null;
             }
 
+            this.config.fullScreenMode=true;
+
             //Modo fullscreen
             if (this.config.fullScreenMode)
             {
@@ -122,7 +124,6 @@ namespace TgcViewer
                             {
                                 if (selectedNode.Text.Equals("Los Improvisados"))
                                 {
-                                    this.botonLoading.Visible = false;
                                     ejecutandoJuego = true;
                                     FullScreenEnable = true;
                                     GuiController.Instance.executeSelectedExample(selectedNode, FullScreenEnable);

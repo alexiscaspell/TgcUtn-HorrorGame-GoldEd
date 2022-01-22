@@ -1,4 +1,5 @@
 ﻿using Microsoft.DirectX;
+using System.Diagnostics;
 
 namespace AlumnoEjemplos.MiGrupo
 {
@@ -11,8 +12,9 @@ namespace AlumnoEjemplos.MiGrupo
 
         public override void execute(EjemploAlumno app, GameMenu menu)
         {
-            //Por ahora nada
-            //SendKeys.Send("{esc}");
+            Process currentProcess = Process.GetCurrentProcess();
+            currentProcess.Kill();
+
         }
     }
 }

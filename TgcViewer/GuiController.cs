@@ -193,6 +193,37 @@ namespace TgcViewer
             //Hacer render asistido (mas sencillo para el ejemplo)
             else
             {
+
+                d3dDevice.BeginScene();
+
+                TgcSprite pantalla = new TgcSprite();
+               pantalla.Texture = TgcTexture.createTexture(Instance.AlumnoEjemplosDir + "Media\\Menu\\imagenLoading.png");
+
+                pantalla.Position = new Vector2(0, 0);
+
+                Size screenSize =  Instance.Panel3d.Size;
+                Size textureSize = pantalla.Texture.Size;
+
+                float widthScale = (float)screenSize.Width / (float)textureSize.Width;
+                float heightScale = (float)screenSize.Height / (float)textureSize.Height;
+
+                pantalla.Scaling = new Vector2(widthScale, heightScale);
+                pantalla.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
+
+                Instance.Drawer2D.beginDrawSprite();
+                pantalla.render();
+
+                Instance.Drawer2D.endDrawSprite();
+
+                //Ejecutar render del ejemplo
+                if (currentExample != null)
+                {
+                    currentExample.render(elapsedTime);
+                }
+
+                d3dDevice.EndScene();
+
+/*
                 //Iniciar escena 3D
                 d3dDevice.BeginScene();
 
@@ -216,12 +247,8 @@ namespace TgcViewer
                 }
 
                 //Finalizar escena 3D
-                d3dDevice.EndScene();
+                d3dDevice.EndScene();*/
             }
-
-
-            
-      
 
             d3dDevice.Present();
             //this.Invalidate();
@@ -262,6 +289,7 @@ namespace TgcViewer
                     mainForm.removePanel3dFromMainForm();
                     fullScreenPanel.Controls.Add(panel3d);
                     fullScreenPanel.Show(mainForm);
+                    mainForm.Hide();
                 }
 
                 this.currentExample = example;

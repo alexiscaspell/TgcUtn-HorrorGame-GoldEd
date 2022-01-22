@@ -89,7 +89,7 @@ namespace AlumnoEjemplos.MiGrupo
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             Size screenSize = ScreenSizeClass.ScreenSize;
-            Cursor.Position = new Point(screenSize.Width / 2, screenSize.Height / 2);
+            Cursor.Position = new Point(screenSize.Width / 2, screenSize.Height / 2);        
 
             if (!playing)
             {

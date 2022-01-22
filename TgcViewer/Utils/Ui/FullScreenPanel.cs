@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -23,6 +24,12 @@ namespace TgcViewer.Utils.Ui
             this.Location = screenRect.Location;
             this.MaximumSize = fullScreenSize;
             this.MinimumSize = fullScreenSize;
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+            currentProcess.Kill();
+
         }
     }
 }
