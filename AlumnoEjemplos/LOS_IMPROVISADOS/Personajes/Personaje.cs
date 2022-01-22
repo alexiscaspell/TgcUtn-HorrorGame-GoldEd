@@ -111,6 +111,11 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             estado = state.PASEANDO;
         }
 
+        internal bool perdioOGano()
+        {
+            return muerto || ganaste;
+        }
+
         internal bool estasMirandoBoss(AnimatedBoss boss)
         {
 

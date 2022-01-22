@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="LOS_IMPROVISADOS\Camara\CamaraFPS.cs" />
     <Compile Include="LOS_IMPROVISADOS\Camara\CamaraFramework.cs" />
+    <Compile Include="LOS_IMPROVISADOS\GameConfig.cs" />
     <Compile Include="LOS_IMPROVISADOS\ColinaAzul.cs" />
     <Compile Include="LOS_IMPROVISADOS\Dijkstra.cs" />
     <Compile Include="LOS_IMPROVISADOS\Iluminadores\general\EfectoEscondido.cs" />
@@ -105,8 +106,12 @@
     <Compile Include="LOS_IMPROVISADOS\Mapa\RoomsIluminados\RoomLinterna.cs" />
     <Compile Include="LOS_IMPROVISADOS\Menu\ButtonBackToPlay.cs" />
     <Compile Include="LOS_IMPROVISADOS\Menu\ButtonButtons.cs" />
+    <Compile Include="LOS_IMPROVISADOS\Menu\ButtonChangeFPSCount.cs" />
+    <Compile Include="LOS_IMPROVISADOS\Menu\ButtonChangeDifficulty.cs" />
     <Compile Include="LOS_IMPROVISADOS\Menu\ButtonExit.cs" />
+    <Compile Include="LOS_IMPROVISADOS\Menu\ButtonChangeGraphics.cs" />
     <Compile Include="LOS_IMPROVISADOS\Menu\ButtonObjective.cs" />
+    <Compile Include="LOS_IMPROVISADOS\Menu\ButtonConfig.cs" />
     <Compile Include="LOS_IMPROVISADOS\Menu\ButtonReturn.cs" />
     <Compile Include="LOS_IMPROVISADOS\Menu\ButtonStart.cs" />
     <Compile Include="LOS_IMPROVISADOS\Menu\FactoryMenu.cs" />

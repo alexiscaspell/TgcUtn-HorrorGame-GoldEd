@@ -7,7 +7,7 @@ namespace AlumnoEjemplos.MiGrupo
     {
         public void init()
         {
-            base.init("botonExit2", new Vector2(0.72f, 0.58f));
+            base.init("botonExit2", new Vector2(0.72f, 0.72f));
         }
 
         public override void execute(EjemploAlumno app, GameMenu menu)

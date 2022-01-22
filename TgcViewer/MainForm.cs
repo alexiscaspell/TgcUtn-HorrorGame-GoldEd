@@ -135,11 +135,13 @@ namespace TgcViewer
                 //Contemplar también la ventana del modo FullScreen
                 else if (this.FullScreenEnable && guiController.FullScreenPanel.ContainsFocus)
                 {
+                    this.Hide();
                     guiController.render();
                 }
                 else
                 {
                     //Si no tenemos el foco, dormir cada tanto para no consumir gran cantida de CPU
+                    this.Show();
                     System.Threading.Thread.Sleep(100); 
                 }
 

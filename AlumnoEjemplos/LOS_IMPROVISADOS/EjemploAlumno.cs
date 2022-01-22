@@ -80,7 +80,9 @@ namespace AlumnoEjemplos.MiGrupo
             menuPausa = factoryMenu.menuPausa();
 
             playing = false;
-            
+
+            GameConfig.Instance.execute();
+
         }
 
         public override void render(float elapsedTime)
@@ -119,13 +121,19 @@ namespace AlumnoEjemplos.MiGrupo
 
             personaje.update();
 
+            if(personaje.perdioOGano())
+            {
+                sonidoFondo.stop();
+            }
+
             //personaje.configPosProcesado.renderizarPosProcesado(elapsedTime, 2);
             
             GameOver.Instance.render(elapsedTime);
             
             }
 
-            GuiController.Instance.Text3d.drawText("FPS: " + HighResolutionTimer.Instance.FramesPerSecond, 0, 0, Color.Yellow);
+            GuiController.Instance.Text3d.drawText(GameConfig.Instance.mensajeFPS, 0, 0, Color.Yellow);
+
         }
 
         public override void close()

@@ -18,7 +18,6 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.IyCA
     	
         protected TgcBox cajaNegra;
         protected TgcSphere esferaNegra;
-        protected const float renderDistance = 5000;
     
         public Mapa mapa { set; get; }
         public CamaraFPS camaraFPS { get; set; }
@@ -30,7 +29,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.IyCA
         public void updateFondo()
         {
         	//esferaNegra.Position = camaraFPS.camaraFramework.Position;
-        	cajaNegra.Position =  camaraFPS.camaraFramework.Position + camaraFPS.camaraFramework.viewDir * (renderDistance / 2);
+        	cajaNegra.Position =  camaraFPS.camaraFramework.Position + camaraFPS.camaraFramework.viewDir * (GameConfig.Instance.renderDistance / 2);
         }
         
         virtual public void render()
@@ -94,6 +93,8 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.IyCA
 			//Inicio el fondoNegro
 			TgcTexture texturaFondo = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosDir +
 			                                                   "Media\\mapa\\fondoNegro.png");
+
+            float renderDistance = GameConfig.Instance.renderDistance;
             
 			//esferaNegra = new TgcSphere(renderDistance, texturaFondo, camaraFPS.camaraFramework.Position);
 			cajaNegra = TgcBox.fromSize(new Vector3(renderDistance,renderDistance,renderDistance), texturaFondo);

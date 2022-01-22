@@ -179,7 +179,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
                 }
             }
 
-            return "";
+            return null;
         }
 
         internal bool estoyEn(string cuarto,Vector3 posicion)

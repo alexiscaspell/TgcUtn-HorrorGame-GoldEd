@@ -48,16 +48,47 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         private state estado;
         private state estadoAnterior;
         private float tiempoPasadoAturdido = 0;
+
+        internal void cambiarDificultad(GameConfig.difficulty dificultad)
+        {
+            switch (dificultad)
+            {
+                case GameConfig.difficulty.NORMAL:
+                    TIEMPO_PARA_TELETRANSPORTAR_AL_BOSS = 60f;
+                    PORCION_DE_PUNTOS_QUE_ELIMINO_CUANDO_EL_BOSS_SE_TELETRANSPORTA = 1.65f;
+                    aumentoVelocidad = 1.5f;
+                    retrasoPorAbrirPuerta = 2;
+                    tiempoDeRecuperacion = 4;
+                    break;
+                case GameConfig.difficulty.HARD:
+                    TIEMPO_PARA_TELETRANSPORTAR_AL_BOSS = 40f;
+                    PORCION_DE_PUNTOS_QUE_ELIMINO_CUANDO_EL_BOSS_SE_TELETRANSPORTA = 1.8f;
+                    aumentoVelocidad = 1.7f;
+                    retrasoPorAbrirPuerta = 1.5f;
+                    tiempoDeRecuperacion = 3;
+                    break;
+                case GameConfig.difficulty.CARNAGE:
+                    TIEMPO_PARA_TELETRANSPORTAR_AL_BOSS = 20f;
+                    PORCION_DE_PUNTOS_QUE_ELIMINO_CUANDO_EL_BOSS_SE_TELETRANSPORTA = 1.85f;
+                    aumentoVelocidad = 1.8f;
+                    retrasoPorAbrirPuerta = 1;
+                    tiempoDeRecuperacion = 2;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private float tiempoDeRecuperacion = 4;
         private TgcStaticSound aturdido = new TgcStaticSound();
         private TgcStaticSound respiracion = new TgcStaticSound();
         private TgcStaticSound gritoCuandoVeAPj = new TgcStaticSound();
         //private float timerRespiracion;
         private float timerAbriendoPuerta = 0;
-        private const float retrasoPorAbrirPuerta = 2;
+        private float retrasoPorAbrirPuerta = 2;
         private bool estoyAbriendoPuerta = false;
 
-        private const float aumentoVelocidad = 1.5f;//Se va hardcodeando
+        private float aumentoVelocidad = 1.5f;//Se va hardcodeando
         private float velocidadNormal;
  
 
