@@ -10,6 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TgcViewer</RootNamespace>
     <AssemblyName>TgcViewer</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <StartupObject>TgcViewer.Program</StartupObject>
     <ApplicationIcon>IconoTgc.ico</ApplicationIcon>
     <Win32Resource>

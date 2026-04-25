@@ -186,34 +186,38 @@ namespace TgcViewer.Utils.SharpDxCompat
 
         /// <summary>
         /// Reads vertex data from a BaseMesh.
-        /// net45: LockVertexBuffer(int, out IntPtr); netstandard1.3: LockVertexBuffer(int, IntPtr)
+        /// Both net45 and netstandard1.3: LockVertexBuffer(int, IntPtr) takes IntPtr by value.
+        /// We pass a pointer-to-pointer (address of a local IntPtr) using unsafe code.
         /// </summary>
-        public static T[] LockVertexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
+        public static unsafe T[] LockVertexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
         {
-            IntPtr ptr = IntPtr.Zero;
-#if NETFRAMEWORK
-            mesh.LockVertexBuffer((int)flags, out ptr);
-#else
-            // netstandard1.3 build - runtime won't run this, just needs to compile
-            mesh.LockVertexBuffer((int)flags, ptr);
-#endif
-            try { return ReadPtrRange<T>(ptr, count); }
+            IntPtr dataPtr;
+            mesh.LockVertexBuffer((int)flags, new IntPtr(&dataPtr));
+            try { return ReadPtrRange<T>(dataPtr, count); }
             finally { mesh.UnlockVertexBuffer(); }
         }
 
         /// <summary>
         /// Reads index data from a BaseMesh.
         /// </summary>
-        public static T[] LockIndexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
+        public static unsafe T[] LockIndexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
         {
-            IntPtr ptr = IntPtr.Zero;
-#if NETFRAMEWORK
-            mesh.LockIndexBuffer((int)flags, out ptr);
-#else
-            mesh.LockIndexBuffer((int)flags, ptr);
-#endif
-            try { return ReadPtrRange<T>(ptr, count); }
+            IntPtr dataPtr;
+            mesh.LockIndexBuffer((int)flags, new IntPtr(&dataPtr));
+            try { return ReadPtrRange<T>(dataPtr, count); }
             finally { mesh.UnlockIndexBuffer(); }
+        }
+
+        /// <summary>
+        /// Clones a Mesh. SharpDX CloneMesh signature: (int options, VertexElement first, Device, out Mesh).
+        /// The declaration parameter is VertexElement (singular) - the first element of the declaration array.
+        /// </summary>
+        public static Mesh CloneMeshFromDecl(this BaseMesh mesh, MeshFlags flags, VertexElement[] declaration, Device device)
+        {
+            Mesh result;
+            // SharpDX net45 CloneMesh takes single VertexElement (pointer to array start)
+            mesh.CloneMesh((int)flags, declaration[0], device, out result);
+            return result;
         }
 
         /// <summary>Writes back and unlocks the attribute buffer.</summary>

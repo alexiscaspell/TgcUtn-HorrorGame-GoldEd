@@ -944,7 +944,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             Device device = GuiController.Instance.D3dDevice;
 
             //Clonar D3dMesh
-            Mesh d3dCloneMesh = this.d3dMesh.CloneMesh(MeshFlags.Managed, this.d3dMesh.GetDeclaration(), device);
+            Mesh d3dCloneMesh = this.d3dMesh.CloneMeshFromDecl(MeshFlags.Managed, this.d3dMesh.GetDeclaration(), device);
 
             //Crear mesh de TGC y cargar atributos generales
             TgcMesh cloneMesh = new TgcMesh(d3dCloneMesh, cloneName, this.renderType);
