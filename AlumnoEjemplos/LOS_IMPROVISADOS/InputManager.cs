@@ -69,8 +69,8 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
         // ── Acciones ──────────────────────────────────────────────────────
 
-        /// <summary>Interactuar con objetos (E / Botón X).</summary>
-        public bool Interactuar() => kb.keyPressed(Key.E) || gp.buttonPressed(GamepadButtonFlags.X);
+        /// <summary>Interactuar con objetos (E / Botón A).</summary>
+        public bool Interactuar() => kb.keyPressed(Key.E) || gp.buttonPressed(GamepadButtonFlags.A);
 
         /// <summary>Alternar luz principal (click izquierdo / Botón X).</summary>
         public bool ToggleLuzPrincipal() =>
