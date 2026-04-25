@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using SharpDX.Direct3D9;
 using TgcViewer;
 using SharpDX;
@@ -19,45 +18,94 @@ namespace TgcViewer.Utils._2D
     {
         Device d3dDevice;
         Sprite dxSprite;
+        static int spriteCallCount = 0;
+        static int logEvery = 1; // log first N calls, then every 600
+
+        static void SLog(string msg)
+        {
+            try
+            {
+                string path = System.IO.Path.Combine(
+                    System.IO.Path.GetDirectoryName(
+                        System.Reflection.Assembly.GetEntryAssembly()?.Location ?? ""), "sprite.log");
+                File.AppendAllText(path, $"[{DateTime.Now:HH:mm:ss.fff}] {msg}\n");
+            }
+            catch { }
+        }
 
         public TgcDrawer2D()
         {
             this.d3dDevice = GuiController.Instance.D3dDevice;
-            dxSprite = new Sprite(d3dDevice);
+            SLog($"TgcDrawer2D ctor: creating Sprite, device={d3dDevice?.GetHashCode()}");
+            try
+            {
+                dxSprite = new Sprite(d3dDevice);
+                SLog($"Sprite created OK: {dxSprite?.GetHashCode()}");
+            }
+            catch (Exception ex)
+            {
+                SLog($"Sprite creation FAILED: {ex.Message}");
+                throw;
+            }
         }
 
-        /// <summary>
-        /// Iniciar render de Sprites
-        /// </summary>
         public void beginDrawSprite()
         {
-            // AlphaBlend only — no sort flags to avoid deferred/batched rendering
-            // that can silently fail in SharpDX.Direct3D9 net45
-            dxSprite.Begin(SpriteFlags.AlphaBlend);
+            spriteCallCount++;
+            bool shouldLog = spriteCallCount <= 5 || spriteCallCount % 600 == 0;
+            if (shouldLog) SLog($"beginDrawSprite #{spriteCallCount}");
+            try
+            {
+                dxSprite.Begin(SpriteFlags.AlphaBlend);
+                if (shouldLog) SLog($"  Begin OK");
+            }
+            catch (Exception ex)
+            {
+                SLog($"  Begin FAILED: {ex.Message} HResult={ex.HResult:X8}");
+                throw;
+            }
         }
 
-        /// <summary>
-        /// Finalizar render de Sprites
-        /// </summary>
         public void endDrawSprite()
         {
-            dxSprite.Flush(); // force immediate draw submission
-            dxSprite.End();
+            bool shouldLog = spriteCallCount <= 5 || spriteCallCount % 600 == 0;
+            try
+            {
+                dxSprite.Flush();
+                if (shouldLog) SLog($"  Flush OK");
+            }
+            catch (Exception ex) { SLog($"  Flush FAILED: {ex.Message}"); }
+            try
+            {
+                dxSprite.End();
+                if (shouldLog) SLog($"  End OK");
+            }
+            catch (Exception ex) { SLog($"  End FAILED: {ex.Message}"); throw; }
         }
 
-        /// <summary>
-        /// Renderizar Sprite
-        /// </summary>
-        /// <param name="sprite">Sprite a dibujar</param>
         public void drawSprite(TgcSprite sprite)
         {
-            dxSprite.Transform = sprite.TransformationMatrix;
-            // ColorBGRA ctor takes (R, G, B, A) - pass in correct order
-            var c = sprite.Color;
-            dxSprite.Draw(sprite.Texture.D3dTexture,
-                new SharpDX.ColorBGRA(c.R, c.G, c.B, c.A));
+            bool shouldLog = spriteCallCount <= 5 || spriteCallCount % 600 == 0;
+            var tex = sprite?.Texture?.D3dTexture;
+            var mat = sprite?.TransformationMatrix;
+            if (shouldLog)
+                SLog($"  drawSprite: tex={tex?.GetHashCode() ?? -1}, " +
+                     $"texNull={tex == null}, " +
+                     $"scale=({sprite?.Scaling.X:F2},{sprite?.Scaling.Y:F2}), " +
+                     $"pos=({sprite?.Position.X:F0},{sprite?.Position.Y:F0}), " +
+                     $"transform.M11={mat?.M11:F3} M22={mat?.M22:F3} M41={mat?.M41:F0} M42={mat?.M42:F0}");
+            try
+            {
+                dxSprite.Transform = sprite.TransformationMatrix;
+                var c = sprite.Color;
+                dxSprite.Draw(tex, new SharpDX.ColorBGRA(c.R, c.G, c.B, c.A));
+                if (shouldLog) SLog($"  Draw OK");
+            }
+            catch (Exception ex)
+            {
+                SLog($"  Draw FAILED: {ex.Message} HResult={ex.HResult:X8}");
+                throw;
+            }
         }
-
     }
-
 }

@@ -55,8 +55,22 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             botones.Add(boton);
         }
 
+        static int menuRenderCount = 0;
+        static void MLog(string msg) {
+            try {
+                string path = System.IO.Path.Combine(
+                    System.IO.Path.GetDirectoryName(
+                        System.Reflection.Assembly.GetEntryAssembly()?.Location ?? ""), "sprite.log");
+                System.IO.File.AppendAllText(path, $"[{System.DateTime.Now:HH:mm:ss.fff}] {msg}\n");
+            } catch { }
+        }
+
         internal void render()
         {
+            menuRenderCount++;
+            bool log = menuRenderCount <= 3 || menuRenderCount % 600 == 0;
+            if (log) MLog($"GameMenu.render #{menuRenderCount}: pantalla.Texture={pantalla?.Texture?.GetType().Name}, Enabled={pantalla?.Enabled}");
+
             update();
 
             GuiController.Instance.Drawer2D.beginDrawSprite();
