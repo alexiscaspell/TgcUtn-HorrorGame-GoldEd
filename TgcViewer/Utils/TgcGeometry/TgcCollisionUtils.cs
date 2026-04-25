@@ -95,6 +95,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>True si hay colisin</returns>
         public static bool testAABBAABB(TgcBoundingBox a, TgcBoundingBox b)
         {
+            if (a == null || b == null) return false;
             // Exit with no intersection if separated along an axis
             if (a.PMax.X < b.PMin.X || a.PMin.X > b.PMax.X) return false;
             if (a.PMax.Y < b.PMin.Y || a.PMin.Y > b.PMax.Y) return false;
@@ -301,6 +302,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>True si hay colisin</returns>
         public static bool testSphereAABB(TgcBoundingSphere sphere, TgcBoundingBox aabb)
         {
+            if (sphere == null || aabb == null) return false;
+            if (sphere == null || aabb == null) return false;
             return TgcCollisionUtils.testSphereAABB(sphere.toStruct(), aabb.toStruct());
         }
 
@@ -666,6 +669,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>True si hay colisin</returns>
         public static bool testSphereSphere(TgcBoundingSphere a, TgcBoundingSphere b)
         {
+            if (a == null || b == null) return false;
             // Calculate squared distance between centers
             Vector3 d = a.Center - b.Center;
             float dist2 = Vector3.Dot(d, d);
@@ -1976,6 +1980,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>True si hay colision</returns>
         public static bool testSphereCylinder(TgcBoundingSphere sphere, TgcBoundingCylinder cylinder)
         {
+            if (sphere == null || cylinder == null) return false;
             //transformamos la posicion de la esfera a coordenadas uvw
             Vector3 uvwSphereCenter = Vector3.TransformCoordinate(sphere.Center, cylinder.AntiRotationMatrix);
             //nos fijamos si hay colision en el espacio uvw
