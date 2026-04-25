@@ -375,8 +375,70 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// Crea un mesh con uno o varios DiffuseMap
         /// </summary>
         /// <returns></returns>
+        /// <summary>
+        /// Helper: writes a DiffuseMapVertex from mesh data at position j into a DataStream.
+        /// </summary>
+        private void writeDiffuseVertex(DataStream data, TgcMeshData meshData, int j)
+        {
+            DiffuseMapVertex v = new DiffuseMapVertex();
+            int coordIdx = meshData.coordinatesIndices[j] * 3;
+            v.Position = new Vector3(
+                meshData.verticesCoordinates[coordIdx],
+                meshData.verticesCoordinates[coordIdx + 1],
+                meshData.verticesCoordinates[coordIdx + 2]);
+            if (meshData.verticesNormals.Length == meshData.verticesCoordinates.Length)
+                v.Normal = new Vector3(meshData.verticesNormals[coordIdx], meshData.verticesNormals[coordIdx + 1], meshData.verticesNormals[coordIdx + 2]);
+            else
+            {
+                int ni = j * 3;
+                v.Normal = new Vector3(meshData.verticesNormals[ni], meshData.verticesNormals[ni + 1], meshData.verticesNormals[ni + 2]);
+            }
+            int texIdx = meshData.texCoordinatesIndices[j] * 2;
+            v.Tu = meshData.textureCoordinates[texIdx];
+            v.Tv = meshData.textureCoordinates[texIdx + 1];
+            if (meshData.colorIndices != null && meshData.verticesColors != null && j < meshData.colorIndices.Length)
+                v.Color = meshData.verticesColors[meshData.colorIndices[j]];
+            else
+                v.Color = System.Drawing.Color.White.ToArgb();
+            data.Write(v);
+        }
+
         private TgcMesh crearMeshDiffuseMap(TgcSceneLoaderMaterialAux[] materialsArray, TgcMeshData meshData)
         {
+            TgcSceneLoaderMaterialAux matAux = materialsArray[meshData.materialId];
+
+            // For multi-material meshes: sort faces by material, store ranges, use DrawIndexedPrimitive.
+            // This avoids the broken LockAttributeBuffer/DrawSubset attribute-buffer approach.
+            bool isMultiMaterial = matAux.subMaterials != null && matAux.subMaterials.Length > 1
+                                   && meshData.materialsIds != null;
+            int[] materialFaceRanges = null;
+            int[] sortedFaceOrder = null; // maps new face index → original face index (×3 = vertex start)
+
+            if (isMultiMaterial)
+            {
+                int numMat = matAux.subMaterials.Length;
+                int numFaces = meshData.coordinatesIndices.Length / 3;
+                // Group face indices by material
+                var facesByMat = new System.Collections.Generic.List<int>[numMat];
+                for (int m = 0; m < numMat; m++) facesByMat[m] = new System.Collections.Generic.List<int>();
+                for (int f = 0; f < numFaces; f++)
+                {
+                    int matId = (f < meshData.materialsIds.Length) ? meshData.materialsIds[f] : 0;
+                    if (matId < numMat) facesByMat[matId].Add(f);
+                    else facesByMat[0].Add(f);
+                }
+                // Build sorted order and ranges
+                sortedFaceOrder = new int[numFaces];
+                materialFaceRanges = new int[numMat + 1];
+                int pos = 0;
+                for (int m = 0; m < numMat; m++)
+                {
+                    materialFaceRanges[m] = pos;
+                    foreach (int f in facesByMat[m]) sortedFaceOrder[pos++] = f;
+                }
+                materialFaceRanges[numMat] = pos;
+            }
+
             //Crear Mesh
             Mesh mesh = MeshHelper.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
             
@@ -384,6 +446,15 @@ namespace TgcViewer.Utils.TgcSceneLoader
             using (VertexBuffer vb = mesh.VertexBuffer)
             {
                 DataStream data = vb.Lock(0, 0, LockFlags.None);
+                if (isMultiMaterial && sortedFaceOrder != null)
+                {
+                    // Write vertices in material-sorted face order
+                    foreach (int faceIdx in sortedFaceOrder)
+                        for (int k = 0; k < 3; k++)
+                            writeDiffuseVertex(data, meshData, faceIdx * 3 + k);
+                }
+                else
+                {
                 for (int j = 0; j < meshData.coordinatesIndices.Length; j++)
                 {
                     DiffuseMapVertex v = new DiffuseMapVertex();
@@ -437,6 +508,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                     data.Write(v);
                 }
+                } // end else (single-material path)
                 vb.Unlock();
             }
 
@@ -444,15 +516,11 @@ namespace TgcViewer.Utils.TgcSceneLoader
             using (IndexBuffer ib = mesh.IndexBuffer)
             {
                 short[] indices = new short[meshData.coordinatesIndices.Length];
-                for (int j = 0; j < indices.Length; j++)
-                {
-                    indices[j] = (short)j;
-                }
+                for (int j = 0; j < indices.Length; j++) indices[j] = (short)j;
                 ib.SetData(indices, 0, LockFlags.None);
             }
 
-            //Configurar Material y Textura para un solo SubSet
-            TgcSceneLoaderMaterialAux matAux = materialsArray[meshData.materialId];
+            //Configurar Material y Textura
             Material[] meshMaterials;
             TgcTexture[] meshTextures;
             if (matAux.subMaterials == null)
@@ -460,18 +528,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 meshMaterials = new Material[] { matAux.materialId };
                 meshTextures = new TgcTexture[] { TgcTexture.createTexture(device, matAux.textureFileName, matAux.texturePath) };
             }
-
-            //Configurar Material y Textura para varios SubSet
             else
             {
-                //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                try {
-                    int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
-                    Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                    mesh.UnlockAttributeBuffer();
-                } catch { /* attribute buffer not critical for rendering */ }
-
-                //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
                 meshTextures = new TgcTexture[matAux.subMaterials.Length];
                 for (int m = 0; m < matAux.subMaterials.Length; m++)
@@ -485,6 +543,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             TgcMesh tgcMesh = meshFactory.createNewMesh(mesh, meshData.name, TgcMesh.MeshRenderType.DIFFUSE_MAP);
             tgcMesh.Materials = meshMaterials;
             tgcMesh.DiffuseMaps = meshTextures;
+            tgcMesh.MaterialFaceRanges = materialFaceRanges; // null for single-material
             return tgcMesh;
         }
 

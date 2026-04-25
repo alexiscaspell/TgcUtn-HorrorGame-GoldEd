@@ -233,6 +233,14 @@ namespace TgcViewer.Utils.TgcSceneLoader
             set { renderType = value; }
         }
 
+        /// <summary>
+        /// Material face ranges for direct rendering without attribute buffer.
+        /// materialFaceRanges[i] = start face index for material i.
+        /// materialFaceRanges[count] = total face count (sentinel).
+        /// When set, DIFFUSE_MAP render uses DrawIndexedPrimitive instead of DrawSubset.
+        /// </summary>
+        public int[] MaterialFaceRanges { get; set; }
+
         protected VertexDeclaration vertexDeclaration;
         /// <summary>
         /// VertexDeclaration del Flexible Vertex Format (FVF) usado por la malla
@@ -426,16 +434,38 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     //Iniciar Shader e iterar sobre sus Render Passes
                     for (int n = 0; n < numPasses; n++)
                     {
-                        //Dibujar cada subset con su DiffuseMap correspondiente
-                        for (int i = 0; i < diffuseMaps.Length; i++)
+                        if (MaterialFaceRanges != null && diffuseMaps.Length > 1)
                         {
-                            //Setear textura en shader
-                            texturesManager.shaderSet(effect, "texDiffuseMap", diffuseMaps[i]);
+                            // Use DrawIndexedPrimitive with pre-sorted face ranges.
+                            // Avoids the broken LockAttributeBuffer/DrawSubset approach.
+                            device.SetStreamSource(0, d3dMesh.VertexBuffer, 0,
+                                System.Runtime.InteropServices.Marshal.SizeOf(typeof(TgcViewer.Utils.TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex)));
+                            device.Indices = d3dMesh.IndexBuffer;
+                            int numVerts = d3dMesh.GetNumVertices();
 
-                            //Iniciar pasada de shader
-                            effect.BeginPass(n);
-                            d3dMesh.DrawSubset(i);
-                            effect.EndPass();
+                            for (int i = 0; i < diffuseMaps.Length; i++)
+                            {
+                                texturesManager.shaderSet(effect, "texDiffuseMap", diffuseMaps[i]);
+                                effect.BeginPass(n);
+                                int startFace = MaterialFaceRanges[i];
+                                int faceCount = MaterialFaceRanges[i + 1] - startFace;
+                                if (faceCount > 0)
+                                    device.DrawIndexedPrimitive(
+                                        SharpDX.Direct3D9.PrimitiveType.TriangleList,
+                                        0, 0, numVerts, startFace * 3, faceCount);
+                                effect.EndPass();
+                            }
+                        }
+                        else
+                        {
+                            // Single material or attribute-buffer-based multi-material
+                            for (int i = 0; i < diffuseMaps.Length; i++)
+                            {
+                                texturesManager.shaderSet(effect, "texDiffuseMap", diffuseMaps[i]);
+                                effect.BeginPass(n);
+                                d3dMesh.DrawSubset(i);
+                                effect.EndPass();
+                            }
                         }
                     }
 
