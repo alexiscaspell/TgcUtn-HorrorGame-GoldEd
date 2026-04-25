@@ -457,7 +457,7 @@ namespace TgcViewer.Utils.TgcGeometry
             GuiController.Instance.Shaders.setShaderMatrix(this.effect, this.transform);
             d3dDevice.VertexDeclaration = GuiController.Instance.Shaders.VdecPositionColoredTextured;
             effect.Technique = this.technique;
-            d3dDevice.SetStreamSource(0, vertexBuffer, 0);
+            d3dDevice.SetStreamSource(0, vertexBuffer, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColoredTextured)));
 
             //Render con shader
             effect.Begin(0);
@@ -503,7 +503,7 @@ namespace TgcViewer.Utils.TgcGeometry
             {
                 texture.dispose();
             }
-            if (vertexBuffer != null && !vertexBuffer.Disposed)
+            if (vertexBuffer != null && !vertexBuffer.IsDisposed)
             {
                 vertexBuffer.Dispose();
             }

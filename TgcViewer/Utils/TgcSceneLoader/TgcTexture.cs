@@ -248,7 +248,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             //dispose de textura fuera de pool
             else
             {
-                if (d3dTexture != null && !d3dTexture.Disposed)
+                if (d3dTexture != null && !d3dTexture.IsDisposed)
                 {
                     d3dTexture.Dispose();
                     d3dTexture = null;
@@ -349,7 +349,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     if (item.References <= 0)
                     {
                         //Dispose real de textura de DirectX
-                        if (item.Texture != null && !item.Texture.Disposed)
+                        if (item.Texture != null && !item.Texture.IsDisposed)
                         {
                             item.Texture.Dispose();
                         }
@@ -369,7 +369,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 foreach (KeyValuePair<string, PoolItem> entry in texturesPool)
                 {
                     PoolItem item = entry.Value;
-                    if (item.Texture != null && !item.Texture.Disposed)
+                    if (item.Texture != null && !item.Texture.IsDisposed)
                     {
                         item.Texture.Dispose();
                     }

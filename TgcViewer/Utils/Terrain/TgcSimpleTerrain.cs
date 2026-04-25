@@ -235,7 +235,7 @@ namespace TgcViewer.Utils.Terrain
             GuiController.Instance.Shaders.setShaderMatrix(this.effect, Matrix.Identity);
             d3dDevice.VertexDeclaration = GuiController.Instance.Shaders.VdecPositionTextured;
             effect.Technique = this.technique;
-            d3dDevice.SetStreamSource(0, vbTerrain, 0);
+            d3dDevice.SetStreamSource(0, vbTerrain, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionTextured)));
 
             //Render con shader
             effect.Begin(0);

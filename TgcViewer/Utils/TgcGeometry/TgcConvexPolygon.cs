@@ -86,7 +86,7 @@ namespace TgcViewer.Utils.TgcGeometry
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Crear VertexBuffer on demand
-            if (vertexBuffer == null || vertexBuffer.Disposed)
+            if (vertexBuffer == null || vertexBuffer.IsDisposed)
             {
                 vertexBuffer = new VertexBuffer(d3dDevice, boundingVertices.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
                 //Shader
@@ -123,7 +123,7 @@ namespace TgcViewer.Utils.TgcGeometry
             GuiController.Instance.Shaders.setShaderMatrixIdentity(this.effect);
             d3dDevice.VertexDeclaration = GuiController.Instance.Shaders.VdecPositionColored;
             effect.Technique = this.technique;
-            d3dDevice.SetStreamSource(0, vertexBuffer, 0);
+            d3dDevice.SetStreamSource(0, vertexBuffer, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)));
 
             //Renderizar RenderFarm
             effect.Begin(0);
@@ -138,7 +138,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         public void dispose()
         {
-            if (vertexBuffer != null && !vertexBuffer.Disposed)
+            if (vertexBuffer != null && !vertexBuffer.IsDisposed)
             {
                 vertexBuffer.Dispose();
             }

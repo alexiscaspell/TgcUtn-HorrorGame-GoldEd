@@ -52,7 +52,6 @@ namespace TgcViewer.Utils
         {
             vertexBuffer = new VertexBuffer(d3dDevice, lineVertices.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
 
-            vertexBuffer.Created += new EventHandler(this.onVertexBufferCreate);
             onVertexBufferCreate(vertexBuffer, null);
         }
 
@@ -100,7 +99,7 @@ namespace TgcViewer.Utils
             d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.World, Matrix.Translation(worldCoordPos));
 
             d3dDevice.VertexFormat = CustomVertex.PositionColored.Format;
-            d3dDevice.SetStreamSource(0, vertexBuffer, 0);
+            d3dDevice.SetStreamSource(0, vertexBuffer, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)));
             d3dDevice.DrawPrimitives(PrimitiveType.LineList, 0, 3);
 
             d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.World, Matrix.Identity);

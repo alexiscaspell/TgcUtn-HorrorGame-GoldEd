@@ -366,7 +366,7 @@ namespace TgcViewer.Utils.TgcGeometry
             GuiController.Instance.Shaders.setShaderMatrixIdentity(this.effect);
             d3dDevice.VertexDeclaration = GuiController.Instance.Shaders.VdecPositionColored;
             effect.Technique = this.technique;
-            d3dDevice.SetStreamSource(0, vertexBuffer, 0);
+            d3dDevice.SetStreamSource(0, vertexBuffer, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)));
 
             //transparencia
             effect.SetValue("alphaValue", alphaBlendingValue);

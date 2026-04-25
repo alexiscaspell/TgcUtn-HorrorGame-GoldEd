@@ -393,7 +393,7 @@ namespace TgcViewer.Utils.TgcGeometry
             GuiController.Instance.Shaders.setShaderMatrix(this.effect, this.transform);
             d3dDevice.VertexDeclaration = GuiController.Instance.Shaders.VdecPositionTextured;
             effect.Technique = this.technique;
-            d3dDevice.SetStreamSource(0, vertexBuffer, 0);
+            d3dDevice.SetStreamSource(0, vertexBuffer, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionTextured)));
             
 
             //Render con shader
@@ -439,7 +439,7 @@ namespace TgcViewer.Utils.TgcGeometry
             {
                 texture.dispose();
             }
-            if (vertexBuffer != null && !vertexBuffer.Disposed)
+            if (vertexBuffer != null && !vertexBuffer.IsDisposed)
             {
                 vertexBuffer.Dispose();
             }

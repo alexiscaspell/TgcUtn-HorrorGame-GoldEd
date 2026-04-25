@@ -395,8 +395,8 @@ namespace TgcViewer.Utils.TgcGeometry
 
             if (!mustUpdate && !ForceUpdate) return;
 
-            if (indexBuffer != null && !indexBuffer.Disposed) indexBuffer.Dispose();
-            if (vertexBuffer != null && !vertexBuffer.Disposed) vertexBuffer.Dispose();
+            if (indexBuffer != null && !indexBuffer.IsDisposed) indexBuffer.Dispose();
+            if (vertexBuffer != null && !vertexBuffer.IsDisposed) vertexBuffer.Dispose();
 
 
             //Obtengo las posiciones de los vertices e indices de la esfera         
@@ -690,7 +690,7 @@ namespace TgcViewer.Utils.TgcGeometry
             effect.Technique = this.technique;
 
             d3dDevice.VertexDeclaration = Vertex.PositionColoredTexturedNormal_Declaration;
-            d3dDevice.SetStreamSource(0, vertexBuffer, 0);
+            d3dDevice.SetStreamSource(0, vertexBuffer, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColoredTextured)));
             IndexBuffer oldIndex = d3dDevice.Indices;
             d3dDevice.Indices = indexBuffer;
 
@@ -763,8 +763,8 @@ namespace TgcViewer.Utils.TgcGeometry
                 texture = null;
             }
 
-            if (vertexBuffer != null && !vertexBuffer.Disposed) vertexBuffer.Dispose();
-            if (indexBuffer != null && !indexBuffer.Disposed) indexBuffer.Dispose();
+            if (vertexBuffer != null && !vertexBuffer.IsDisposed) vertexBuffer.Dispose();
+            if (indexBuffer != null && !indexBuffer.IsDisposed) indexBuffer.Dispose();
 
             boundingSphere.dispose();
         }
