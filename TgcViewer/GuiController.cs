@@ -148,39 +148,12 @@ namespace TgcViewer
 
             directSound.updateListener3d();
 
-            if (customRenderEnabled)
-            {
-                if (currentExample != null)
-                    currentExample.render(elapsedTime);
-            }
-            else
-            {
-                d3dDevice.BeginScene();
+            d3dDevice.BeginScene();
 
-                TgcSprite pantalla = new TgcSprite();
-                pantalla.Texture = TgcTexture.createTexture(
-                    Instance.AlumnoEjemplosDir + "Media\\Menu\\imagenLoading.png");
-                pantalla.Position = new Vector2(0, 0);
+            if (currentExample != null)
+                currentExample.render(elapsedTime);
 
-                Size screenSize = Instance.Panel3d.Size;
-                Size textureSize = pantalla.Texture.Size;
-                float widthScale = (float)screenSize.Width / textureSize.Width;
-                float heightScale = (float)screenSize.Height / textureSize.Height;
-                pantalla.Scaling = new Vector2(widthScale, heightScale);
-                pantalla.Position = new Vector2(
-                    FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0),
-                    FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
-
-                Instance.Drawer2D.beginDrawSprite();
-                pantalla.render();
-                Instance.Drawer2D.endDrawSprite();
-
-                if (currentExample != null)
-                    currentExample.render(elapsedTime);
-
-                d3dDevice.EndScene();
-            }
-
+            d3dDevice.EndScene();
             d3dDevice.Present();
         }
 
