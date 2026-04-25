@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
 
@@ -19,10 +19,10 @@ namespace TgcViewer.Utils.TgcGeometry
         #region Creacion
 
         /// <summary>
-        /// Crea una caja con el centro y tamaño especificado
+        /// Crea una caja con el centro y tamao especificado
         /// </summary>
         /// <param name="center">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcDebugBox fromSize(Vector3 center, Vector3 size)
         {
@@ -33,10 +33,10 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una caja con el centro y tamaño especificado, con color especificado
+        /// Crea una caja con el centro y tamao especificado, con color especificado
         /// </summary>
         /// <param name="center">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <param name="color">Color de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcDebugBox fromSize(Vector3 center, Vector3 size, Color color)
@@ -49,10 +49,10 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una caja con el centro y tamaño especificado, con el grosor y color especificado
+        /// Crea una caja con el centro y tamao especificado, con el grosor y color especificado
         /// </summary>
         /// <param name="center">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <param name="color">Color de la caja</param>
         /// <param name="thickness">Grosor de las aristas de la caja</param>
         /// <returns>Caja creada</returns>
@@ -69,8 +69,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Crea una caja en base al punto minimo y maximo
         /// </summary>
-        /// <param name="pMin">Punto mínimo</param>
-        /// <param name="pMax">Punto máximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         /// <returns>Caja creada</returns>
         public static TgcDebugBox fromExtremes(Vector3 pMin, Vector3 pMax)
         {
@@ -84,8 +84,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Crea una caja en base al punto minimo y maximo, con el color especificado
         /// </summary>
-        /// <param name="pMin">Punto mínimo</param>
-        /// <param name="pMax">Punto máximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         /// <param name="color">Color de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcDebugBox fromExtremes(Vector3 pMin, Vector3 pMax, Color color)
@@ -101,8 +101,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Crea una caja en base al punto minimo y maximo, con el grosor y color especificado
         /// </summary>
-        /// <param name="pMin">Punto mínimo</param>
-        /// <param name="pMax">Punto máximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         /// <param name="color">Color de la caja</param>
         /// <param name="thickness">Grosor de las aristas de la caja</param>
         /// <returns>Caja creada</returns>
@@ -133,7 +133,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 pMin;
         /// <summary>
-        /// Punto mínimo de la caja
+        /// Punto mnimo de la caja
         /// </summary>
         public Vector3 PMin
         {
@@ -143,7 +143,7 @@ namespace TgcViewer.Utils.TgcGeometry
         
         Vector3 pMax;
         /// <summary>
-        /// Punto máximo de la caja
+        /// Punto mximo de la caja
         /// </summary>
         public Vector3 PMax
         {
@@ -183,15 +183,15 @@ namespace TgcViewer.Utils.TgcGeometry
 
         public Vector3 Position
         {
-            //Lo correcto sería calcular el centro, pero con un extremo es suficiente.
+            //Lo correcto sera calcular el centro, pero con un extremo es suficiente.
             get { return pMin; }
         }
 
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -226,8 +226,7 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColored), VERTICES_COUNT, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, VERTICES_COUNT * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
             
             this.thickness = 1f;
             this.enabled = true;
@@ -240,7 +239,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Actualizar parámetros de la caja en base a los valores configurados
+        /// Actualizar parmetros de la caja en base a los valores configurados
         /// </summary>
         public void updateValues()
         {
@@ -284,7 +283,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 new Vector3(pMax.X, pMax.Y, pMin.Z), new Vector3(pMin.X, pMax.Y, pMin.Z));
 
 
-            //Conexión Bottom-Top
+            //Conexin Bottom-Top
             idx += LINE_VERTICES_COUNT;
             createLineY(vertices, idx, c,
                 pMin, new Vector3(pMin.X, pMax.Y, pMin.Z));
@@ -337,7 +336,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crear los vértices de la línea con valores extremos especificados
+        /// Crear los vrtices de la lnea con valores extremos especificados
         /// </summary>
         private void createLineVertices(CustomVertex.PositionColored[] vertices, int idx, Vector3 min, Vector3 max, int c)
         {
@@ -391,13 +390,13 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Configurar valores de posicion y tamaño en forma conjunta
+        /// Configurar valores de posicion y tamao en forma conjunta
         /// </summary>
         /// <param name="position">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         public void setPositionSize(Vector3 position, Vector3 size)
         {
-            Vector3 radius = Vector3.Scale(size, 0.5f);
+            Vector3 radius = Vector3.Multiply(size, 0.5f);
             this.pMin = Vector3.Subtract(position, radius);
             this.pMax = Vector3.Add(position, radius);
         }
@@ -431,7 +430,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Liberar recursos de la línea
+        /// Liberar recursos de la lnea
         /// </summary>
         public void dispose()
         {

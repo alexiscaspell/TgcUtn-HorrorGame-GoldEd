@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils;
 using System.Windows.Forms;
 using TgcViewer.Example;
@@ -12,7 +12,7 @@ using TgcViewer.Utils.Input;
 using System.Globalization;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils.Ui;
 using TgcViewer.Utils.Fog;
@@ -22,7 +22,7 @@ using TgcViewer.Utils.Shaders;
 namespace TgcViewer
 {
     /// <summary>
-    /// Controlador principal de la aplicaci髇
+    /// Controlador principal de la aplicaci贸n
     /// </summary>
     public class GuiController
     {
@@ -148,6 +148,55 @@ namespace TgcViewer
         }
        
         /// <summary>
+        /// Versi髇 standalone de initGraphics: inicializa el engine sin el picker de ejemplos de TgcViewer.
+        /// Usar desde HorrorGame.exe en lugar de initGraphics(MainForm, Control).
+        /// </summary>
+        internal void initGraphicsStandalone(System.Windows.Forms.Form hostForm, Control panel3d)
+        {
+            this.mainForm = null;
+            this.panel3d = panel3d;
+            this.fullScreenPanel = new FullScreenPanel();
+            panel3d.Focus();
+
+            this.tgcD3dDevice = new TgcD3dDevice(panel3d);
+            this.texturesManager = new TgcTexture.Manager();
+            this.tgcD3dDevice.OnResetDevice(tgcD3dDevice.D3dDevice, null);
+
+            this.texturesPool = new TgcTexture.Pool();
+            this.logger = new Logger(new System.Windows.Forms.RichTextBox()); // stub sin UI
+            this.text3d = new TgcDrawText(tgcD3dDevice.D3dDevice);
+            this.tgcD3dInput = new TgcD3dInput(hostForm, panel3d);
+            this.fpsCamera = new TgcFpsCamera();
+            this.rotCamera = new TgcRotationalCamera();
+            this.thirdPersonCamera = new TgcThirdPersonCamera();
+            this.axisLines = new TgcAxisLines(tgcD3dDevice.D3dDevice);
+            this.userVars = new TgcUserVars(new System.Windows.Forms.DataGridView());
+            this.modifiers = new TgcModifiers(new System.Windows.Forms.Panel());
+            this.elapsedTime = -1;
+            this.frustum = new TgcFrustum();
+            this.mp3Player = new TgcMp3Player();
+            this.directSound = new TgcDirectSound();
+            this.fog = new TgcFog();
+            this.currentCamera = this.rotCamera;
+            this.customRenderEnabled = false;
+            this.drawer2D = new TgcDrawer2D();
+            this.shaders = new TgcShaders();
+
+            this.rotCamera.Enable = true;
+            this.fpsCamera.Enable = false;
+            this.thirdPersonCamera.Enable = false;
+            this.fpsCounterEnable = true;
+            this.axisLines.Enable = true;
+
+            examplesDir = System.Environment.CurrentDirectory + "\\" + ExampleLoader.EXAMPLES_DIR + "\\";
+            examplesMediaDir = examplesDir + "Media" + "\\";
+            alumnoEjemplosDir = System.Environment.CurrentDirectory + "\\" + "AlumnoEjemplos" + "\\";
+            alumnoEjemplosMediaDir = alumnoEjemplosDir + "AlumnoMedia" + "\\";
+
+            this.shaders.loadCommonShaders();
+        }
+
+        /// <summary>
         /// Hacer render del ejemplo
         /// </summary>
         internal void render()
@@ -171,7 +220,7 @@ namespace TgcViewer
             setStatusPosition();
 
             //actualizar el Frustum
-            frustum.updateVolume(d3dDevice.Transform.View, d3dDevice.Transform.Projection);
+            frustum.updateVolume(d3dDevice.GetTransform(SharpDX.Direct3D9.TransformState.View), d3dDevice.GetTransform(SharpDX.Direct3D9.TransformState.Projection));
 
             //limpiar texturas
             texturesManager.clearAll();
@@ -336,7 +385,7 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// Finaliza la ejecuci髇 de la aplicacion
+        /// Finaliza la ejecuci贸n de la aplicacion
         /// </summary>
         internal void shutDown()
         {
@@ -475,7 +524,7 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// Utilidad de camara en tercera persona que sigue a un objeto que se mueve desde atr醩
+        /// Utilidad de camara en tercera persona que sigue a un objeto que se mueve desde atr谩s
         /// </summary>
         public TgcThirdPersonCamera ThirdPersonCamera
         {
@@ -535,7 +584,7 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// Utilidad para administrar las variables de usuario visibles en el panel derecho de la aplicaci髇.
+        /// Utilidad para administrar las variables de usuario visibles en el panel derecho de la aplicaci贸n.
         /// </summary>
         public TgcUserVars UserVars
         {
@@ -543,7 +592,7 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// Utilidad para crear modificadores de variables de usuario, que son mostradas en el panel derecho de la aplicaci髇.
+        /// Utilidad para crear modificadores de variables de usuario, que son mostradas en el panel derecho de la aplicaci贸n.
         /// </summary>
         public TgcModifiers Modifiers
         {
@@ -567,7 +616,15 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// Tiempo en segundos transcurridos desde el 鷏timo frame.
+        /// Mando Xbox/XInput (jugador 1). Verificar IsConnected antes de usar.
+        /// </summary>
+        public TgcViewer.Utils.Input.TgcGamepadInput GamepadInput
+        {
+            get { return tgcD3dInput.GamepadInput; }
+        }
+
+        /// <summary>
+        /// Tiempo en segundos transcurridos desde el ?ltimo frame.
         /// Solo puede ser invocado cuando se esta ejecutando un bloque de render() de un TgcExample
         /// </summary>
         public float ElapsedTime
@@ -584,7 +641,7 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// Control gr醘ico de .NET utilizado para el panel3D sobre el cual renderiza el
+        /// Control gr?fico de .NET utilizado para el panel3D sobre el cual renderiza el
         /// Device de Direct3D
         /// </summary>
         public Control Panel3d
@@ -618,13 +675,13 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// Configura la posicion de la c醡ara
+        /// Configura la posicion de la c?mara
         /// </summary>
-        /// <param name="pos">Posici髇 de la c醡ara</param>
-        /// <param name="lookAt">Punto hacia el cu醠 se quiere ver</param>
+        /// <param name="pos">Posici?n de la c?mara</param>
+        /// <param name="lookAt">Punto hacia el cu?l se quiere ver</param>
         public void setCamera(Vector3 pos, Vector3 lookAt)
         {
-            tgcD3dDevice.D3dDevice.Transform.View = Matrix.LookAtLH(pos, lookAt, new Vector3(0, 1, 0));
+            tgcD3dDevice.D3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.View, Matrix.LookAtLH(pos, lookAt, new Vector3(0, 1, 0)));
 
             //Imprimir posicion
             string statusPos = "Position: [" + TgcParserUtils.printFloat(pos.X) + ", " + TgcParserUtils.printFloat(pos.Y) + ", " + TgcParserUtils.printFloat(pos.Z) + "] " +
@@ -683,7 +740,7 @@ namespace TgcViewer
         }
 
         /// <summary>
-        /// C醡ara actual que utiliza el framework
+        /// C?mara actual que utiliza el framework
         /// </summary>
         public TgcCamera CurrentCamera
         {

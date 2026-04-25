@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace TgcViewer.Utils
 {

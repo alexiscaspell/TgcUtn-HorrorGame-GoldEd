@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.DirectX.Direct3D;
+using System.Runtime.InteropServices;
+using SharpDX.Direct3D9;
+using TgcViewer.Utils.SharpDxCompat;
 
 namespace TgcViewer.Utils.Shaders
 {
@@ -12,51 +11,37 @@ namespace TgcViewer.Utils.Shaders
     public class TgcScreenQuad
     {
         VertexBuffer screenQuadVB;
-        /// <summary>
-        /// VertexBuffer del quad
-        /// </summary>
         public VertexBuffer ScreenQuadVB
         {
             get { return screenQuadVB; }
             set { screenQuadVB = value; }
         }
 
-        /// <summary>
-        /// Crear quad
-        /// </summary>
         public TgcScreenQuad()
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            //Se crean 2 triangulos (o Quad) con las dimensiones de la pantalla con sus posiciones ya transformadas
-            // x = -1 es el extremo izquiedo de la pantalla, x = 1 es el extremo derecho
-            // Lo mismo para la Y con arriba y abajo
-            // la Z en 1 simpre
             CustomVertex.PositionTextured[] screenQuadVertices = new CustomVertex.PositionTextured[]
-		    {
-    			new CustomVertex.PositionTextured( -1, 1, 1, 0,0), 
-			    new CustomVertex.PositionTextured(1,  1, 1, 1,0),
-			    new CustomVertex.PositionTextured(-1, -1, 1, 0,1),
-			    new CustomVertex.PositionTextured(1,-1, 1, 1,1)
-    		};
-            //vertex buffer de los triangulos
-            screenQuadVB = new VertexBuffer(typeof(CustomVertex.PositionTextured),
-                    4, d3dDevice, Usage.Dynamic | Usage.WriteOnly,
-                        CustomVertex.PositionTextured.Format, Pool.Default);
+            {
+                new CustomVertex.PositionTextured( -1,  1, 1, 0, 0),
+                new CustomVertex.PositionTextured(  1,  1, 1, 1, 0),
+                new CustomVertex.PositionTextured( -1, -1, 1, 0, 1),
+                new CustomVertex.PositionTextured(  1, -1, 1, 1, 1)
+            };
+
+            int stride = Marshal.SizeOf(typeof(CustomVertex.PositionTextured));
+            screenQuadVB = new VertexBuffer(d3dDevice, 4 * stride,
+                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionTextured.Format, Pool.Default);
             screenQuadVB.SetData(screenQuadVertices, 0, LockFlags.None);
         }
 
-        /// <summary>
-        /// Render de quad con shader.
-        /// Setear previamente todos los parámetros de shader y technique correspondiente.
-        /// Limpiar la pantalla segun sea necesario
-        /// </summary>
         public void render(Effect effect)
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
+            int stride = Marshal.SizeOf(typeof(CustomVertex.PositionTextured));
             d3dDevice.VertexFormat = CustomVertex.PositionTextured.Format;
-            d3dDevice.SetStreamSource(0, screenQuadVB, 0);
+            d3dDevice.SetStreamSource(0, screenQuadVB, 0, stride);
 
             effect.Begin(0);
             effect.BeginPass(0);
@@ -65,13 +50,9 @@ namespace TgcViewer.Utils.Shaders
             effect.End();
         }
 
-        /// <summary>
-        /// Liberar recursos
-        /// </summary>
         public void dispose()
         {
             screenQuadVB.Dispose();
         }
-
     }
 }

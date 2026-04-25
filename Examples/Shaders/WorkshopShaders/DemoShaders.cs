@@ -4,8 +4,8 @@ using System.Text;
 using System.Windows.Forms;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
@@ -286,13 +286,13 @@ namespace Examples.Shaders.WorkshopShaders
             float aspectRatio = (float)panel3d.Width / (float)panel3d.Height;
             time += elapsedTime;
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.C))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.C))
             {
                 timer_preview = 0;
                 camara_rot = !camara_rot;
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.F))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.F))
             {
                 if (tipo_vista == 1)
                     tipo_vista = 0;
@@ -301,7 +301,7 @@ namespace Examples.Shaders.WorkshopShaders
                 ant_vista = tipo_vista;
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.D))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.D))
             {
                 if (tipo_vista == 2)
                     tipo_vista = ant_vista;
@@ -309,7 +309,7 @@ namespace Examples.Shaders.WorkshopShaders
                     tipo_vista = 2;
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.Space))
             {
                 if (vel_tanque <= 1)
                     vel_tanque = 10;

@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer;
 using TgcViewer.Utils.Input;
 using TgcViewer.Utils.TgcGeometry;
@@ -101,7 +101,7 @@ namespace Examples.TerrainEditor.Brushes.Terrain
                 if (GuiController.Instance.D3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
                 {
                     reproduceSound();
-                    bool invert = GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.LeftAlt);
+                    bool invert = GuiController.Instance.D3dInput.keyDown(Key.LeftAlt);
 
                     bool oldInvert = Invert;
                     Invert ^= invert;

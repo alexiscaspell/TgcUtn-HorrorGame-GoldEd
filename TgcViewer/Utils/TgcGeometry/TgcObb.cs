@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer;
 using TgcViewer.Utils;
@@ -347,8 +347,8 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             OBBStruct minObb = new OBBStruct();
             float minVolume = float.MaxValue;
-            Vector3 minInitValues = Vector3.Empty;
-            Vector3 minEndValues = Vector3.Empty;
+            Vector3 minInitValues = Vector3.Zero;
+            Vector3 minEndValues = Vector3.Zero;
             Vector3[] transformedPoints = new Vector3[points.Length];
             float x, y, z;
             

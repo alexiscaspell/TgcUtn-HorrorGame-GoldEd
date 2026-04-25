@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
@@ -165,41 +165,12 @@ namespace TgcViewer.Utils.TgcGeometry
             Matrix viewProjection = viewMatrix * projectionMatrix;
 
 
-            //Left plane 
-            frustumPlanes[0].A = viewProjection.M14 + viewProjection.M11;
-            frustumPlanes[0].B = viewProjection.M24 + viewProjection.M21;
-            frustumPlanes[0].C = viewProjection.M34 + viewProjection.M31;
-            frustumPlanes[0].D = viewProjection.M44 + viewProjection.M41;
-
-            //Right plane 
-            frustumPlanes[1].A = viewProjection.M14 - viewProjection.M11;
-            frustumPlanes[1].B = viewProjection.M24 - viewProjection.M21;
-            frustumPlanes[1].C = viewProjection.M34 - viewProjection.M31;
-            frustumPlanes[1].D = viewProjection.M44 - viewProjection.M41;
-
-            //Top plane 
-            frustumPlanes[2].A = viewProjection.M14 - viewProjection.M12;
-            frustumPlanes[2].B = viewProjection.M24 - viewProjection.M22;
-            frustumPlanes[2].C = viewProjection.M34 - viewProjection.M32;
-            frustumPlanes[2].D = viewProjection.M44 - viewProjection.M42;
-
-            //Bottom plane 
-            frustumPlanes[3].A = viewProjection.M14 + viewProjection.M12;
-            frustumPlanes[3].B = viewProjection.M24 + viewProjection.M22;
-            frustumPlanes[3].C = viewProjection.M34 + viewProjection.M32;
-            frustumPlanes[3].D = viewProjection.M44 + viewProjection.M42;
-
-            //Near plane 
-            frustumPlanes[4].A = viewProjection.M13;
-            frustumPlanes[4].B = viewProjection.M23;
-            frustumPlanes[4].C = viewProjection.M33;
-            frustumPlanes[4].D = viewProjection.M43;
-
-            //Far plane 
-            frustumPlanes[5].A = viewProjection.M14 - viewProjection.M13;
-            frustumPlanes[5].B = viewProjection.M24 - viewProjection.M23;
-            frustumPlanes[5].C = viewProjection.M34 - viewProjection.M33;
-            frustumPlanes[5].D = viewProjection.M44 - viewProjection.M43;
+            frustumPlanes[0] = new Plane(viewProjection.M14 + viewProjection.M11, viewProjection.M24 + viewProjection.M21, viewProjection.M34 + viewProjection.M31, viewProjection.M44 + viewProjection.M41); // Left
+            frustumPlanes[1] = new Plane(viewProjection.M14 - viewProjection.M11, viewProjection.M24 - viewProjection.M21, viewProjection.M34 - viewProjection.M31, viewProjection.M44 - viewProjection.M41); // Right
+            frustumPlanes[2] = new Plane(viewProjection.M14 - viewProjection.M12, viewProjection.M24 - viewProjection.M22, viewProjection.M34 - viewProjection.M32, viewProjection.M44 - viewProjection.M42); // Top
+            frustumPlanes[3] = new Plane(viewProjection.M14 + viewProjection.M12, viewProjection.M24 + viewProjection.M22, viewProjection.M34 + viewProjection.M32, viewProjection.M44 + viewProjection.M42); // Bottom
+            frustumPlanes[4] = new Plane(viewProjection.M13, viewProjection.M23, viewProjection.M33, viewProjection.M43); // Near
+            frustumPlanes[5] = new Plane(viewProjection.M14 - viewProjection.M13, viewProjection.M24 - viewProjection.M23, viewProjection.M34 - viewProjection.M33, viewProjection.M44 - viewProjection.M43); // Far
 
 
             //Normalize planes 
@@ -307,8 +278,7 @@ namespace TgcViewer.Utils.TgcGeometry
             //Crear vertexBuffer
             if (vertexBuffer == null)
             {
-                vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColored), 36, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
+                vertexBuffer = new VertexBuffer(d3dDevice, 36 * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
             }
 
             //Cargar vertices de las 6 caras
@@ -395,8 +365,8 @@ namespace TgcViewer.Utils.TgcGeometry
 
             //transparencia
             effect.SetValue("alphaValue", alphaBlendingValue);
-            d3dDevice.RenderState.AlphaTestEnable = true;
-            d3dDevice.RenderState.AlphaBlendEnable = true;
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
 
             //Draw shader
             effect.Begin(0);
@@ -405,8 +375,8 @@ namespace TgcViewer.Utils.TgcGeometry
             effect.EndPass();
             effect.End();
 
-            d3dDevice.RenderState.AlphaTestEnable = false;
-            d3dDevice.RenderState.AlphaBlendEnable = false;
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         /// <summary>

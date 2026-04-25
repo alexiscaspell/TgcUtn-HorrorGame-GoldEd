@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX.DirectInput;
+using SharpDX.DirectInput;
 
 namespace Examples.Tutorial
 {
@@ -50,7 +50,7 @@ namespace Examples.Tutorial
 
         public override void init()
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Creamos una caja 3D con textura
             Vector3 center = new Vector3(0, -3, 0);
@@ -64,7 +64,7 @@ namespace Examples.Tutorial
 
         public override void render(float elapsedTime)
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Obtenemos acceso al objeto que maneja input de mouse y teclado del framework
             TgcD3dInput input = GuiController.Instance.D3dInput;

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using Examples.MeshCreator.EditablePolyTools;
 
 namespace Examples.MeshCreator.Primitives

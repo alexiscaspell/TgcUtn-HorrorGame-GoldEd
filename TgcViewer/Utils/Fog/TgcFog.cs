@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
 
 namespace TgcViewer.Utils.Fog
@@ -89,17 +89,17 @@ namespace TgcViewer.Utils.Fog
 
             if(enabled)
             {
-                d3dDevice.SetRenderState(RenderStates.FogEnable, true);
-                d3dDevice.SetRenderState(RenderStates.RangeFogEnable, true);
-                d3dDevice.SetRenderState(RenderStates.FogColor, color.ToArgb());
-                d3dDevice.SetRenderState(RenderStates.FogVertexMode, (int)FogMode.Linear);
-                d3dDevice.SetRenderState(RenderStates.FogStart, startDistance);
-                d3dDevice.SetRenderState(RenderStates.FogEnd, endDistance);
-                d3dDevice.SetRenderState(RenderStates.FogDensity, density);
+                d3dDevice.SetRenderState(RenderState.FogEnable, true);
+                d3dDevice.SetRenderState(RenderState.RangeFogEnable, true);
+                d3dDevice.SetRenderState(RenderState.FogColor, color.ToArgb());
+                d3dDevice.SetRenderState(RenderState.FogVertexMode, (int)FogMode.Linear);
+                d3dDevice.SetRenderState(RenderState.FogStart, startDistance);
+                d3dDevice.SetRenderState(RenderState.FogEnd, endDistance);
+                d3dDevice.SetRenderState(RenderState.FogDensity, density);
             }
             else
             {
-                d3dDevice.SetRenderState(RenderStates.FogEnable, false);
+                d3dDevice.SetRenderState(RenderState.FogEnable, false);
             }
         }
 

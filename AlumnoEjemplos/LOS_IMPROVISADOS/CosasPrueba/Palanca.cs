@@ -1,5 +1,6 @@
-﻿using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.DirectInput;
+﻿using SharpDX;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -36,12 +37,12 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
             cilindro.Color = Color.Black;
 
-            cilindro.rotateX(Geometry.DegreeToRadian(-45f));
+            cilindro.rotateX(MathUtil.DegreesToRadians(-45f));
 
 
 
-            /*float x = (float) (280 + longitud * Math.Cos(Geometry.DegreeToRadian(45f)));
-            float y = (float)(22 - longitud * Math.Sin(Geometry.DegreeToRadian(45f)));
+            /*float x = (float) (280 + longitud * Math.Cos(MathUtil.DegreesToRadians(45f)));
+            float y = (float)(22 - longitud * Math.Sin(MathUtil.DegreesToRadians(45f)));
 
             cilindro.Center = new Vector3(x, y, 111);*/
 
@@ -57,7 +58,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
         private void update()
         {
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.F))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.F))
             {
                 bajando = true;
             }
@@ -69,10 +70,10 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         private void bajarGrados()
         {
             
-            cilindro.rotateX(Geometry.DegreeToRadian(-1f));
+            cilindro.rotateX(MathUtil.DegreesToRadians(-1f));
 
             Vector3 nuevaPos = cilindro.Position;
-            nuevaPos.Subtract(new Vector3(0, (float)(longitud * Math.Sin(Geometry.DegreeToRadian(1f))), 0));//0.02), 0));//Math.Sin(1)), 0));
+            Vector3.Subtract(nuevaPos, new Vector3(0, (float)(longitud * Math.Sin(MathUtil.DegreesToRadians(1f))), 0));//0.02), 0));//Math.Sin(1)), 0));
             
             cilindro.Position = nuevaPos;//new Vector3(280, 0, 111); 
 

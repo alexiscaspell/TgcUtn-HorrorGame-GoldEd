@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX.DirectInput;
+using SharpDX.DirectInput;
 using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer.Utils.Terrain;
 
@@ -68,7 +68,7 @@ namespace Examples.Collision.SphereTriangleCollision
 
         public override void init()
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
 
             //Cargar escenario específico para este ejemplo
@@ -182,7 +182,7 @@ namespace Examples.Collision.SphereTriangleCollision
 
         public override void render(float elapsedTime)
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
             
             //Obtener boolean para saber si hay que mostrar Bounding Box
             bool showBB = (bool)GuiController.Instance.Modifiers.getValue("showBoundingBox");

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.Shaders;
 using System.Drawing;
 
@@ -108,7 +108,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 this.sideTrianglesVertices[2 * i + 1] = new CustomVertex.PositionColoredTextured(bottomCapDraw[i], color, u, 1);
 
                 //rotamos el vector de dibujado
-                n.TransformNormal(rotationMatrix);
+                n = Vector3.TransformNormal(n, rotationMatrix);
                 angle += angleStep;
             }
 
@@ -124,8 +124,8 @@ namespace TgcViewer.Utils.TgcGeometry
 
             if (this.AlphaBlendEnable)
             {
-                d3dDevice.RenderState.AlphaBlendEnable = true;
-                d3dDevice.RenderState.AlphaTestEnable = true;
+                d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
+                d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
             }
 
             if (texture != null)
@@ -146,8 +146,8 @@ namespace TgcViewer.Utils.TgcGeometry
             effect.EndPass();
             effect.End();
 
-            d3dDevice.RenderState.AlphaTestEnable = false;
-            d3dDevice.RenderState.AlphaBlendEnable = false;
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         public void dispose()

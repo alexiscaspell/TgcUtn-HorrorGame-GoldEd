@@ -1,7 +1,7 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 using System;
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
     class ButtonConfig : GameButton
     {

@@ -8,12 +8,12 @@ using System.Windows.Forms;
 using TgcViewer;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.IO;
-using Microsoft.DirectX;
+using SharpDX;
 using SistPaquetesClient.core;
 using TgcViewer.Utils.Terrain;
 using System.Xml;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.Input;
 
 namespace Examples.SceneEditor

@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 using System.Collections.Generic;
 using TgcViewer;
 using TgcViewer.Utils.TgcSceneLoader;

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
@@ -100,7 +100,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// Matriz final que se utiliza para aplicar transformaciones a la malla.
         /// Si la propiedad AutoTransformEnable esta en True, la matriz se reconstruye en cada cuadro
         /// en base a los valores de: Position, Rotation, Scale.
-        /// Si AutoTransformEnable está en False, se respeta el valor que el usuario haya cargado en la matriz.
+        /// Si AutoTransformEnable est en False, se respeta el valor que el usuario haya cargado en la matriz.
         /// </summary>
         public Matrix Transform
         {
@@ -111,9 +111,9 @@ namespace TgcViewer.Utils.TgcGeometry
         bool autoTransformEnable;
         /// <summary>
         /// En True hace que la matriz de transformacion (Transform) de la malla se actualiza en
-        /// cada cuadro en forma automática, según los valores de: Position, Rotation, Scale.
+        /// cada cuadro en forma automtica, segn los valores de: Position, Rotation, Scale.
         /// En False se respeta lo que el usuario haya cargado a mano en la matriz.
-        /// Por default está en True.
+        /// Por default est en True.
         /// </summary>
         public bool AutoTransformEnable
         {
@@ -137,7 +137,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         private Vector3 rotation;
         /// <summary>
-        /// Rotación absoluta del terreno
+        /// Rotacin absoluta del terreno
         /// </summary>
         public Vector3 Rotation
         {
@@ -182,8 +182,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -221,8 +221,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
             //16 caras, 32 triangulos, 96 vertices
             vertices = new CustomVertex.PositionTextured[96];
-            vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionTextured), vertices.Length, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionTextured.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, vertices.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionTextured)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionTextured.Format, Pool.Default);
 
             //Crear los 25 vertices editables, formando una grilla de 5x5 vertices
             editableVertices = new EditableVertex[25];
@@ -411,8 +410,8 @@ namespace TgcViewer.Utils.TgcGeometry
             Device device = GuiController.Instance.D3dDevice;
             if (alphaBlendEnable)
             {
-                device.RenderState.AlphaTestEnable = true;
-                device.RenderState.AlphaBlendEnable = true;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
             }
         }
 
@@ -422,8 +421,8 @@ namespace TgcViewer.Utils.TgcGeometry
         protected void resetAlphaBlend()
         {
             Device device = GuiController.Instance.D3dDevice;
-            device.RenderState.AlphaTestEnable = false;
-            device.RenderState.AlphaBlendEnable = false;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         /// <summary>
@@ -491,7 +490,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Rota la malla respecto del eje X
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateX(float angle)
         {
             this.rotation.X += angle;
@@ -500,7 +499,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Rota la malla respecto del eje Y
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateY(float angle)
         {
             this.rotation.Y += angle;
@@ -509,7 +508,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Rota la malla respecto del eje Z
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateZ(float angle)
         {
             this.rotation.Z += angle;
@@ -556,12 +555,12 @@ namespace TgcViewer.Utils.TgcGeometry
             }
 
             //Crear Mesh con DiffuseMap
-            Mesh d3dMesh = new Mesh(vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements, d3dDevice);
+            Mesh d3dMesh = new Mesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
 
             //Cargar VertexBuffer
             using (VertexBuffer vb = d3dMesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 for (int j = 0; j < vertices.Length; j++)
                 {
                     TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v = new TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex();
@@ -571,7 +570,7 @@ namespace TgcViewer.Utils.TgcGeometry
                     v.Position = Vector3.TransformCoordinate(vLand.Position, this.transform);
 
                     //normals
-                    v.Normal = Vector3.Empty;
+                    v.Normal = Vector3.Zero;
 
                     //texture coordinates diffuseMap
                     v.Tu = vLand.Tu;

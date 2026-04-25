@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcGeometry;
 using System.IO;
 

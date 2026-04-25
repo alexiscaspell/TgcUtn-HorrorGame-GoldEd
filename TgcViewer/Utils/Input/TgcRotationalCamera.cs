@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.TgcGeometry;
@@ -243,7 +243,7 @@ namespace TgcViewer.Utils.Input
                 n.Normalize();
 
                 Vector3 up = Vector3.Cross(n, d);
-                Vector3 desf = Vector3.Scale(up, dy * panSpeedZoom) - Vector3.Scale(n, dx * panSpeedZoom);
+                Vector3 desf = Vector3.Multiply(up, dy * panSpeedZoom) - Vector3.Multiply(n, dx * panSpeedZoom);
                 nextPos = nextPos + desf;
                 cameraCenter = cameraCenter + desf;
             }
@@ -256,14 +256,14 @@ namespace TgcViewer.Utils.Input
         /// <summary>
         /// Actualiza la ViewMatrix, si es que la camara esta activada
         /// </summary>
-        public void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice)
+        public void updateViewMatrix(SharpDX.Direct3D9.Device d3dDevice)
         {
             if (!enable)
             {
                 return;
             }
 
-            d3dDevice.Transform.View = viewMatrix;
+            d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.View, viewMatrix);
         }
 
 

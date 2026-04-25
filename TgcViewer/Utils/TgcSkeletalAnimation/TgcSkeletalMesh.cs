@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
@@ -338,7 +338,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// </summary>
         public int NumberTriangles
         {
-            get { return d3dMesh.NumberFaces; }
+            get { return d3dMesh.FaceCount; }
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// </summary>
         public int NumberVertices
         {
-            get { return d3dMesh.NumberVertices; }
+            get { return d3dMesh.VertexCount; }
         }
 
         protected bool renderSkeleton;
@@ -485,7 +485,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             this.boneSpaceFinalTransforms = new Matrix[MAX_BONE_COUNT];
 
             //Shader
-            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.Declaration);
+            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.GetDeclaration());
             this.effect = GuiController.Instance.Shaders.TgcSkeletalMeshShader;
             this.technique = GuiController.Instance.Shaders.getTgcSkeletalMeshTechnique(this.renderType);
 
@@ -962,8 +962,8 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             Device device = GuiController.Instance.D3dDevice;
             if (alphaBlendEnable)
             {
-                device.RenderState.AlphaTestEnable = true;
-                device.RenderState.AlphaBlendEnable = true;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
             }
         }
 
@@ -973,8 +973,8 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         protected void resetAlphaBlend()
         {
             Device device = GuiController.Instance.D3dDevice;
-            device.RenderState.AlphaTestEnable = false;
-            device.RenderState.AlphaBlendEnable = false;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         /// <summary>
@@ -1191,7 +1191,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             {
                 case MeshRenderType.VERTEX_COLOR:
                     TgcSkeletalLoader.VertexColorVertex[] verts1 = (TgcSkeletalLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSkeletalLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     points = new Vector3[verts1.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -1202,7 +1202,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
 
                 case MeshRenderType.DIFFUSE_MAP:
                     TgcSkeletalLoader.DiffuseMapVertex[] verts2 = (TgcSkeletalLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     points = new Vector3[verts2.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -1228,13 +1228,13 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
                 case MeshRenderType.DIFFUSE_MAP:
 
                     //Calcular normales usando DirectX
-                    int[] adj = new int[this.d3dMesh.NumberFaces * 3];
+                    int[] adj = new int[this.d3dMesh.FaceCount * 3];
                     this.d3dMesh.GenerateAdjacency(0, adj);
                     this.d3dMesh.ComputeNormals(adj);
 
                     //Obtener vertexBuffer original
                     TgcSkeletalLoader.DiffuseMapVertex[] origVertexBuffer = (TgcSkeletalLoader.DiffuseMapVertex[])this.d3dMesh.LockVertexBuffer(
-                                typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.Discard, this.d3dMesh.NumberVertices);
+                                typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.Discard, this.d3dMesh.VertexCount);
                     
                     //Calcular normales recorriendo los triangulos
                     int triCount = origVertexBuffer.Length / 3;
@@ -1321,7 +1321,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             {
                 case MeshRenderType.VERTEX_COLOR:
                     TgcSkeletalLoader.VertexColorVertex[] verts1 = (TgcSkeletalLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSkeletalLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     for (int i = 0; i < verts1.Length; i++)
                     {
                         verts1[i].Color = c;
@@ -1332,7 +1332,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
 
                 case MeshRenderType.DIFFUSE_MAP:
                     TgcSkeletalLoader.DiffuseMapVertex[] verts2 = (TgcSkeletalLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     for (int i = 0; i < verts2.Length; i++)
                     {
                         verts2[i].Color = c;
@@ -1424,7 +1424,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// <param name="name">Nombre de la malla</param>
         public TgcSkeletalMesh createMeshInstance(string name)
         {
-            return createMeshInstance(name, Vector3.Empty, Vector3.Empty, new Vector3(1, 1, 1));
+            return createMeshInstance(name, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1));
         }
 
 

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.TgcGeometry;
@@ -179,7 +179,7 @@ namespace Examples.MeshCreator
             //Obtener variacion XY del mouse
             float mouseX = 0f;
             float mouseY = 0f;
-            if (d3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.LeftAlt) && d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_MIDDLE))
+            if (d3dInput.keyDown(Key.LeftAlt) && d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_MIDDLE))
             {
                 mouseX = d3dInput.XposRelative;
                 mouseY = d3dInput.YposRelative;
@@ -249,7 +249,7 @@ namespace Examples.MeshCreator
 
 
             //Hacer efecto de Pan View
-            if (!d3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.LeftAlt) && d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_MIDDLE))
+            if (!d3dInput.keyDown(Key.LeftAlt) && d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_MIDDLE))
             {
                 float dx = -d3dInput.XposRelative;
                 float dy = d3dInput.YposRelative;
@@ -275,7 +275,7 @@ namespace Examples.MeshCreator
         /// <summary>
         /// Actualiza la ViewMatrix, si es que la camara esta activada
         /// </summary>
-        public void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice)
+        public void updateViewMatrix(Device d3dDevice)
         {
             if (!enable)
             {

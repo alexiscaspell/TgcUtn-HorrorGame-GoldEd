@@ -12,7 +12,7 @@ using TgcViewer.Utils.Ui;
 namespace TgcViewer
 {
     /// <summary>
-    /// Formulario principal de la aplicaci髇
+    /// Formulario principal de la aplicaci贸n
     /// </summary>
     public partial class MainForm : Form
     {
@@ -132,7 +132,7 @@ namespace TgcViewer
                         }
                     }
                 }
-                //Contemplar tambi閚 la ventana del modo FullScreen
+                //Contemplar tambi茅n la ventana del modo FullScreen
                 else if (this.FullScreenEnable && guiController.FullScreenPanel.ContainsFocus)
                 {
                     this.Hide();
@@ -231,11 +231,11 @@ namespace TgcViewer
         {
             if (wireframeToolStripMenuItem.Checked)
             {
-                GuiController.Instance.D3dDevice.RenderState.FillMode = Microsoft.DirectX.Direct3D.FillMode.WireFrame;
+                GuiController.Instance.D3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.FillMode, (int)SharpDX.Direct3D9.FillMode.Wireframe);
             }
             else
             {
-                GuiController.Instance.D3dDevice.RenderState.FillMode = Microsoft.DirectX.Direct3D.FillMode.Solid;
+                GuiController.Instance.D3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.FillMode, (int)SharpDX.Direct3D9.FillMode.Solid);
             }
         }
 
@@ -324,13 +324,13 @@ namespace TgcViewer
         /// </summary>
         internal bool MostrarPosicionDeCamaraEnable
         {
-            get { return mostrarPosici髇DeC醡araToolStripMenuItem.Checked; }
-            set { mostrarPosici髇DeC醡araToolStripMenuItem.Checked = value; }
+            get { return mostrarPosici贸nDeC谩maraToolStripMenuItem.Checked; }
+            set { mostrarPosici贸nDeC谩maraToolStripMenuItem.Checked = value; }
         }
 
-        private void mostrarPosici髇DeC醡araToolStripMenuItem_Click(object sender, EventArgs e)
+        private void mostrarPosici贸nDeC谩maraToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!mostrarPosici髇DeC醡araToolStripMenuItem.Checked)
+            if (!mostrarPosici贸nDeC谩maraToolStripMenuItem.Checked)
             {
                 toolStripStatusPosition.Text = "";
             }

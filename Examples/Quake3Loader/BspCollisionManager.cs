@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcGeometry;
 
 namespace Examples.Quake3Loader
@@ -161,7 +161,7 @@ namespace Examples.Quake3Loader
             //Capturar eventos de algunas teclas
 
             //Jump
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.Space))
             {
                 //Salta si esta en el piso
                 if (onGround)

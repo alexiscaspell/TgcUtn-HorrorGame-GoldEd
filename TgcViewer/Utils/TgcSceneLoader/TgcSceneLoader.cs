@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.IO;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using Ionic.Zip;
 using TgcViewer.Utils.TgcGeometry;
@@ -246,12 +246,12 @@ namespace TgcViewer.Utils.TgcSceneLoader
         private TgcMesh crearMeshDiffuseMapLightmap(TgcSceneData sceneData, string mediaPath, TgcSceneLoaderMaterialAux[] materialsArray, TgcMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapAndLightmapVertexElements, device);
+            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapAndLightmapVertexElements);
 
             //Cargar vertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 for (int j = 0; j < meshData.coordinatesIndices.Length; j++)
                 {
                     DiffuseMapAndLightmapVertex v = new DiffuseMapAndLightmapVertex();
@@ -332,7 +332,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 //Cargar attributeBuffer con los id de las texturas de cada triángulo
                 int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                mesh.UnlockAttributeBuffer(attributeBuffer);
+                mesh.UnlockAttributeBuffer();
 
                 //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
@@ -363,12 +363,12 @@ namespace TgcViewer.Utils.TgcSceneLoader
         private TgcMesh crearMeshDiffuseMap(TgcSceneLoaderMaterialAux[] materialsArray, TgcMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements, device);
+            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
             
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 for (int j = 0; j < meshData.coordinatesIndices.Length; j++)
                 {
                     DiffuseMapVertex v = new DiffuseMapVertex();
@@ -444,7 +444,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 //Cargar attributeBuffer con los id de las texturas de cada triángulo
                 int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                mesh.UnlockAttributeBuffer(attributeBuffer);
+                mesh.UnlockAttributeBuffer();
 
                 //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
@@ -471,12 +471,12 @@ namespace TgcViewer.Utils.TgcSceneLoader
         private TgcMesh crearMeshSoloColor(TgcMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements, device);
+            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
 
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 for (int j = 0; j < meshData.coordinatesIndices.Length; j++)
                 {
                     VertexColorVertex v = new VertexColorVertex();
@@ -599,17 +599,17 @@ namespace TgcViewer.Utils.TgcSceneLoader
             //Crear material
             Material material = new Material();
             matAux.materialId = material;
-            material.AmbientColor = new ColorValue(
+            material.Ambient = new ColorValue(
                 materialData.ambientColor[0],
                 materialData.ambientColor[1],
                 materialData.ambientColor[2],
                 materialData.ambientColor[3]);
-            material.DiffuseColor = new ColorValue(
+            material.Diffuse = new ColorValue(
                 materialData.diffuseColor[0],
                 materialData.diffuseColor[1],
                 materialData.diffuseColor[2],
                 materialData.diffuseColor[3]);
-            material.SpecularColor = new ColorValue(
+            material.Specular = new ColorValue(
                 materialData.specularColor[0],
                 materialData.specularColor[1],
                 materialData.specularColor[2],

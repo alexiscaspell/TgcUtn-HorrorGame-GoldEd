@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.DirectX.DirectInput;
-using Microsoft.DirectX;
+using SharpDX.DirectInput;
+using SharpDX;
 using System.Drawing;
 
 namespace TgcViewer.Utils.Input
@@ -25,14 +25,17 @@ namespace TgcViewer.Utils.Input
 
         Control guiControl;
         Control panel3d;
+
+        private TgcGamepadInput gamepadInput;
+        public TgcGamepadInput GamepadInput => gamepadInput;
         
         //Keyboard
-        Microsoft.DirectX.DirectInput.Device keyboardDevice;
+        Keyboard keyboardDevice;
         bool[] previouskeyboardState;
         bool[] currentkeyboardState;
 
         //Mouse
-        Microsoft.DirectX.DirectInput.Device mouseDevice;
+        Mouse mouseDevice;
         bool[] previousMouseButtonsState;
         bool[] currentMouseButtonsState;
         float deltaMouseX;
@@ -120,13 +123,13 @@ namespace TgcViewer.Utils.Input
             this.panel3d = panel3d;
 
             //keyboard
-            keyboardDevice = new Microsoft.DirectX.DirectInput.Device(SystemGuid.Keyboard);
-            keyboardDevice.SetCooperativeLevel(guiControl, CooperativeLevelFlags.Background | CooperativeLevelFlags.NonExclusive);
+            keyboardDevice = new Keyboard(new DirectInput());
+            keyboardDevice.SetCooperativeLevel(guiControl.Handle, CooperativeLevel.Background | CooperativeLevel.NonExclusive);
             keyboardDevice.Acquire();
 
             //mouse
-            mouseDevice = new Microsoft.DirectX.DirectInput.Device(SystemGuid.Mouse);
-            mouseDevice.SetCooperativeLevel(guiControl, CooperativeLevelFlags.Background | CooperativeLevelFlags.NonExclusive);
+            mouseDevice = new Mouse(new DirectInput());
+            mouseDevice.SetCooperativeLevel(guiControl.Handle, CooperativeLevel.Background | CooperativeLevel.NonExclusive);
             mouseDevice.Acquire();
             mouseIndex = 0;
             enableMouseFiltering = true;
@@ -147,6 +150,9 @@ namespace TgcViewer.Utils.Input
             {
                 historyBuffer[i] = new Vector2(0.0f, 0.0f);
             }
+
+            //Inicializar gamepad
+            gamepadInput = new TgcGamepadInput();
 
             //Inicializar ubicacion del cursor
             Point ceroToScreen = this.panel3d.PointToScreen(ceroPoint);
@@ -188,6 +194,8 @@ namespace TgcViewer.Utils.Input
 
         internal void update()
         {
+            gamepadInput.update();
+
             //Ver si el cursor esta dentro del panel3d
             bool currentInside = checkMouseInsidePanel3d();
 
@@ -233,7 +241,7 @@ namespace TgcViewer.Utils.Input
 
         internal void updateKeyboard()
         {
-            KeyboardState state = keyboardDevice.GetCurrentKeyboardState();
+            KeyboardState state = keyboardDevice.GetCurrentState();
 
             //Hacer copia del estado actual
             Array.Copy(currentkeyboardState, previouskeyboardState, currentkeyboardState.Length);
@@ -242,22 +250,22 @@ namespace TgcViewer.Utils.Input
             for (int i = 0; i < currentkeyboardState.Length; i++)
             {
                 Key k = (Key)(i+1);
-                currentkeyboardState[i] = state[k];
+                currentkeyboardState[i] = state.IsPressed(k);
             }
         }
 
         internal void updateMouse()
         {
-            MouseState mouseState = mouseDevice.CurrentMouseState;
+            MouseState mouseState = mouseDevice.GetCurrentState();
 
             //Hacer copia del estado actual
             Array.Copy(currentMouseButtonsState, previousMouseButtonsState, currentMouseButtonsState.Length);
 
             //Actualizar estado de cada boton
-            byte[] mouseStateButtons = mouseState.GetMouseButtons();
-            currentMouseButtonsState[(int)MouseButtons.BUTTON_LEFT] = mouseStateButtons[(int)MouseButtons.BUTTON_LEFT] != 0;
-            currentMouseButtonsState[(int)MouseButtons.BUTTON_MIDDLE] = mouseStateButtons[(int)MouseButtons.BUTTON_MIDDLE] != 0;
-            currentMouseButtonsState[(int)MouseButtons.BUTTON_RIGHT] = mouseStateButtons[(int)MouseButtons.BUTTON_RIGHT] != 0;
+            bool[] mouseStateButtons = mouseState.Buttons;
+            currentMouseButtonsState[(int)MouseButtons.BUTTON_LEFT] = mouseStateButtons[(int)MouseButtons.BUTTON_LEFT];
+            currentMouseButtonsState[(int)MouseButtons.BUTTON_MIDDLE] = mouseStateButtons[(int)MouseButtons.BUTTON_MIDDLE];
+            currentMouseButtonsState[(int)MouseButtons.BUTTON_RIGHT] = mouseStateButtons[(int)MouseButtons.BUTTON_RIGHT];
                 
 
             //Mouse X, Y relative

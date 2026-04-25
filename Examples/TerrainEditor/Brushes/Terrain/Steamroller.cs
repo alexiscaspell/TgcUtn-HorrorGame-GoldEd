@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace Examples.TerrainEditor.Brushes.Terrain
 {

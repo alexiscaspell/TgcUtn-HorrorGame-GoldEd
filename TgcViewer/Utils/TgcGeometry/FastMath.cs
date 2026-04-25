@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
@@ -257,7 +257,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>Valor en grados</returns>
         public static float ToDeg( float x )
         {
-            return ((float)Geometry.RadianToDegree(x));
+            return ((float)MathUtil.RadiansToDegrees(x));
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>Valor en radianes</returns>
         public static float ToRad( float x )
         {
-            return Geometry.DegreeToRadian(x);
+            return MathUtil.DegreesToRadians(x);
         }
         
         /// <summary>

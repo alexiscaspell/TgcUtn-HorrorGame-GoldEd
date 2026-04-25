@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
 using TgcViewer.Utils.Shaders;
@@ -10,8 +10,8 @@ using TgcViewer.Utils.Shaders;
 namespace TgcViewer.Utils.TgcGeometry
 {
     /// <summary>
-    /// Representa un polígono convexo plano en 3D de una sola cara, compuesto
-    /// por varios vértices que lo delimitan.
+    /// Representa un polgono convexo plano en 3D de una sola cara, compuesto
+    /// por varios vrtices que lo delimitan.
     /// </summary>
     public class TgcConvexPolygon : IRenderObject
     {
@@ -25,8 +25,8 @@ namespace TgcViewer.Utils.TgcGeometry
 
         private Vector3[] boundingVertices;
         /// <summary>
-        /// Vertices que definen el contorno polígono.
-        /// Están dados en clockwise-order.
+        /// Vertices que definen el contorno polgono.
+        /// Estn dados en clockwise-order.
         /// </summary>
         public Vector3[] BoundingVertices
         {
@@ -83,8 +83,7 @@ namespace TgcViewer.Utils.TgcGeometry
             //Crear VertexBuffer on demand
             if (vertexBuffer == null || vertexBuffer.Disposed)
             {
-                vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColored), boundingVertices.Length, d3dDevice,
-                    Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
+                vertexBuffer = new VertexBuffer(d3dDevice, boundingVertices.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
                 //Shader
                 this.effect = GuiController.Instance.Shaders.VariosShader;
                 this.technique = TgcShaders.T_POSITION_COLORED;
@@ -103,7 +102,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Renderizar el polígono
+        /// Renderizar el polgono
         /// </summary>
         public void render()
         {
@@ -130,7 +129,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Liberar recursos del polígono
+        /// Liberar recursos del polgono
         /// </summary>
         public void dispose()
         {
@@ -142,13 +141,13 @@ namespace TgcViewer.Utils.TgcGeometry
 
         public Vector3 Position
         {
-            //Lo correcto sería calcular el centro, pero con un extremo es suficiente.
+            //Lo correcto sera calcular el centro, pero con un extremo es suficiente.
             get { return boundingVertices[0]; }
         }
 
         Color color;
         /// <summary>
-        /// Color del polígono
+        /// Color del polgono
         /// </summary>
         public Color Color
         {
@@ -159,8 +158,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Examples.MeshCreator.Primitives;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace Examples.MeshCreator.Gizmos
 {

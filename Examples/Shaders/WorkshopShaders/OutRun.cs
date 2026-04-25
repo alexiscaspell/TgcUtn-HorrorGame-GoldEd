@@ -4,9 +4,9 @@ using System.Text;
 using System.Windows.Forms;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.Terrain;
 using TgcViewer.Utils.Shaders;
@@ -184,13 +184,13 @@ namespace Examples.Shaders.WorkshopShaders
 
             TgcD3dInput d3dInput = GuiController.Instance.D3dInput;
 
-            if (d3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.F1))
+            if (d3dInput.keyPressed(Key.F1))
                 paused = !paused;
 
             if (paused)
                 return;
 
-            if (d3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.M))
+            if (d3dInput.keyPressed(Key.M))
             {
                 mouseCaptured = !mouseCaptured;
                 if (mouseCaptured)

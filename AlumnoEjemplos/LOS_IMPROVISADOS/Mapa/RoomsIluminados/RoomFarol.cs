@@ -1,5 +1,5 @@
-﻿using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+﻿using SharpDX;
+using SharpDX.Direct3D9;
 using System.Collections.Generic;
 using System.Drawing;
 using TgcViewer;
@@ -31,15 +31,15 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         {
             foreach (TgcMesh mesh in meshesRoom)
             {
-                mesh.Effect.SetValue("lightColor", ColorValue.FromColor(Color.LightYellow));
+                mesh.Effect.SetValue("lightColor", new SharpDX.Color4(Color.LightYellow.R/255f, Color.LightYellow.G/255f, Color.LightYellow.B/255f, Color.LightYellow.A/255f));
                 mesh.Effect.SetValue("lightPosition", TgcParserUtils.vector3ToFloat4Array(posicion));
                 mesh.Effect.SetValue("lightIntensity", 15f);
                 mesh.Effect.SetValue("lightAttenuation", 0.1f);
 
-                mesh.Effect.SetValue("materialEmissiveColor", ColorValue.FromColor(Color.Black));
-                mesh.Effect.SetValue("materialAmbientColor", ColorValue.FromColor(Color.LightYellow));
-                mesh.Effect.SetValue("materialDiffuseColor", ColorValue.FromColor(Color.Gray));
-                mesh.Effect.SetValue("materialSpecularColor", ColorValue.FromColor(Color.LightYellow));
+                mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(Color.Black.R/255f, Color.Black.G/255f, Color.Black.B/255f, Color.Black.A/255f));
+                mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(Color.LightYellow.R/255f, Color.LightYellow.G/255f, Color.LightYellow.B/255f, Color.LightYellow.A/255f));
+                mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(Color.Gray.R/255f, Color.Gray.G/255f, Color.Gray.B/255f, Color.Gray.A/255f));
+                mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(Color.LightYellow.R/255f, Color.LightYellow.G/255f, Color.LightYellow.B/255f, Color.LightYellow.A/255f));
                 mesh.Effect.SetValue("materialSpecularExp", 4f);
 
                 mesh.render();

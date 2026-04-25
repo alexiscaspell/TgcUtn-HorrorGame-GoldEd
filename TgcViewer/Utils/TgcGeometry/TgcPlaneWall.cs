@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
 using TgcViewer.Utils.Shaders;
@@ -385,8 +385,8 @@ namespace TgcViewer.Utils.TgcGeometry
             Device device = GuiController.Instance.D3dDevice;
             if (alphaBlendEnable)
             {
-                device.RenderState.AlphaTestEnable = true;
-                device.RenderState.AlphaBlendEnable = true;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
             }
         }
 
@@ -396,8 +396,8 @@ namespace TgcViewer.Utils.TgcGeometry
         protected void resetAlphaBlend()
         {
             Device device = GuiController.Instance.D3dDevice;
-            device.RenderState.AlphaTestEnable = false;
-            device.RenderState.AlphaBlendEnable = false;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
 
@@ -419,12 +419,12 @@ namespace TgcViewer.Utils.TgcGeometry
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Crear Mesh
-            Mesh d3dMesh = new Mesh(vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements, d3dDevice);
+            Mesh d3dMesh = new Mesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
 
             //Cargar VertexBuffer
             using (VertexBuffer vb = d3dMesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 Vector3 ceroNormal = new Vector3(0, 0, 0);
                 int whiteColor = Color.White.ToArgb();
                 for (int j = 0; j < vertices.Length; j++)

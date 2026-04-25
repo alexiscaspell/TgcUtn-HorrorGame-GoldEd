@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using System.Drawing;
 using System.Xml;
 using System.IO;
@@ -248,10 +248,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
             TgcSceneLoader.VertexColorVertex[] vbData = (TgcSceneLoader.VertexColorVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
                 typeof(TgcSceneLoader.VertexColorVertex),
                 LockFlags.ReadOnly,
-                tgcMesh.D3dMesh.NumberVertices);
+                tgcMesh.D3dMesh.VertexCount);
             tgcMesh.D3dMesh.UnlockVertexBuffer();
 
-            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.NumberFaces * 3);
+            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.FaceCount * 3);
             tgcMesh.D3dMesh.UnlockIndexBuffer();
 
             //Armar buffer de vertices, normales y coordenadas de textura, buscando similitudes de valores
@@ -327,10 +327,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
             TgcSceneLoader.DiffuseMapVertex[] vbData = (TgcSceneLoader.DiffuseMapVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
                 typeof(TgcSceneLoader.DiffuseMapVertex),
                 LockFlags.ReadOnly,
-                tgcMesh.D3dMesh.NumberVertices);
+                tgcMesh.D3dMesh.VertexCount);
             tgcMesh.D3dMesh.UnlockVertexBuffer();
 
-            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.NumberFaces*3);
+            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.FaceCount*3);
             tgcMesh.D3dMesh.UnlockIndexBuffer();
 
             //Armar buffer de vertices, normales y coordenadas de textura, buscando similitudes de valores
@@ -410,10 +410,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
             TgcSceneLoader.DiffuseMapAndLightmapVertex[] vbData = (TgcSceneLoader.DiffuseMapAndLightmapVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
                 typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex),
                 LockFlags.ReadOnly,
-                tgcMesh.D3dMesh.NumberVertices);
+                tgcMesh.D3dMesh.VertexCount);
             tgcMesh.D3dMesh.UnlockVertexBuffer();
 
-            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.NumberFaces * 3);
+            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.FaceCount * 3);
             tgcMesh.D3dMesh.UnlockIndexBuffer();
 
             //Color general
@@ -529,22 +529,22 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 materialData.subMaterials = null;
 
                 materialData.ambientColor = new float[]{
-                            tgcMaterial.AmbientColor.Red,
-                            tgcMaterial.AmbientColor.Green,
-                            tgcMaterial.AmbientColor.Blue,
-                            tgcMaterial.AmbientColor.Alpha,
+                            tgcMaterial.Ambient.Red,
+                            tgcMaterial.Ambient.Green,
+                            tgcMaterial.Ambient.Blue,
+                            tgcMaterial.Ambient.Alpha,
                         };
                 materialData.diffuseColor = new float[]{
-                            tgcMaterial.DiffuseColor.Red,
-                            tgcMaterial.DiffuseColor.Green,
-                            tgcMaterial.DiffuseColor.Blue,
-                            tgcMaterial.DiffuseColor.Alpha,
+                            tgcMaterial.Diffuse.Red,
+                            tgcMaterial.Diffuse.Green,
+                            tgcMaterial.Diffuse.Blue,
+                            tgcMaterial.Diffuse.Alpha,
                         };
                 materialData.specularColor = new float[]{
-                            tgcMaterial.SpecularColor.Red,
-                            tgcMaterial.SpecularColor.Green,
-                            tgcMaterial.SpecularColor.Blue,
-                            tgcMaterial.SpecularColor.Alpha,
+                            tgcMaterial.Specular.Red,
+                            tgcMaterial.Specular.Green,
+                            tgcMaterial.Specular.Blue,
+                            tgcMaterial.Specular.Alpha,
                         };
                 materialData.opacity = 1f;
                 materialData.alphaBlendEnable = tgcMesh.AlphaBlendEnable;
@@ -578,22 +578,22 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     materialData.subMaterials = null;
 
                     materialData.ambientColor = new float[]{
-                                tgcMaterial.AmbientColor.Red,
-                                tgcMaterial.AmbientColor.Green,
-                                tgcMaterial.AmbientColor.Blue,
-                                tgcMaterial.AmbientColor.Alpha,
+                                tgcMaterial.Ambient.Red,
+                                tgcMaterial.Ambient.Green,
+                                tgcMaterial.Ambient.Blue,
+                                tgcMaterial.Ambient.Alpha,
                             };
                     materialData.diffuseColor = new float[]{
-                                tgcMaterial.DiffuseColor.Red,
-                                tgcMaterial.DiffuseColor.Green,
-                                tgcMaterial.DiffuseColor.Blue,
-                                tgcMaterial.DiffuseColor.Alpha,
+                                tgcMaterial.Diffuse.Red,
+                                tgcMaterial.Diffuse.Green,
+                                tgcMaterial.Diffuse.Blue,
+                                tgcMaterial.Diffuse.Alpha,
                             };
                     materialData.specularColor = new float[]{
-                                tgcMaterial.SpecularColor.Red,
-                                tgcMaterial.SpecularColor.Green,
-                                tgcMaterial.SpecularColor.Blue,
-                                tgcMaterial.SpecularColor.Alpha,
+                                tgcMaterial.Specular.Red,
+                                tgcMaterial.Specular.Green,
+                                tgcMaterial.Specular.Blue,
+                                tgcMaterial.Specular.Alpha,
                             };
                     materialData.opacity = 1f;
                     materialData.alphaBlendEnable = tgcMesh.AlphaBlendEnable;
@@ -1022,7 +1022,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Crear Mesh de D3D
             int triCount = mesh1.NumberTriangles + mesh2.NumberTriangles;
-            int vertexCount = mesh1.NumberVertices + mesh2.NumberVertices;
+            int vertexCount = mesh1.VertexCount + mesh2.VertexCount;
             VertexElement[] vertexElements = mesh1.RenderType == TgcMesh.MeshRenderType.VERTEX_COLOR ? TgcSceneLoader.VertexColorVertexElements : TgcSceneLoader.DiffuseMapVertexElements;
             Mesh mesh = new Mesh(triCount, vertexCount, MeshFlags.Managed, vertexElements, GuiController.Instance.D3dDevice);
 
@@ -1033,7 +1033,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 TgcSceneLoader.VertexColorVertex[] vertsData = new TgcSceneLoader.VertexColorVertex[vertexCount];
                 //Agregar los datos del mesh1
                 TgcSceneLoader.VertexColorVertex[] verts1 = (TgcSceneLoader.VertexColorVertex[])mesh1.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, mesh1.D3dMesh.NumberVertices);
+                    typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, mesh1.D3dMesh.VertexCount);
                 for (int i = 0; i < verts1.Length; i++)
                 {
                     verts1[i].Position = TgcVectorUtils.transform(verts1[i].Position, mesh1.Transform);
@@ -1044,12 +1044,12 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 //Agregar los datos del mesh1
                 TgcSceneLoader.VertexColorVertex[] verts2 = (TgcSceneLoader.VertexColorVertex[])mesh2.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, mesh2.D3dMesh.NumberVertices);
+                    typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, mesh2.D3dMesh.VertexCount);
                 for (int i = 0; i < verts2.Length; i++)
                 {
                     verts2[i].Position = TgcVectorUtils.transform(verts2[i].Position, mesh2.Transform);
                 }
-                Array.Copy(verts2, 0, vertsData, mesh1.NumberVertices, verts2.Length);
+                Array.Copy(verts2, 0, vertsData, mesh1.VertexCount, verts2.Length);
                 mesh2.D3dMesh.UnlockVertexBuffer();
                 verts2 = null;
 
@@ -1063,7 +1063,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 //Agregar los datos del mesh1 (aplicarle la transformacion actual)
                 TgcSceneLoader.DiffuseMapVertex[] verts1 = (TgcSceneLoader.DiffuseMapVertex[])mesh1.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, mesh1.D3dMesh.NumberVertices);
+                    typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, mesh1.D3dMesh.VertexCount);
                 for (int i = 0; i < verts1.Length; i++)
                 {
                     verts1[i].Position = TgcVectorUtils.transform(verts1[i].Position, mesh1.Transform);
@@ -1074,12 +1074,12 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 //Agregar los datos del mesh1
                 TgcSceneLoader.DiffuseMapVertex[] verts2 = (TgcSceneLoader.DiffuseMapVertex[])mesh2.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, mesh2.D3dMesh.NumberVertices);
+                    typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, mesh2.D3dMesh.VertexCount);
                 for (int i = 0; i < verts2.Length; i++)
                 {
                     verts2[i].Position = TgcVectorUtils.transform(verts2[i].Position, mesh2.Transform);
                 }
-                Array.Copy(verts2, 0, vertsData, mesh1.NumberVertices, verts2.Length);
+                Array.Copy(verts2, 0, vertsData, mesh1.VertexCount, verts2.Length);
                 mesh2.D3dMesh.UnlockVertexBuffer();
                 verts2 = null;
 
@@ -1141,7 +1141,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     //Copiar el AttributeBuffer del mesh1 tal cual al mesh unificado
                     int[] attributeBuffer1 = mesh1.D3dMesh.LockAttributeBufferArray(LockFlags.ReadOnly);
                     Array.Copy(attributeBuffer1, attributeBuffer, attributeBuffer1.Length);
-                    mesh1.D3dMesh.UnlockAttributeBuffer(attributeBuffer1);
+                    mesh1.D3dMesh.UnlockAttributeBuffer();
                 }
                 else
                 {
@@ -1164,7 +1164,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     {
                         attributeBuffer2Offset[i] = attributeBuffer2[i] + textureId;
                     }
-                    mesh2.D3dMesh.UnlockAttributeBuffer(attributeBuffer2);
+                    mesh2.D3dMesh.UnlockAttributeBuffer();
                     Array.Copy(attributeBuffer2Offset, 0, attributeBuffer, attIdx, attributeBuffer2Offset.Length);
                     attributeBuffer2Offset = null;
                 }
@@ -1178,7 +1178,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     textureId++;
                 }
 
-                mesh.UnlockAttributeBuffer(attributeBuffer);
+                mesh.UnlockAttributeBuffer();
             }
             
 

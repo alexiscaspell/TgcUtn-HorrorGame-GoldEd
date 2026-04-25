@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX;
-using Microsoft.DirectX.DirectInput;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.DirectInput;
+using SharpDX.Direct3D9;
 using TgcViewer;
 using TgcViewer.Utils.TgcSceneLoader;
 
@@ -678,7 +678,7 @@ namespace Examples.TerrainEditor
         /// <summary>
         /// Actualiza la ViewMatrix, si es que la camara esta activada
         /// </summary>
-        public void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice)
+        public void updateViewMatrix(Device d3dDevice)
         {
             if (!enable)
             {

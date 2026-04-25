@@ -1,4 +1,4 @@
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;

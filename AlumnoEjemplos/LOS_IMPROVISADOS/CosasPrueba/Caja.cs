@@ -1,4 +1,5 @@
-﻿using Microsoft.DirectX;
+using SharpDX.DirectInput;
+﻿using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using TgcViewer.Example;
 using TgcViewer;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.Shaders;
 
 
@@ -24,7 +25,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
         private Vector3 tamanio;
 
-        private Color color;
+        private System.Drawing.Color color;
         
         public void move(Vector3 v){
         	caja.move(v);
@@ -55,19 +56,19 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
         public void render(CamaraFPS camara)
         {
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.B)&&estaCerca(camara.posicion))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.B)&&estaCerca(camara.posicion))
             {
                 color = Color.Blue;
             }
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.R) && estaCerca(camara.posicion))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.R) && estaCerca(camara.posicion))
             {
                 color = Color.Red;
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.F))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.F))
             {
                 //caja.rotateY(45);
-                //caja.rotateY(Geometry.DegreeToRadian(45f));
+                //caja.rotateY(MathUtil.DegreesToRadians(45f));
                 //posicion.TransformCoordinate()
                     //caja.Rotation = GuiController.Instance.FpsCamera.getLookAt();
 
@@ -93,7 +94,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             caja.updateValues();
         }
 
-        internal void changeColor(Color color)
+        internal void changeColor(System.Drawing.Color color)
         {
             this.color = color;
         }
@@ -101,8 +102,8 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         public bool estaCerca(Vector3 posObjeto)
         {
             Vector3 vectorAux = posObjeto;
-            vectorAux.Subtract(posicion);
-            //vectorAux.Subtract(new Vector3(0, vectorAux.Y, 0));//ESTO ES PARA Q NO IMPORTE LA ALTURA
+            Vector3.Subtract(vectorAux, posicion);
+            //Vector3.Subtract(vectorAux, new Vector3(0, vectorAux.Y, 0));//ESTO ES PARA Q NO IMPORTE LA ALTURA
 
             return vectorAux.Length() <= 30;
 

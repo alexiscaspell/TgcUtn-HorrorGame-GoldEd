@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <NoWarn>0436;0104;1591;1573;SYSLIB0011;SYSLIB0050;SYSLIB0012;SYSLIB0013</NoWarn>
+    <RootNamespace>HorrorGame</RootNamespace>
+    <AssemblyName>HorrorGame</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="TgcViewerCheck.csproj" />
+    <ProjectReference Include="AlumnoEjemplosCheck.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HorrorGame/**/*.cs" />
+  </ItemGroup>
+</Project>

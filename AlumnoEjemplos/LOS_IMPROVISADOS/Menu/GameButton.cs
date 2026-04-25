@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 using System.Drawing;
 using TgcViewer;
 using TgcViewer.Utils._2D;
@@ -6,7 +6,7 @@ using TgcViewer.Utils.TgcSceneLoader;
 using System;
 using AlumnoEjemplos.LOS_IMPROVISADOS;
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
      public abstract class GameButton
     {

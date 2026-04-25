@@ -8,7 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
-using Microsoft.DirectX;
+using SharpDX;
 using AlumnoEjemplos.LOS_IMPROVISADOS.Objetos;
 using TgcViewer.Utils.TgcGeometry;
 

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils._2D;
@@ -97,7 +97,7 @@ namespace Examples.Sound
             //Contro del reproductor por teclado
             TgcMp3Player player = GuiController.Instance.Mp3Player;
             TgcMp3Player.States currentState = player.getStatus();
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Y))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.Y))
             {
                 if (currentState == TgcMp3Player.States.Open)
                 {
@@ -111,7 +111,7 @@ namespace Examples.Sound
                     player.play(true);
                 }
             }
-            else if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.U))
+            else if (GuiController.Instance.D3dInput.keyPressed(Key.U))
             {
                 if (currentState == TgcMp3Player.States.Playing)
                 {
@@ -119,7 +119,7 @@ namespace Examples.Sound
                     player.pause();
                 }
             } 
-            else if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.I))
+            else if (GuiController.Instance.D3dInput.keyPressed(Key.I))
             {
                 if (currentState == TgcMp3Player.States.Paused)
                 {
@@ -127,7 +127,7 @@ namespace Examples.Sound
                     player.resume();
                 }
             }
-            else if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.O))
+            else if (GuiController.Instance.D3dInput.keyPressed(Key.O))
             {
                 if (currentState == TgcMp3Player.States.Playing)
                 {

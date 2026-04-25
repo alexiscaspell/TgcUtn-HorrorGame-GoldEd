@@ -6,7 +6,7 @@ using TgcViewer.Utils.TgcSceneLoader;
 using System.Xml;
 using System.IO;
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 
 namespace Examples.TerrainEditor.Vegetation

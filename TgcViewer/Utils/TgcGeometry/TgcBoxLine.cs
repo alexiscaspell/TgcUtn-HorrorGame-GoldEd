@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
     /// <summary>
-    /// Herramienta para dibujar una línea 3D con color y grosor específico.
+    /// Herramienta para dibujar una lnea 3D con color y grosor especfico.
     /// </summary>
     public class TgcBoxLine : IRenderObject
     {
@@ -18,11 +18,11 @@ namespace TgcViewer.Utils.TgcGeometry
         #region Creacion
 
         /// <summary>
-        /// Crea una línea en base a sus puntos extremos
+        /// Crea una lnea en base a sus puntos extremos
         /// </summary>
         /// <param name="start">Punto de inicio</param>
         /// <param name="end">Punto de fin</param>
-        /// <returns>Línea creada</returns>
+        /// <returns>Lnea creada</returns>
         public static TgcBoxLine fromExtremes(Vector3 start, Vector3 end)
         {
             TgcBoxLine line = new TgcBoxLine();
@@ -33,13 +33,13 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una línea en base a sus puntos extremos, con el color y el grosor especificado
+        /// Crea una lnea en base a sus puntos extremos, con el color y el grosor especificado
         /// </summary>
         /// <param name="start">Punto de inicio</param>
         /// <param name="end">Punto de fin</param>
-        /// <param name="color">Color de la línea</param>
-        /// <param name="thickness">Grosor de la línea</param>
-        /// <returns>Línea creada</returns>
+        /// <param name="color">Color de la lnea</param>
+        /// <param name="thickness">Grosor de la lnea</param>
+        /// <returns>Lnea creada</returns>
         public static TgcBoxLine fromExtremes(Vector3 start, Vector3 end, Color color, float thickness)
         {
             TgcBoxLine line = new TgcBoxLine();
@@ -100,7 +100,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         private float thickness;
         /// <summary>
-        /// Grosor de la línea. Debe ser mayor a cero.
+        /// Grosor de la lnea. Debe ser mayor a cero.
         /// </summary>
         public float Thickness
         {
@@ -110,15 +110,15 @@ namespace TgcViewer.Utils.TgcGeometry
 
         public Vector3 Position
         {
-            //Lo correcto sería calcular el centro, pero con un extremo es suficiente.
+            //Lo correcto sera calcular el centro, pero con un extremo es suficiente.
             get { return pStart; }
         }
 
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -153,8 +153,7 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColored), 36, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, 36 * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
 
             this.thickness = 0.06f;
             this.enabled = true;
@@ -167,20 +166,20 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Actualizar parámetros de la línea en base a los valores configurados
+        /// Actualizar parmetros de la lnea en base a los valores configurados
         /// </summary>
         public void updateValues()
         {
             int c = color.ToArgb();
             CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[36];
 
-            //Crear caja en vertical en Y con longitud igual al módulo de la recta.
+            //Crear caja en vertical en Y con longitud igual al mdulo de la recta.
             Vector3 lineVec = Vector3.Subtract(pEnd, pStart);
             float lineLength = lineVec.Length();
             Vector3 min = new Vector3(-thickness, 0, -thickness);
             Vector3 max = new Vector3(thickness, lineLength, thickness);
 
-            //Vértices de la caja con forma de linea
+            //Vrtices de la caja con forma de linea
             // Front face
             vertices[0] = new CustomVertex.PositionColored(min.X, max.Y, max.Z, c);
             vertices[1] = new CustomVertex.PositionColored(min.X, min.Y, max.Z, c);
@@ -249,7 +248,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
 
         /// <summary>
-        /// Renderizar la línea
+        /// Renderizar la lnea
         /// </summary>
         public void render()
         {
@@ -276,7 +275,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Liberar recursos de la línea
+        /// Liberar recursos de la lnea
         /// </summary>
         public void dispose()
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 
@@ -149,11 +149,11 @@ namespace TgcViewer.Utils._2D
             srcRect = Rectangle.Empty;
 
             //Propiedades de transformacion default
-            position = Vector2.Empty;
+            position = Vector2.Zero;
             scaling = new Vector2(1, 1);
-            scalingCenter = Vector2.Empty;
+            scalingCenter = Vector2.Zero;
             rotation = 0;
-            rotationCenter = Vector2.Empty;
+            rotationCenter = Vector2.Zero;
 
             color = Color.White;
             enabled = true;

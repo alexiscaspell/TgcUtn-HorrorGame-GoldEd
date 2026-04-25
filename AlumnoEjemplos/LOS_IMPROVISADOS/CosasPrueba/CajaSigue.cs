@@ -1,10 +1,10 @@
 ﻿using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
 
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Collections.Generic;
 using TgcViewer.Utils.Shaders;
 using System.Drawing;
@@ -13,7 +13,7 @@ using AlumnoEjemplos.LOS_IMPROVISADOS;
 using AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.linternas;
 
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
     public class Prueba : TgcExample
     {
@@ -97,7 +97,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             //Hago que la caja siga al jugador
             movement = camaraFPS.posicion;
-            movement.Subtract(cajaPrueba.Position);
+            Vector3.Subtract(movement, cajaPrueba.Position);
             movement.Normalize();
 
             movement *= MOVEMENT_SPEED * elapsedTime;

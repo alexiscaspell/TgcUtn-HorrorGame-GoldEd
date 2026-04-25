@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 using Examples.TerrainEditor.Vegetation;
 using TgcViewer;
 

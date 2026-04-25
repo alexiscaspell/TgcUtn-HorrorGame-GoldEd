@@ -1,5 +1,5 @@
 ﻿using AlumnoEjemplos.LOS_IMPROVISADOS.Personajes.Boss;
-using Microsoft.DirectX;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -199,7 +199,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
         public void render()
         {
-            cuerpo.animateAndRender();
+            cuerpo.animateAndRender(0f);
         }
 
         private void seguirPersonaje()

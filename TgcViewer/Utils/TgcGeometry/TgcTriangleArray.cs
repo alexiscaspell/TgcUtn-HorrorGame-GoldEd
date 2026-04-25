@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 
 namespace TgcViewer.Utils.TgcGeometry
@@ -92,7 +92,7 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             pickingRay.updateRay();
             Vector3 segmentA = pickingRay.Ray.Origin;
-            Vector3 segmentB = segmentA + Vector3.Scale(pickingRay.Ray.Direction, 10000f);
+            Vector3 segmentB = segmentA + Vector3.Multiply(pickingRay.Ray.Direction, 10000f);
             float minDist = float.MaxValue;
             triangle = null;
             triangleIndex = -1;
@@ -107,7 +107,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 Vector3 col;
                 if (TgcCollisionUtils.intersectLineTriangle(segmentA, segmentB, tri.A, tri.B, tri.C, out uvw, out t, out col))
                 {
-                    float dist = Vector3.Length(col - segmentA);
+                    float dist = (col - segmentA).Length();
                     if (dist < minDist)
                     {
                         minDist = dist;

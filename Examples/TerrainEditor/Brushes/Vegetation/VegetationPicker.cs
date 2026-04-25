@@ -1,7 +1,7 @@
 ﻿using TgcViewer;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils._2D;
@@ -118,12 +118,12 @@ namespace Examples.TerrainEditor.Brushes.Vegetation
                     }
                 }
 
-                if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Delete))
+                if (GuiController.Instance.D3dInput.keyPressed(Key.Delete))
                 {
                     removeFloatingVegetation();
                 }
 
-                if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Z))
+                if (GuiController.Instance.D3dInput.keyPressed(Key.Z))
                 {
                     if (editor.HasVegetation)
                     {
@@ -193,22 +193,22 @@ namespace Examples.TerrainEditor.Brushes.Vegetation
         private void updateMeshScaleAndRotation()
         {
 
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.J))
+            if (GuiController.Instance.D3dInput.keyDown(Key.J))
             {
                 rotate(FastMath.ToRad(60 * GuiController.Instance.ElapsedTime));
 
             }
-            else if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.L))
+            else if (GuiController.Instance.D3dInput.keyDown(Key.L))
             {
                 rotate(FastMath.ToRad(-60 * GuiController.Instance.ElapsedTime));
 
             }
-            else if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.I))
+            else if (GuiController.Instance.D3dInput.keyDown(Key.I))
             {
                 Mesh.Scale += ScaleAxis * 1.5f * GuiController.Instance.ElapsedTime;
 
             }
-            else if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.K))
+            else if (GuiController.Instance.D3dInput.keyDown(Key.K))
             {
                 Mesh.Scale -= ScaleAxis * 1.5f * GuiController.Instance.ElapsedTime;
 

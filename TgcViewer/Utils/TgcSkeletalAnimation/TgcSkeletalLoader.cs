@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 
 namespace TgcViewer.Utils.TgcSkeletalAnimation
@@ -379,7 +379,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         private TgcSkeletalMesh crearMeshDiffuseMap(TgcSkeletalLoaderMaterialAux[] materialsArray, TgcSkeletalMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements, device);
+            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
 
             //Cargar esqueleto
             TgcSkeletalBone[] bones = loadSkeleton(meshData);
@@ -388,7 +388,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 for (int j = 0; j < meshData.coordinatesIndices.Length; j++)
                 {
                     DiffuseMapVertex v = new DiffuseMapVertex();
@@ -492,7 +492,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
                 //Cargar attributeBuffer con los id de las texturas de cada triángulo
                 int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                mesh.UnlockAttributeBuffer(attributeBuffer);
+                mesh.UnlockAttributeBuffer();
 
                 //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
@@ -520,7 +520,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         private TgcSkeletalMesh crearMeshSoloColor(TgcSkeletalMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements, device);
+            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
 
             //Cargar esqueleto
             TgcSkeletalBone[] bones = loadSkeleton(meshData);
@@ -529,7 +529,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 for (int j = 0; j < meshData.coordinatesIndices.Length; j++)
                 {
                     VertexColorVertex v = new VertexColorVertex();
@@ -627,17 +627,17 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             //Crear material
             Material material = new Material();
             matAux.materialId = material;
-            material.AmbientColor = new ColorValue(
+            material.Ambient = new ColorValue(
                 materialData.ambientColor[0],
                 materialData.ambientColor[1],
                 materialData.ambientColor[2],
                 materialData.ambientColor[3]);
-            material.DiffuseColor = new ColorValue(
+            material.Diffuse = new ColorValue(
                 materialData.diffuseColor[0],
                 materialData.diffuseColor[1],
                 materialData.diffuseColor[2],
                 materialData.diffuseColor[3]);
-            material.SpecularColor = new ColorValue(
+            material.Specular = new ColorValue(
                 materialData.specularColor[0],
                 materialData.specularColor[1],
                 materialData.specularColor[2],

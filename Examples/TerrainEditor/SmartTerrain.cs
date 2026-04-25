@@ -1,5 +1,5 @@
-﻿using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+﻿using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.Shaders;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;

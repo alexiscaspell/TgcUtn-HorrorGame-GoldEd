@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>Library</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>disable</Nullable>
+    <NoWarn>0436;0104;0120;1591;1573;SYSLIB0011;SYSLIB0050;SYSLIB0012;SYSLIB0013</NoWarn>
+    <RootNamespace>AlumnoEjemplos</RootNamespace>
+    <AssemblyName>AlumnoEjemplos</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
+    <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="System.Drawing.Color" Alias="Color" />
+    <Using Include="System.Drawing.Rectangle" Alias="Rectangle" />
+    <Using Include="System.Drawing.Font" Alias="Font" />
+    <Using Include="System.Drawing.Point" Alias="Point" />
+    <Using Include="TgcViewer.Utils.SharpDxCompat.VertexBufferExtensions" Static="true" />
+    <Using Include="TgcViewer.Utils.SharpDxCompat.IndexBufferExtensions" Static="true" />
+    <Using Include="TgcViewer.Utils.SharpDxCompat.MeshExtensions" Static="true" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="TgcViewerCheck.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlumnoEjemplos/**/*.cs"
+      Exclude="AlumnoEjemplos/obj/**;AlumnoEjemplos/Properties/**;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/IyCA/ALuz.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/faroles/LuzFarol.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/fluors/LuzFluor.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/linternas/LuzLinterna.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/general/EfectoEscondido.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/general/LuzOscura.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/EfectosPosProcesado/PosProcesadoBur.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Mapa/RoomsIluminados/RoomFarol.cs;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Mapa/RoomsIluminados/RoomLinterna.cs" />
+  </ItemGroup>
+</Project>

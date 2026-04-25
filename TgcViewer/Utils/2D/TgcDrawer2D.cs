@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 
 namespace TgcViewer.Utils._2D
@@ -14,12 +14,12 @@ namespace TgcViewer.Utils._2D
     public class TgcDrawer2D
     {
         Device d3dDevice;
-        Microsoft.DirectX.Direct3D.Sprite dxSprite;
+        Sprite dxSprite;
 
         public TgcDrawer2D()
         {
             this.d3dDevice = GuiController.Instance.D3dDevice;
-            dxSprite = new Microsoft.DirectX.Direct3D.Sprite(d3dDevice);
+            dxSprite = new Sprite(d3dDevice);
         }
 
         /// <summary>
@@ -45,7 +45,9 @@ namespace TgcViewer.Utils._2D
         public void drawSprite(TgcSprite sprite)
         {
             dxSprite.Transform = sprite.TransformationMatrix;
-            dxSprite.Draw(sprite.Texture.D3dTexture, sprite.SrcRect, Vector3.Empty, Vector3.Empty, sprite.Color);
+            var c = sprite.Color;
+            dxSprite.Draw(sprite.Texture.D3dTexture,
+                new SharpDX.ColorBGRA(c.B, c.G, c.R, c.A));
         }
 
     }

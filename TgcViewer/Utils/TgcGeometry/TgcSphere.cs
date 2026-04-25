@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.Shaders;
 using TgcViewer.Utils.TgcSceneLoader;
 
@@ -438,12 +438,11 @@ namespace TgcViewer.Utils.TgcGeometry
 
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
-            vertexBuffer = new VertexBuffer(typeof(Vertex.PositionColoredTexturedNormal), verticesCount, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, Vertex.PositionColoredTexturedNormal.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, verticesCount * System.Runtime.InteropServices.Marshal.SizeOf(typeof(Vertex.PositionColoredTexturedNormal)), Usage.Dynamic | Usage.WriteOnly, Vertex.PositionColoredTexturedNormal.Format, Pool.Default);
             vertexBuffer.SetData(vertices.ToArray(), 0, LockFlags.None);
 
 
-            indexBuffer = new IndexBuffer(typeof(int), indices.Count, d3dDevice, Usage.Dynamic | Usage.WriteOnly, Pool.Default);
+            indexBuffer = new IndexBuffer(d3dDevice, indices.Count * System.Runtime.InteropServices.Marshal.SizeOf(typeof(int)), Usage.Dynamic | Usage.WriteOnly, Pool.Default);
             indexBuffer.SetData(indices.ToArray(), 0, LockFlags.None);
 
 
@@ -691,14 +690,14 @@ namespace TgcViewer.Utils.TgcGeometry
             d3dDevice.Indices = indexBuffer;
 
             //Render con shader
-            renderWithFill(d3dDevice.RenderState.FillMode);
+            renderWithFill((SharpDX.Direct3D9.FillMode)d3dDevice.GetRenderState(SharpDX.Direct3D9.RenderState.FillMode));
 
             if (RenderEdges)
             {
                 if (texture == null) effect.Technique = TgcShaders.T_POSITION_TEXTURED;
                 else effect.Technique = TgcShaders.T_POSITION_COLORED;
 
-                renderWithFill(FillMode.WireFrame);
+                renderWithFill(FillMode.Wireframe);
 
             }
 
@@ -713,15 +712,15 @@ namespace TgcViewer.Utils.TgcGeometry
         {
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
-            FillMode old = d3dDevice.RenderState.FillMode;
-            d3dDevice.RenderState.FillMode = fillmode;
+            FillMode old = (FillMode)d3dDevice.GetRenderState(SharpDX.Direct3D9.RenderState.FillMode);
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.FillMode, (int)fillmode);
 
             effect.Begin(0);
             effect.BeginPass(0);
             d3dDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexCount, 0, triangleCount);
             effect.EndPass();
             effect.End();
-            d3dDevice.RenderState.FillMode = old;
+            d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.FillMode, (int)old);
 
         }
 
@@ -733,8 +732,8 @@ namespace TgcViewer.Utils.TgcGeometry
             Device device = GuiController.Instance.D3dDevice;
             if (alphaBlendEnable)
             {
-                device.RenderState.AlphaTestEnable = true;
-                device.RenderState.AlphaBlendEnable = true;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
             }
         }
 
@@ -744,8 +743,8 @@ namespace TgcViewer.Utils.TgcGeometry
         protected void resetAlphaBlend()
         {
             Device device = GuiController.Instance.D3dDevice;
-            device.RenderState.AlphaTestEnable = false;
-            device.RenderState.AlphaBlendEnable = false;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         /// <summary>
@@ -894,12 +893,12 @@ namespace TgcViewer.Utils.TgcGeometry
             if (texture != null)
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements, d3dDevice);
+                Mesh d3dMesh = new Mesh(d3dDevice, indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)
                 {
-                    GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                    DataStream data = vb.Lock(0, 0, LockFlags.None);
                     for (int j = 0; j < indices.Count; j++)
                     {
                         TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v = new TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex();
@@ -950,12 +949,12 @@ namespace TgcViewer.Utils.TgcGeometry
             else
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements, d3dDevice);
+                Mesh d3dMesh = new Mesh(d3dDevice, indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)
                 {
-                    GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                    DataStream data = vb.Lock(0, 0, LockFlags.None);
                     for (int j = 0; j < indices.Count; j++)
                     {
                         TgcSceneLoader.TgcSceneLoader.VertexColorVertex v = new TgcSceneLoader.TgcSceneLoader.VertexColorVertex();
@@ -1258,7 +1257,7 @@ namespace TgcViewer.Utils.TgcGeometry
             {
                 return new Vector3(NX, NY, NZ);
             }
-            public static VertexFormats Format { get { return VertexFormats.PositionNormal | VertexFormats.Texture1 | VertexFormats.Diffuse; } }
+            public static VertexFormat Format { get { return VertexFormat.PositionNormal | VertexFormat.Texture1 | VertexFormat.Diffuse; } }
             public override String ToString()
             {
                 return getPosition().ToString();

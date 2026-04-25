@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
     /// <summary>
-    /// Utilidades para hacer detección de colisiones
+    /// Utilidades para hacer deteccin de colisiones
     /// </summary>
     public class TgcCollisionUtils
     {
@@ -19,7 +19,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <para># Afuera: box2 se encuentra completamente afuera de box1</para>
         /// <para># Atravesando: box2 posee una parte dentro de box1 y otra parte fuera de la box1</para>
         /// <para># Encerrando: box1 esta completamente adentro a la box1, es decir, la box1 se encuentra dentro
-        ///     de la box2. Es un caso especial de que box2 esté afuera de box1</para>
+        ///     de la box2. Es un caso especial de que box2 est afuera de box1</para>
         /// </summary>
         public static BoxBoxResult classifyBoxBox(TgcBoundingBox box1, TgcBoundingBox box2)
         {
@@ -63,7 +63,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Resultado de una clasificación BoundingBox-BoundingBox
+        /// Resultado de una clasificacin BoundingBox-BoundingBox
         /// </summary>
         public enum BoxBoxResult
         {
@@ -88,11 +88,11 @@ namespace TgcViewer.Utils.TgcGeometry
     
         /// <summary>
         /// Indica si un BoundingBox colisiona con otro.
-        /// Solo indica si hay colisión o no. No va mas en detalle.
+        /// Solo indica si hay colisin o no. No va mas en detalle.
         /// </summary>
         /// <param name="a">BoundingBox 1</param>
         /// <param name="b">BoundingBox 2</param>
-        /// <returns>True si hay colisión</returns>
+        /// <returns>True si hay colisin</returns>
         public static bool testAABBAABB(TgcBoundingBox a, TgcBoundingBox b)
         {
             // Exit with no intersection if separated along an axis
@@ -105,15 +105,15 @@ namespace TgcViewer.Utils.TgcGeometry
         
         /// <summary>
         /// Indica si un Ray colisiona con un AABB.
-        /// Si hay intersección devuelve True, q contiene
-        /// el punto de intesección.
-        /// Basado en el código de: http://www.codercorner.com/RayAABB.cpp
-        /// La dirección del Ray puede estar sin normalizar.
+        /// Si hay interseccin devuelve True, q contiene
+        /// el punto de inteseccin.
+        /// Basado en el cdigo de: http://www.codercorner.com/RayAABB.cpp
+        /// La direccin del Ray puede estar sin normalizar.
         /// </summary>
         /// <param name="ray">Ray</param>
         /// <param name="a">AABB</param>
-        /// <param name="q">Punto de intersección</param>
-        /// <returns>True si hay colisión</returns>
+        /// <param name="q">Punto de interseccin</param>
+        /// <returns>True si hay colisin</returns>
         public static bool intersectRayAABB(TgcRay ray, TgcBoundingBox aabb, out Vector3 q)
         {
             float t;
@@ -122,18 +122,18 @@ namespace TgcViewer.Utils.TgcGeometry
 
         /// <summary>
         /// Indica si un Ray colisiona con un AABB.
-        /// Si hay intersección devuelve True, q contiene
-        /// el punto de intesección.
-        /// Basado en el código de: http://www.codercorner.com/RayAABB.cpp
-        /// La dirección del Ray puede estar sin normalizar.
+        /// Si hay interseccin devuelve True, q contiene
+        /// el punto de inteseccin.
+        /// Basado en el cdigo de: http://www.codercorner.com/RayAABB.cpp
+        /// La direccin del Ray puede estar sin normalizar.
         /// </summary>
         /// <param name="ray">Ray</param>
         /// <param name="a">AABB</param>
-        /// <param name="q">Punto de intersección</param>
-        /// <returns>True si hay colisión</returns>
+        /// <param name="q">Punto de interseccin</param>
+        /// <returns>True si hay colisin</returns>
         public static bool intersectRayAABB(TgcRay.RayStruct ray, TgcBoundingBox.AABBStruct aabb, out Vector3 q)
         {
-            q = Vector3.Empty;
+            q = Vector3.Zero;
             bool inside = true;
             float[] aabbMin = toArray(aabb.min);
             float[]aabbMax = toArray(aabb.max);
@@ -212,17 +212,17 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <param name="p0">Punto inicial del segmento</param>
         /// <param name="p1">Punto final del segmento</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <param name="q">Punto de intersección</param>
-        /// <returns>True si hay colisión</returns>
+        /// <param name="q">Punto de interseccin</param>
+        /// <returns>True si hay colisin</returns>
         public static bool intersectSegmentAABB(Vector3 p0, Vector3 p1, TgcBoundingBox aabb, out Vector3 q)
         {
             Vector3 segmentDir = p1 - p0;
             TgcRay ray = new TgcRay(p0, segmentDir);
             if (TgcCollisionUtils.intersectRayAABB(ray, aabb, out q))
             {
-                float segmentLengthSq = segmentDir.LengthSq();
+                float segmentLengthSq = segmentDir.LengthSquared();
                 Vector3 collisionDiff = q - p0;
-                float collisionLengthSq = collisionDiff.LengthSq();
+                float collisionLengthSq = collisionDiff.LengthSquared();
                 if (collisionLengthSq <= segmentLengthSq)
                 {
                     return true;
@@ -233,7 +233,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Dado el punto p, devuelve el punto del contorno del BoundingBox mas próximo a p.
+        /// Dado el punto p, devuelve el punto del contorno del BoundingBox mas prximo a p.
         /// </summary>
         /// <param name="p">Punto a testear</param>
         /// <param name="aabb">BoundingBox a testear</param>
@@ -258,24 +258,24 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Calcula la mínima distancia al cuadrado entre el punto p y el BoundingBox.
-        /// Si no se necesita saber el punto exacto de colisión es más ágil que utilizar closestPointAABB(). 
+        /// Calcula la mnima distancia al cuadrado entre el punto p y el BoundingBox.
+        /// Si no se necesita saber el punto exacto de colisin es ms gil que utilizar closestPointAABB(). 
         /// </summary>
         /// <param name="p">Punto a testear</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>Mínima distacia al cuadrado</returns>
+        /// <returns>Mnima distacia al cuadrado</returns>
         public static float sqDistPointAABB(Vector3 p, TgcBoundingBox aabb)
         {
             return TgcCollisionUtils.sqDistPointAABB(p, aabb.toStruct());
         }
 
         /// <summary>
-        /// Calcula la mínima distancia al cuadrado entre el punto p y el BoundingBox.
-        /// Si no se necesita saber el punto exacto de colisión es más ágil que utilizar closestPointAABB(). 
+        /// Calcula la mnima distancia al cuadrado entre el punto p y el BoundingBox.
+        /// Si no se necesita saber el punto exacto de colisin es ms gil que utilizar closestPointAABB(). 
         /// </summary>
         /// <param name="p">Punto a testear</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>Mínima distacia al cuadrado</returns>
+        /// <returns>Mnima distacia al cuadrado</returns>
         public static float sqDistPointAABB(Vector3 p, TgcBoundingBox.AABBStruct aabb)
         {
             float[] aabbMin = toArray(aabb.min);
@@ -298,7 +298,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="sphere">BoundingSphere</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>True si hay colisión</returns>
+        /// <returns>True si hay colisin</returns>
         public static bool testSphereAABB(TgcBoundingSphere sphere, TgcBoundingBox aabb)
         {
             return TgcCollisionUtils.testSphereAABB(sphere.toStruct(), aabb.toStruct());
@@ -309,7 +309,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="sphere">BoundingSphere</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>True si hay colisión</returns>
+        /// <returns>True si hay colisin</returns>
         public static bool testSphereAABB(TgcBoundingSphere.SphereStruct sphere, TgcBoundingBox.AABBStruct aabb)
         {
             //Compute squared distance between sphere center and AABB
@@ -324,7 +324,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="sphere">BoundingSphere</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>True si hay colisión</returns>
+        /// <returns>True si hay colisin</returns>
         public static bool testSphereOBB(TgcBoundingSphere sphere, TgcObb obb)
         {
             return TgcCollisionUtils.testSphereOBB(sphere.toStruct(), obb.toStruct());
@@ -335,7 +335,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="sphere">BoundingSphere</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>True si hay colisión</returns>
+        /// <returns>True si hay colisin</returns>
         public static bool testSphereOBB(TgcBoundingSphere.SphereStruct sphere, TgcObb.OBBStruct obb)
         {
             //Transformar esfera a OBB-Space
@@ -360,16 +360,16 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <param name="plane">Plano</param>
         /// <param name="aabb">BoundingBox</param>
         /// <returns>
-        /// Resultado de la clasificación.
+        /// Resultado de la clasificacin.
         /// </returns>
         /// 
         public static PlaneBoxResult classifyPlaneAABB(Plane plane, TgcBoundingBox aabb)
         {
-            Vector3 vmin = Vector3.Empty;
-            Vector3 vmax = Vector3.Empty;
+            Vector3 vmin = Vector3.Zero;
+            Vector3 vmax = Vector3.Zero;
 
-            //Obtener puntos minimos y maximos en base a la dirección de la normal del plano
-            if (plane.A >= 0f)
+            //Obtener puntos minimos y maximos en base a la direccin de la normal del plano
+            if (plane.Normal.X >= 0f)
             {
                 vmin.X = aabb.PMin.X;
                 vmax.X = aabb.PMax.X;
@@ -380,7 +380,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 vmax.X = aabb.PMin.X;
             }
 
-            if (plane.B >= 0f)
+            if (plane.Normal.Y >= 0f)
             {
                 vmin.Y = aabb.PMin.Y;
                 vmax.Y = aabb.PMax.Y;
@@ -391,7 +391,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 vmax.Y = aabb.PMin.Y;
             }
 
-            if (plane.C >= 0f)
+            if (plane.Normal.Z >= 0f)
             {
                 vmin.Z = aabb.PMin.Z;
                 vmax.Z = aabb.PMax.Z;
@@ -404,11 +404,11 @@ namespace TgcViewer.Utils.TgcGeometry
 
             //Analizar punto minimo y maximo contra el plano
             PlaneBoxResult result;
-            if (plane.Dot(vmin) > 0f)
+            if (SharpDX.Plane.DotCoordinate(plane, vmin) > 0f)
             {
                 result = PlaneBoxResult.IN_FRONT_OF;
             } 
-            else if(plane.Dot(vmax) > 0f)
+            else if(SharpDX.Plane.DotCoordinate(plane, vmax) > 0f)
             {
                 result = PlaneBoxResult.INTERSECT;
             }
@@ -421,17 +421,17 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Resultado de una clasificación Plano-BoundingBox
+        /// Resultado de una clasificacin Plano-BoundingBox
         /// </summary>
         public enum PlaneBoxResult
         {
             /// <summary>
-            /// El BoundingBox está completamente en el lado negativo el plano
+            /// El BoundingBox est completamente en el lado negativo el plano
             /// </summary>
             BEHIND,
 
             /// <summary>
-            /// El BoundingBox está completamente en el lado positivo del plano
+            /// El BoundingBox est completamente en el lado positivo del plano
             /// </summary>
             IN_FRONT_OF,
 
@@ -446,16 +446,16 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="plane">Plano</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>True si hay colisión.</returns>
+        /// <returns>True si hay colisin.</returns>
         public static bool testPlaneAABB(Plane plane, TgcBoundingBox aabb)
         {
             Vector3 c = (aabb.PMax + aabb.PMin) * 0.5f; // Compute AABB center
             Vector3 e = aabb.PMax - c; // Compute positive extents
 
             // Compute the projection interval radius of b onto L(t) = b.c + t * p.n
-            float r = e.X * FastMath.Abs(plane.A) + e.Y * FastMath.Abs(plane.B) + e.Z * FastMath.Abs(plane.C);
+            float r = e.X * FastMath.Abs(plane.Normal.X) + e.Y * FastMath.Abs(plane.Normal.Y) + e.Z * FastMath.Abs(plane.Normal.Z);
             // Compute distance of box center from plane
-            float s = plane.Dot(c);
+            float s = SharpDX.Plane.DotCoordinate(plane, c);
             // Intersection occurs when distance s falls within [-r,+r] interval
             return FastMath.Abs(s) <= r;
         }
@@ -467,11 +467,11 @@ namespace TgcViewer.Utils.TgcGeometry
         /// Basado en:
         /// http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/tribox3.txt
         /// </summary>
-        /// <param name="vert0">Vertice 0 del triángulo</param>
-        /// <param name="vert1">Vertice 1 del triángulo</param>
-        /// <param name="vert2">Vertice 2 del triángulo</param>
+        /// <param name="vert0">Vertice 0 del tringulo</param>
+        /// <param name="vert1">Vertice 1 del tringulo</param>
+        /// <param name="vert2">Vertice 2 del tringulo</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>True si hay colisión.</returns>
+        /// <returns>True si hay colisin.</returns>
         public static bool testTriangleAABB(Vector3 vert0, Vector3 vert1, Vector3 vert2, TgcBoundingBox aabb)
         {
             /*   use separating axis theorem to test overlap between triangle and box need to test for overlap in these directions:
@@ -663,7 +663,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Indica si un BoundingSphere colisiona con otro.
         /// </summary>
-        /// <returns>True si hay colisión</returns>
+        /// <returns>True si hay colisin</returns>
         public static bool testSphereSphere(TgcBoundingSphere a, TgcBoundingSphere b)
         {
             // Calculate squared distance between centers
@@ -677,7 +677,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Idica si un BoundingSphere colisiona con un plano
         /// </summary>
-        /// <returns>True si hay colisión</returns>
+        /// <returns>True si hay colisin</returns>
         public static bool testSpherePlane(TgcBoundingSphere s, Plane plane)
         {
             Vector3 p = toVector3(plane);
@@ -706,7 +706,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Indica si un Ray colisiona con un BoundingSphere.
         /// Si el resultado es True se carga el punto de colision (q) y la distancia de colision en el Ray (t).
-        /// La dirección del Ray debe estar normalizada.
+        /// La direccin del Ray debe estar normalizada.
         /// </summary>
         /// <param name="ray">Ray</param>
         /// <param name="sphere">BoundingSphere</param>
@@ -716,12 +716,12 @@ namespace TgcViewer.Utils.TgcGeometry
         public static bool intersectRaySphere(TgcRay ray, TgcBoundingSphere sphere, out float t, out Vector3 q)
         {
             t = -1;
-            q = Vector3.Empty;
+            q = Vector3.Zero;
 
             Vector3 m = ray.Origin - sphere.Center;
             float b = Vector3.Dot(m, ray.Direction);
             float c = Vector3.Dot(m, m) - sphere.Radius * sphere.Radius;
-            // Exit if r’s origin outside s (c > 0) and r pointing away from s (b > 0)
+            // Exit if rs origin outside s (c > 0) and r pointing away from s (b > 0)
             if (c > 0.0f && b > 0.0f) return false;
             float discr = b*b - c;
             // A negative discriminant corresponds to ray missing sphere
@@ -737,7 +737,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Indica si un segmento de recta colisiona con un BoundingSphere.
         /// Si el resultado es True se carga el punto de colision (q) y la distancia de colision en el t.
-        /// La dirección del Ray debe estar normalizada.
+        /// La direccin del Ray debe estar normalizada.
         /// </summary>
         /// <param name="p0">Punto inicial del segmento</param>
         /// <param name="p1">Punto final del segmento</param>
@@ -751,9 +751,9 @@ namespace TgcViewer.Utils.TgcGeometry
             TgcRay ray = new TgcRay(p0, segmentDir);
             if (TgcCollisionUtils.intersectRaySphere(ray, sphere, out t, out q))
             {
-                float segmentLengthSq = segmentDir.LengthSq();
+                float segmentLengthSq = segmentDir.LengthSquared();
                 Vector3 collisionDiff = q - p0;
-                float collisionLengthSq = collisionDiff.LengthSq();
+                float collisionLengthSq = collisionDiff.LengthSquared();
                 if (collisionLengthSq <= segmentLengthSq)
                 {
                     return true;
@@ -767,7 +767,7 @@ namespace TgcViewer.Utils.TgcGeometry
         // 
         /// <summary>
         /// Indica si un BoundingSphere colisiona con un Ray (sin indicar su punto de colision)
-        /// La dirección del Ray debe estar normalizada.
+        /// La direccin del Ray debe estar normalizada.
         /// </summary>
         /// <param name="ray">Ray</param>
         /// <param name="sphere">BoundingSphere</param>
@@ -793,11 +793,11 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="sphere">BoundingSphere</param>
         /// <param name="p">Punto a testear</param>
-        /// <returns>True si p está dentro de la esfera</returns>
+        /// <returns>True si p est dentro de la esfera</returns>
         public static bool testPointSphere(TgcBoundingSphere sphere, Vector3 p)
         {
             Vector3 cp = p - sphere.Center;
-            float d = cp.LengthSq();
+            float d = cp.LengthSquared();
 
             return d <= (sphere.Radius * sphere.Radius);
         }
@@ -815,7 +815,7 @@ namespace TgcViewer.Utils.TgcGeometry
         public static bool intersectMovingSpherePlane(TgcBoundingSphere sphere, Vector3 velocity, Plane plane, out float t, out Vector3 q)
         {
             // Compute distance of sphere center to plane
-            float dist = plane.Dot(sphere.Center);
+            float dist = SharpDX.Plane.DotCoordinate(plane, sphere.Center);
             if (FastMath.Abs(dist) <= sphere.Radius) {
                 // The sphere is already overlapping the plane. Set time of
                 // intersection to zero and q to sphere center
@@ -828,7 +828,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 if (denom * dist >= 0.0f) {
                     // No intersection as sphere moving parallel to or away from plane
                     t = -1;
-                    q = Vector3.Empty;
+                    q = Vector3.Zero;
                     return false;
                 } else {
                     // Sphere is moving towards the plane
@@ -857,8 +857,8 @@ namespace TgcViewer.Utils.TgcGeometry
             Vector3 b = sphere.Center + velocity;
 
             // Get the distance for both a and b from plane p
-            float adist = plane.Dot(a);
-            float bdist = plane.Dot(b);
+            float adist = SharpDX.Plane.DotCoordinate(plane, a);
+            float bdist = SharpDX.Plane.DotCoordinate(plane, b);
 
             // Intersects if on different sides of plane (distances have different signs)
             if (adist * bdist < 0.0f) return true;
@@ -913,7 +913,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         /// <summary>
         /// Determina el punto del plano p mas cercano al punto q.
-        /// Más ágil que closestPointPlane() pero la normal del plano debe estar normalizada.
+        /// Ms gil que closestPointPlane() pero la normal del plano debe estar normalizada.
         /// </summary>
         /// <param name="q">Punto a testear</param>
         /// <param name="p">Plano</param>
@@ -938,7 +938,7 @@ namespace TgcViewer.Utils.TgcGeometry
             Vector3 p_n = toVector3(p);
             return (Vector3.Dot(p_n, q) + p.D) / Vector3.Dot(p_n, p_n);
             */
-            return p.Dot(q);
+            return SharpDX.Plane.DotCoordinate(p, q);
         }
 
         /// <summary>
@@ -946,7 +946,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="q">Punto a clasificar</param>
         /// <param name="p">Plano</param>
-        /// <returns>Resultado de la colisión</returns>
+        /// <returns>Resultado de la colisin</returns>
         public static PointPlaneResult classifyPointPlane(Vector3 q, Plane p)
         {
             float distance = distPointPlane(q, p);
@@ -966,17 +966,17 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Resultado de una clasificación Punto-Plano
+        /// Resultado de una clasificacin Punto-Plano
         /// </summary>
         public enum PointPlaneResult
         {
             /// <summary>
-            /// El punto está sobre el lado negativo el plano
+            /// El punto est sobre el lado negativo el plano
             /// </summary>
             BEHIND,
 
             /// <summary>
-            /// El punto está sobre el lado positivo del plano
+            /// El punto est sobre el lado positivo del plano
             /// </summary>
             IN_FRONT_OF,
 
@@ -997,7 +997,7 @@ namespace TgcViewer.Utils.TgcGeometry
         public static Vector3 closestPointSegment(Vector3 p, Vector3 a, Vector3 b, out float t)
         {
             Vector3 ab = b - a;
-            // Project c onto ab, computing parameterized position d(t) = a + t*(b – a)
+            // Project c onto ab, computing parameterized position d(t) = a + t*(b  a)
             t = Vector3.Dot(p - a, ab) / Vector3.Dot(ab, ab);
             // If outside segment, clamp t (and therefore d) to the closest endpoint
             if (t < 0.0f) t = 0.0f;
@@ -1027,17 +1027,17 @@ namespace TgcViewer.Utils.TgcGeometry
 
         /// <summary>
         /// Indica si un Ray colisiona con un Plano.
-        /// Tanto la normal del plano como la dirección del Ray se asumen normalizados.
+        /// Tanto la normal del plano como la direccin del Ray se asumen normalizados.
         /// </summary>
         /// <param name="ray">Ray a testear</param>
         /// <param name="plane">Plano a testear</param>
-        /// <param name="t">Instante de colisión</param>
-        /// <param name="q">Punto de colisión con el plano</param>
-        /// <returns>True si hubo colisión</returns>
+        /// <param name="t">Instante de colisin</param>
+        /// <param name="q">Punto de colisin con el plano</param>
+        /// <returns>True si hubo colisin</returns>
         public static bool intersectRayPlane(TgcRay ray, Plane plane, out float t, out Vector3 q)
         {
             Vector3 planeNormal = TgcCollisionUtils.getPlaneNormal(plane);
-            float numer = plane.Dot(ray.Origin);
+            float numer = SharpDX.Plane.DotCoordinate(plane, ray.Origin);
             float denom = Vector3.Dot(planeNormal, ray.Direction);
             t = -numer / denom;
 
@@ -1047,7 +1047,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 return true;
             }
 
-            q = Vector3.Empty;
+            q = Vector3.Zero;
             return false;
         }
         
@@ -1058,16 +1058,16 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <param name="a">Punto inicial del segmento</param>
         /// <param name="b">Punto final del segmento</param>
         /// <param name="plane">Plano a testear</param>
-        /// <param name="t">Instante de colisión</param>
-        /// <param name="q">Punto de colisión</param>
-        /// <returns>True si hay colisión</returns>
+        /// <param name="t">Instante de colisin</param>
+        /// <param name="q">Punto de colisin</param>
+        /// <returns>True si hay colisin</returns>
         public static bool intersectSegmentPlane(Vector3 a, Vector3 b, Plane plane, out float t, out Vector3 q)
         {
             Vector3 planeNormal = getPlaneNormal(plane);
 
             //t = -(n.A + d / n.(B - A))
             Vector3 ab = b - a;
-            t = -(plane.Dot(a)) / (Vector3.Dot(planeNormal, ab));
+            t = -(SharpDX.Plane.DotCoordinate(plane, a)) / (Vector3.Dot(planeNormal, ab));
 
             // If t in [0..1] compute and return intersection point
             if (t >= 0.0f && t <= 1.0f)
@@ -1076,18 +1076,18 @@ namespace TgcViewer.Utils.TgcGeometry
                 return true;
             }
 
-            q = Vector3.Empty;
+            q = Vector3.Zero;
             return false;
         }
 
         /// <summary>
-        /// Determina el punto mas cercano entre el triángulo (abc) y el punto p.
+        /// Determina el punto mas cercano entre el tringulo (abc) y el punto p.
         /// </summary>
         /// <param name="p">Punto a testear</param>
-        /// <param name="a">Vértice A del triángulo</param>
-        /// <param name="b">Vértice B del triángulo</param>
-        /// <param name="c">Vértice C del triángulo</param>
-        /// <returns>Punto mas cercano al triángulo</returns>
+        /// <param name="a">Vrtice A del tringulo</param>
+        /// <param name="b">Vrtice B del tringulo</param>
+        /// <param name="c">Vrtice C del tringulo</param>
+        /// <returns>Punto mas cercano al tringulo</returns>
         public static Vector3 closestPointTriangle(Vector3 p, Vector3 a, Vector3 b, Vector3 c)
         {
             // Check if P in vertex region outside A
@@ -1138,18 +1138,18 @@ namespace TgcViewer.Utils.TgcGeometry
 
         /*
         /// <summary>
-        /// Determina el punto mas cercano entre el rectángulo 3D (abcd) y el punto p.
-        /// Los cuatro puntos abcd del rectángulo deben estar contenidos sobre el mismo plano.
+        /// Determina el punto mas cercano entre el rectngulo 3D (abcd) y el punto p.
+        /// Los cuatro puntos abcd del rectngulo deben estar contenidos sobre el mismo plano.
         /// </summary>
         /// <param name="p">Punto a testear</param>
-        /// <param name="a">Vértice A del rectángulo</param>
-        /// <param name="b">Vértice B del rectángulo</param>
-        /// <param name="c">Vértice C del rectángulo</param>
-        /// <param name="c">Vértice D del rectángulo</param>
-        /// <returns>Punto mas cercano al rectángulo</returns>
+        /// <param name="a">Vrtice A del rectngulo</param>
+        /// <param name="b">Vrtice B del rectngulo</param>
+        /// <param name="c">Vrtice C del rectngulo</param>
+        /// <param name="c">Vrtice D del rectngulo</param>
+        /// <returns>Punto mas cercano al rectngulo</returns>
         public static Vector3 closestPointRectangle3d(Vector3 p, Vector3 a, Vector3 b, Vector3 c, Vector3 d)
         {
-            //Buscar el punto mas cercano a cada uno de los 4 segmentos de recta que forman el rectángulo
+            //Buscar el punto mas cercano a cada uno de los 4 segmentos de recta que forman el rectngulo
             float t;
             Vector3[] points = new Vector3[4];
             points[0] = closestPointSegment(p, a, b, out t);
@@ -1163,13 +1163,13 @@ namespace TgcViewer.Utils.TgcGeometry
         */
 
         /// <summary>
-        /// Determina el punto mas cercano entre un rectánglo 3D (especificado por a, b y c) y el punto p.
-        /// Los puntos a, b y c deben formar un rectángulo 3D tal que los vectores AB y AC expandan el rectángulo.
+        /// Determina el punto mas cercano entre un rectnglo 3D (especificado por a, b y c) y el punto p.
+        /// Los puntos a, b y c deben formar un rectngulo 3D tal que los vectores AB y AC expandan el rectngulo.
         /// </summary>
         /// <param name="p">Punto a testear</param>
-        /// <param name="a">Vértice A del rectángulo</param>
-        /// <param name="b">Vértice B del rectángulo</param>
-        /// <param name="c">Vértice C del rectángulo</param>
+        /// <param name="a">Vrtice A del rectngulo</param>
+        /// <param name="b">Vrtice B del rectngulo</param>
+        /// <param name="c">Vrtice C del rectngulo</param>
         /// <returns></returns>
         public static Vector3 closestPointRectangle3d(Vector3 p, Vector3 a, Vector3 b, Vector3 c)
         {
@@ -1178,14 +1178,14 @@ namespace TgcViewer.Utils.TgcGeometry
             Vector3 d = p - a;
             // Start result at top-left corner of rect; make steps from there
             Vector3 q = a;
-            // Clamp p’ (projection of p to plane of r) to rectangle in the across direction
+            // Clamp p (projection of p to plane of r) to rectangle in the across direction
             float dist = Vector3.Dot(d, ab);
             float maxdist = Vector3.Dot(ab, ab);
             if (dist >= maxdist)
                 q += ab;
             else if (dist > 0.0f)
                 q += (dist / maxdist) * ab;
-            // Clamp p’ (projection of p to plane of r) to rectangle in the down direction
+            // Clamp p (projection of p to plane of r) to rectangle in the down direction
             dist = Vector3.Dot(d, ac);
             maxdist = Vector3.Dot(ac, ac);
             if (dist >= maxdist)
@@ -1202,17 +1202,17 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <param name="p">Punto a testear</param>
         /// <param name="points">Array de puntos del cual se quiere buscar el mas cercano</param>
         /// <param name="minDistSq">Distancia al cuadrado del punto mas cercano</param>
-        /// <returns>Punto más cercano a p del array</returns>
+        /// <returns>Punto ms cercano a p del array</returns>
         public static Vector3 closestPoint(Vector3 p, Vector3[] points, out float minDistSq)
         {
             Vector3 min = points[0];
             Vector3 diffVec = points[0] - p;
-            minDistSq = diffVec.LengthSq();
+            minDistSq = diffVec.LengthSquared();
             float distSq;
             for (int i = 1; i < points.Length; i++)
             {
                 diffVec = points[i] - p;
-                distSq = diffVec.LengthSq();
+                distSq = diffVec.LengthSquared();
                 if (distSq < minDistSq)
                 {
                     minDistSq = distSq;
@@ -1237,7 +1237,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="frustum">Frustum</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>Resultado de la clasificación</returns>
+        /// <returns>Resultado de la clasificacin</returns>
         public static FrustumResult classifyFrustumAABB(TgcFrustum frustum, TgcBoundingBox aabb)
         {
 	        int totalIn = 0;
@@ -1293,7 +1293,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="frustum">Frustum</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>Resultado de la colisión</returns>
+        /// <returns>Resultado de la colisin</returns>
         public static FrustumResult classifyFrustumAABB(TgcFrustum frustum, TgcBoundingBox aabb)
         {
             bool intersect = false;
@@ -1365,7 +1365,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
 
         /// <summary>
-        /// Resultado de una colisión entre un objeto y el Frustum
+        /// Resultado de una colisin entre un objeto y el Frustum
         /// </summary>
         public enum FrustumResult
         {
@@ -1390,7 +1390,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="frustum">Frustum</param>
         /// <param name="p">Punto</param>
-        /// <returns>True si el Punto está adentro del Frustum</returns>
+        /// <returns>True si el Punto est adentro del Frustum</returns>
         public static bool testPointFrustum(TgcFrustum frustum, Vector3 p) {
 
             bool result = true;
@@ -1412,7 +1412,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="frustum">Frustum</param>
         /// <param name="sphere">BoundingSphere</param>
-        /// <returns>Resultado de la colisión</returns>
+        /// <returns>Resultado de la colisin</returns>
         public static FrustumResult classifyFrustumSphere(TgcFrustum frustum, TgcBoundingSphere sphere)
         {
             float distance;
@@ -1449,7 +1449,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="polyhedron">Cuerpo convexo</param>
         /// <param name="aabb">BoundingBox</param>
-        /// <returns>Resultado de la clasificación</returns>
+        /// <returns>Resultado de la clasificacin</returns>
         public static ConvexPolyhedronResult classifyConvexPolyhedronAABB(TgcConvexPolyhedron polyhedron, TgcBoundingBox aabb)
         {
             int totalIn = 0;
@@ -1497,7 +1497,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Resultado de una colisión entre un objeto y un Cuerpo Convexo
+        /// Resultado de una colisin entre un objeto y un Cuerpo Convexo
         /// </summary>
         public enum ConvexPolyhedronResult
         {
@@ -1524,7 +1524,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         /// <param name="q">Punto a clasificar</param>
         /// <param name="polyhedron">Cuerpo Convexo</param>
-        /// <returns>Resultado de la clasificación</returns>
+        /// <returns>Resultado de la clasificacin</returns>
         public static ConvexPolyhedronResult classifyPointConvexPolyhedron(Vector3 q, TgcConvexPolyhedron polyhedron)
         {
             bool fistTime = true;
@@ -1561,7 +1561,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Indica si un punto se encuentra dentro de un Cuerpo Convexo.
         /// Los planos del Cuerpo Convexo deben apuntar hacia adentro.
-        /// Es más ágil que llamar a classifyPointConvexPolyhedron()
+        /// Es ms gil que llamar a classifyPointConvexPolyhedron()
         /// </summary>
         /// <param name="q">Punto a clasificar</param>
         /// <param name="polyhedron">Cuerpo Convexo</param>
@@ -1570,13 +1570,13 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             for (int i = 0; i < polyhedron.Planes.Length; i++)
             {
-                //Si el punto está detrás de algún plano, entonces está afuera
+                //Si el punto est detrs de algn plano, entonces est afuera
                 if (TgcCollisionUtils.classifyPointPlane(q, polyhedron.Planes[i]) == PointPlaneResult.BEHIND)
                 {
                     return false;
                 }
             }
-            //Si está delante de todos los planos, entonces está adentro.
+            //Si est delante de todos los planos, entonces est adentro.
             return true;
         }
 
@@ -1586,14 +1586,14 @@ namespace TgcViewer.Utils.TgcGeometry
         #region Convex Polygon
 
         /// <summary>
-        /// Recorta un polígono convexo en 3D por un plano.
-        /// Devuelve el nuevo polígono recortado.
+        /// Recorta un polgono convexo en 3D por un plano.
+        /// Devuelve el nuevo polgono recortado.
         /// Algoritmo de Sutherland-Hodgman
         /// </summary>
-        /// <param name="poly">Vértices del polígono a recortar</param>
+        /// <param name="poly">Vrtices del polgono a recortar</param>
         /// <param name="p">Plano con el cual se recorta</param>
-        /// <param name="clippedPoly">Vértices del polígono recortado></param>
-        /// <returns>True si el polígono recortado es válido. False si está degenerado</returns>
+        /// <param name="clippedPoly">Vrtices del polgono recortado></param>
+        /// <returns>True si el polgono recortado es vlido. False si est degenerado</returns>
         public static bool clipConvexPolygon(Vector3[] polyVertices, Plane p, out Vector3[] clippedPolyVertices)
         {
             int thisInd = polyVertices.Length - 1;
@@ -1623,14 +1623,14 @@ namespace TgcViewer.Utils.TgcGeometry
                 thisRes = nextRes;
 			}
 
-            //Polígono válido
+            //Polgono vlido
             if (outVert.Count >= 3)
             {
                 clippedPolyVertices = outVert.ToArray();
                 return true;
             }
 
-            //Polígono degenerado
+            //Polgono degenerado
             clippedPolyVertices = null;
             return false;
         }
@@ -1654,7 +1654,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 Vector3 b = polyVertices[i];
                 Vector3 ab = b - a;
                 Vector3 n = Vector3.Cross(ab, polyNormal);
-                Plane halfPlane = Plane.FromPointNormal(a, n);
+                Plane halfPlane = new Plane( n, -Vector3.Dot( n, a));
                 PointPlaneResult r = classifyPointPlane(q, halfPlane);
                 if (first)
                 {
@@ -1681,7 +1681,7 @@ namespace TgcViewer.Utils.TgcGeometry
         public static bool intersectRayConvexPolygon(TgcRay ray, Vector3[] polyVertices, out float t, out Vector3 q)
         {
             t = -1;
-            q = Vector3.Empty;
+            q = Vector3.Zero;
             Vector3 v0 = polyVertices[0];
             Vector3 v1 = polyVertices[1];
             for (int i = 2; i < polyVertices.Length; i++)
@@ -1747,8 +1747,8 @@ namespace TgcViewer.Utils.TgcGeometry
             float u;
             float v;
             float w;
-            uvw = Vector3.Empty;
-            col = Vector3.Empty;
+            uvw = Vector3.Zero;
+            col = Vector3.Zero;
             t = -1;
 
             Vector3 ab = b - a;
@@ -1809,7 +1809,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>True si hay colision</returns>
         public static bool intersectRayTriangle(TgcRay ray, Vector3 v1, Vector3 v2, Vector3 v3, out float t, out Vector3 q)
         {
-            q = Vector3.Empty;
+            q = Vector3.Zero;
             t = -1;
             Vector3 e1, e2;  //Edge1, Edge2
             Vector3 P, Q, T;
@@ -1873,8 +1873,8 @@ namespace TgcViewer.Utils.TgcGeometry
             float u;
             float v;
             float w;
-            uvw = Vector3.Empty;
-            col = Vector3.Empty;
+            uvw = Vector3.Zero;
+            col = Vector3.Zero;
             t = -1;
 
             Vector3 pq = q - p;
@@ -2006,15 +2006,15 @@ namespace TgcViewer.Utils.TgcGeometry
             float radius = cylinder.Radius;
 
             t = -1;
-            q = Vector3.Empty;
+            q = Vector3.Zero;
 
             Vector3 d = cylinderEnd - cylinderInit, m = segmentInit - cylinderInit, n = segmentEnd - segmentInit;
             float md = Vector3.Dot(m, d);
             float nd = Vector3.Dot(n, d);
             float dd = Vector3.Dot(d, d);
             // Test if segment fully outside either endcap of cylinder
-            if (md < 0.0f && md + nd < 0.0f) return false; // Segment outside ’p’ side of cylinder
-            if (md > dd && md + nd > dd) return false; // Segment outside ’q’ side of cylinder
+            if (md < 0.0f && md + nd < 0.0f) return false; // Segment outside p side of cylinder
+            if (md > dd && md + nd > dd) return false; // Segment outside q side of cylinder
             float nn = Vector3.Dot(n, n);
             float mn = Vector3.Dot(m, n);
             float a = dd * nn - nd * nd;
@@ -2026,8 +2026,8 @@ namespace TgcViewer.Utils.TgcGeometry
                 if (c > 0.0f) return false; // 'a' and thus the segment lie outside cylinder
                 // Now known that segment intersects cylinder; figure out how it intersects
                 if (md < 0.0f) t = -mn / nn; // Intersect segment against 'p' endcap
-                else if (md > dd) t = (nd - mn) / nn; // Intersect segment against ’q’ endcap
-                else t = 0.0f; // ’a’ lies inside cylinder
+                else if (md > dd) t = (nd - mn) / nn; // Intersect segment against q endcap
+                else t = 0.0f; // a lies inside cylinder
                 q = segmentInit + t * n;
                 return true;
             }
@@ -2259,7 +2259,7 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             Vector3 direction = p - cylCenter;
             direction.Y = 0;
-            if (direction.LengthSq() > FastMath.Pow2(cylRadius))
+            if (direction.LengthSquared() > FastMath.Pow2(cylRadius))
             {
                 direction.Normalize();
                 direction *= cylRadius;
@@ -2292,7 +2292,7 @@ namespace TgcViewer.Utils.TgcGeometry
             centerToCenter.Y = 0;
 
             //si estan muy lejos en el plano XZ entonces no hay colision
-            if (centerToCenter.LengthSq() > FastMath.Pow2(cylRadius + sphereRadius)) return false;
+            if (centerToCenter.LengthSquared() > FastMath.Pow2(cylRadius + sphereRadius)) return false;
 
             //si el centro de la esfera esta dentro del cilindro en Y entonces hay colision
             if (distanceY < cylHalfLength) return true;
@@ -2302,7 +2302,7 @@ namespace TgcViewer.Utils.TgcGeometry
             centerToCenter *= cylRadius;
             centerToCenter.Y = cylHalfLength * Math.Sign(sphereCenter.Y - cylCenter.Y);
             centerToCenter += cylCenter;
-            return (centerToCenter - sphereCenter).LengthSq() <= FastMath.Pow2(sphereRadius);
+            return (centerToCenter - sphereCenter).LengthSquared() <= FastMath.Pow2(sphereRadius);
         }
 
         #endregion
@@ -2336,14 +2336,14 @@ namespace TgcViewer.Utils.TgcGeometry
             float[] be = toArray(b.extents);
 
 
-            // Compute rotation matrix expressing b in a’s coordinate frame
+            // Compute rotation matrix expressing b in as coordinate frame
             for (int i = 0; i < 3; i++)
                 for (int j = 0; j < 3; j++)
                     R[i, j] = Vector3.Dot(a.orientation[i], b.orientation[j]);
 
             // Compute translation vector t
             Vector3 tVec = b.center - a.center;
-            // Bring translation into a’s coordinate frame
+            // Bring translation into as coordinate frame
             float[] t = new float[3];
             t[0] = Vector3.Dot(tVec, a.orientation[0]);
             t[1] = Vector3.Dot(tVec, a.orientation[1]);
@@ -2491,7 +2491,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         public static Vector3 toVector3(Plane p)
         {
-            return new Vector3(p.A, p.B, p.C);
+            return new Vector3(p.Normal.X, p.Normal.Y, p.Normal.Z);
         }
 
         /// <summary>
@@ -2525,7 +2525,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         public static Vector3 getPlaneNormal(Plane p)
         {
-            return new Vector3(p.A, p.B, p.C);
+            return new Vector3(p.Normal.X, p.Normal.Y, p.Normal.Z);
         }
 
         /// <summary>

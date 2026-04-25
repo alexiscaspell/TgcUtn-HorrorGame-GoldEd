@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace Examples.Engine2D
 {
@@ -128,22 +128,22 @@ namespace Examples.Engine2D
             float dirY = 0;
 
             state = StateEnum.Idle;
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
+            if (GuiController.Instance.D3dInput.keyDown(Key.A))
             {
                 dirX = -1;
                 state = StateEnum.Moving;
             }
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D))
+            if (GuiController.Instance.D3dInput.keyDown(Key.D))
             {
                 dirX = 1;
                 state = StateEnum.Moving;
             }
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W))
+            if (GuiController.Instance.D3dInput.keyDown(Key.W))
             {
                 dirY = -1;
                 state = StateEnum.Moving;
             }
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S))
+            if (GuiController.Instance.D3dInput.keyDown(Key.S))
             {
                 dirY = 1;
                 state = StateEnum.Moving;

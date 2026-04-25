@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
@@ -19,7 +19,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>Longitud al cuadrado</returns>
         public static float lengthSq(Vector3 a, Vector3 b)
         {
-            return Vector3.Subtract(a, b).LengthSq();
+            return Vector3.Subtract(a, b).LengthSquared();
         }
 
         /// <summary>

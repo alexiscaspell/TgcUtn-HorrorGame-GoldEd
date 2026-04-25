@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.Input;
 using Examples.MeshCreator.Primitives;
@@ -99,7 +99,7 @@ namespace Examples.MeshCreator.Gizmos
                         {
                             if (input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
                             {
-                                bool additive = input.keyDown(Microsoft.DirectX.DirectInput.Key.LeftControl) || input.keyDown(Microsoft.DirectX.DirectInput.Key.RightControl);
+                                bool additive = input.keyDown(Key.LeftControl) || input.keyDown(Key.RightControl);
                                 Control.CurrentState = MeshCreatorControl.State.SelectObject;
                                 Control.SelectionRectangle.doDirectSelection(additive);
                             }

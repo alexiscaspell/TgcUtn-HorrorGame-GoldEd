@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace Examples.Outdoor
 {

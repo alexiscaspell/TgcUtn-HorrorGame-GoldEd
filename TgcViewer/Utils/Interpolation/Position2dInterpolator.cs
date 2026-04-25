@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer;
 
 namespace TgcViewer.Utils.Interpolation
@@ -79,7 +79,7 @@ namespace TgcViewer.Utils.Interpolation
             }
             else
             {
-                current += Vector2.Scale(dir, movement);
+                current += Vector2.Multiply(dir, movement);
             }
             return current;
         }

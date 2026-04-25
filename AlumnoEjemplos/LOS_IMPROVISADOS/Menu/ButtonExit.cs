@@ -1,7 +1,7 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 using System.Diagnostics;
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
     internal class ButtonExit : GameButton
     {

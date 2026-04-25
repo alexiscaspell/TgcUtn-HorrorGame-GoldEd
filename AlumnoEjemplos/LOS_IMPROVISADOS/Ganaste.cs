@@ -8,7 +8,7 @@
  */
 using System;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer;
 using TgcViewer.Utils._2D;
 using TgcViewer.Utils.TgcSceneLoader;

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer;
 using TgcViewer.Utils;
 using TgcViewer.Utils.TgcGeometry;
@@ -269,7 +269,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// </summary>
         public int NumberTriangles
         {
-            get { return d3dMesh.NumberFaces; }
+            get { return d3dMesh.FaceCount; }
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// </summary>
         public int NumberVertices
         {
-            get { return d3dMesh.NumberVertices; }
+            get { return d3dMesh.VertexCount; }
         }
 
         protected bool alphaBlendEnable;
@@ -495,8 +495,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
             Device device = GuiController.Instance.D3dDevice;
             if (alphaBlendEnable)
             {
-                device.RenderState.AlphaTestEnable = true;
-                device.RenderState.AlphaBlendEnable = true;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
             }
         }
         
@@ -506,8 +506,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
         protected void resetAlphaBlend()
         {
             Device device = GuiController.Instance.D3dDevice;
-            device.RenderState.AlphaTestEnable = false;
-            device.RenderState.AlphaBlendEnable = false;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         /// <summary>
@@ -652,7 +652,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             {
                 case MeshRenderType.VERTEX_COLOR:
                     TgcSceneLoader.VertexColorVertex[] verts1 = (TgcSceneLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     points = new Vector3[verts1.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -663,7 +663,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 case MeshRenderType.DIFFUSE_MAP:
                     TgcSceneLoader.DiffuseMapVertex[] verts2 = (TgcSceneLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     points = new Vector3[verts2.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -674,7 +674,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
                     TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = (TgcSceneLoader.DiffuseMapAndLightmapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     points = new Vector3[verts3.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -701,7 +701,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 case MeshRenderType.DIFFUSE_MAP:
                     TgcSceneLoader.DiffuseMapVertex[] verts2 = (TgcSceneLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     uvCoords = new Vector2[verts2.Length];
                     for (int i = 0; i < uvCoords.Length; i++)
                     {
@@ -712,7 +712,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
                     TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = (TgcSceneLoader.DiffuseMapAndLightmapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     uvCoords = new Vector2[verts3.Length];
                     for (int i = 0; i < uvCoords.Length; i++)
                     {
@@ -765,7 +765,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             {
                 case MeshRenderType.VERTEX_COLOR:
                     TgcSceneLoader.VertexColorVertex[] verts1 = (TgcSceneLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     for (int i = 0; i < verts1.Length; i++)
                     {
                         verts1[i].Color = c;
@@ -776,7 +776,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 case MeshRenderType.DIFFUSE_MAP:
                     TgcSceneLoader.DiffuseMapVertex[] verts2 = (TgcSceneLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     for (int i = 0; i < verts2.Length; i++)
                     {
                         verts2[i].Color = c;
@@ -787,7 +787,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
                     TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = (TgcSceneLoader.DiffuseMapAndLightmapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
                     for (int i = 0; i < verts3.Length; i++)
                     {
                         verts3[i].Color = c;
@@ -889,7 +889,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                         attributeBuffer[i]--;
                     }
                 }
-                d3dMesh.UnlockAttributeBuffer(attributeBuffer);
+                d3dMesh.UnlockAttributeBuffer();
             }
         }
 
@@ -928,7 +928,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// <param name="name">Nombre de la malla</param>
         public TgcMesh createMeshInstance(string name)
         {
-            return createMeshInstance(name, Vector3.Empty, Vector3.Empty, new Vector3(1, 1, 1));
+            return createMeshInstance(name, Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1));
         }
 
         public override string ToString()
@@ -1018,13 +1018,13 @@ namespace TgcViewer.Utils.TgcSceneLoader
             {
                 case MeshRenderType.VERTEX_COLOR:
                     return (TgcSceneLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                            typeof(TgcSceneLoader.VertexColorVertex), lockFlags, d3dMesh.NumberVertices);
+                            typeof(TgcSceneLoader.VertexColorVertex), lockFlags, d3dMesh.VertexCount);
                 case MeshRenderType.DIFFUSE_MAP:
                     return (TgcSceneLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                            typeof(TgcSceneLoader.DiffuseMapVertex), lockFlags, d3dMesh.NumberVertices);
+                            typeof(TgcSceneLoader.DiffuseMapVertex), lockFlags, d3dMesh.VertexCount);
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
                     return (TgcSceneLoader.DiffuseMapAndLightmapVertex[])d3dMesh.LockVertexBuffer(
-                            typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), lockFlags, d3dMesh.NumberVertices);
+                            typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex), lockFlags, d3dMesh.VertexCount);
             }
             return null;
         }

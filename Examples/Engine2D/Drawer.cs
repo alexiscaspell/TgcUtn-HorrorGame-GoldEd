@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using System.Drawing;
 using TgcViewer;
 
@@ -14,7 +14,7 @@ namespace Examples.Engine2D
     public class Drawer
     {
         Device d3dDevice;
-        Microsoft.DirectX.Direct3D.Sprite DxSprite;
+        Sprite DxSprite;
         Line line;
 
         CustomVertex.PositionColoredTextured[] LineVertexData = new CustomVertex.PositionColoredTextured[2];
@@ -22,7 +22,7 @@ namespace Examples.Engine2D
         public Drawer()
         {
             this.d3dDevice = GuiController.Instance.D3dDevice;
-            DxSprite = new Microsoft.DirectX.Direct3D.Sprite(d3dDevice);
+            DxSprite = new Sprite(d3dDevice);
             line = new Line(d3dDevice);
         }
 

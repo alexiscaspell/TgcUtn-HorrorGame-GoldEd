@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer.Utils.TgcKeyFrameLoader;
 
@@ -180,11 +180,10 @@ namespace TgcViewer.Utils.Shaders
         /// <returns>Effect cargado</returns>
         public static Effect loadEffect(string path)
         {
-            string compilationErrors;
-            Effect effect = Effect.FromFile(GuiController.Instance.D3dDevice, path, null, null, ShaderFlags.None, null, out compilationErrors);
+            Effect effect = Effect.FromFile(GuiController.Instance.D3dDevice, path, null, null, null, ShaderFlags.None);
             if (effect == null)
             {
-                throw new Exception("Error al cargar shader: " + path + ". Errores: " + compilationErrors);
+                throw new Exception("Error al cargar shader: " + path);
             }
             return effect;
         }
@@ -252,12 +251,12 @@ namespace TgcViewer.Utils.Shaders
         {
             Device device = GuiController.Instance.D3dDevice;
 
-            Matrix matWorldView = world * device.Transform.View;
-            Matrix matWorldViewProj = matWorldView * device.Transform.Projection;
+            Matrix matWorldView = world * device.GetTransform(SharpDX.Direct3D9.TransformState.View);
+            Matrix matWorldViewProj = matWorldView * device.GetTransform(SharpDX.Direct3D9.TransformState.Projection);
             effect.SetValue("matWorld", world);
             effect.SetValue("matWorldView", matWorldView);
             effect.SetValue("matWorldViewProj", matWorldViewProj);
-            effect.SetValue("matInverseTransposeWorld", Matrix.TransposeMatrix(Matrix.Invert(world)));
+            effect.SetValue("matInverseTransposeWorld", Matrix.Transpose(Matrix.Invert(world)));
         }
 
         /// <summary>
@@ -269,8 +268,8 @@ namespace TgcViewer.Utils.Shaders
         {
             Device device = GuiController.Instance.D3dDevice;
 
-            Matrix matWorldView = device.Transform.View;
-            Matrix matWorldViewProj = matWorldView * device.Transform.Projection;
+            Matrix matWorldView = device.GetTransform(SharpDX.Direct3D9.TransformState.View);
+            Matrix matWorldViewProj = matWorldView * device.GetTransform(SharpDX.Direct3D9.TransformState.Projection);
             effect.SetValue("matWorld", Matrix.Identity);
             effect.SetValue("matWorldView", matWorldView);
             effect.SetValue("matWorldViewProj", matWorldViewProj);

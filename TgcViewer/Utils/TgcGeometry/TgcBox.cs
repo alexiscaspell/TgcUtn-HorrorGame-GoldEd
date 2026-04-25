@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
@@ -10,7 +10,7 @@ using TgcViewer.Utils.Shaders;
 namespace TgcViewer.Utils.TgcGeometry
 {
     /// <summary>
-    /// Herramienta para crear una Caja 3D de tamaño variable, con color y Textura
+    /// Herramienta para crear una Caja 3D de tamao variable, con color y Textura
     /// </summary>
     public class TgcBox : IRenderObject, ITransformObject
     {
@@ -18,10 +18,10 @@ namespace TgcViewer.Utils.TgcGeometry
         #region Creacion
 
         /// <summary>
-        /// Crea una caja con el centro y tamaño especificado
+        /// Crea una caja con el centro y tamao especificado
         /// </summary>
         /// <param name="center">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromSize(Vector3 center, Vector3 size)
         {
@@ -32,10 +32,10 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una caja con el centro y tamaño especificado, con el color especificado
+        /// Crea una caja con el centro y tamao especificado, con el color especificado
         /// </summary>
         /// <param name="center">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <param name="color">Color de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromSize(Vector3 center, Vector3 size, Color color)
@@ -48,10 +48,10 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una caja con el centro y tamaño especificado, con la textura especificada
+        /// Crea una caja con el centro y tamao especificado, con la textura especificada
         /// </summary>
         /// <param name="center">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <param name="texture">Textura de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromSize(Vector3 center, Vector3 size, TgcTexture texture)
@@ -62,9 +62,9 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una caja con centro (0,0,0) y el tamaño especificado
+        /// Crea una caja con centro (0,0,0) y el tamao especificado
         /// </summary>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromSize(Vector3 size)
         {
@@ -72,9 +72,9 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una caja con centro (0,0,0) y el tamaño especificado, con el color especificado
+        /// Crea una caja con centro (0,0,0) y el tamao especificado, con el color especificado
         /// </summary>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <param name="color">Color de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromSize(Vector3 size, Color color)
@@ -83,9 +83,9 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una caja con centro (0,0,0) y el tamaño especificado, con la textura especificada
+        /// Crea una caja con centro (0,0,0) y el tamao especificado, con la textura especificada
         /// </summary>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         /// <param name="texture">Textura de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromSize(Vector3 size, TgcTexture texture)
@@ -96,13 +96,13 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Crea una caja en base al punto minimo y maximo
         /// </summary>
-        /// <param name="pMin">Punto mínimo</param>
-        /// <param name="pMax">Punto máximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromExtremes(Vector3 pMin, Vector3 pMax)
         {
             Vector3 size = Vector3.Subtract(pMax, pMin);
-            Vector3 midSize = Vector3.Scale(size, 0.5f);
+            Vector3 midSize = Vector3.Multiply(size, 0.5f);
             Vector3 center = pMin + midSize;
             return TgcBox.fromSize(center, size);
         }
@@ -110,8 +110,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Crea una caja en base al punto minimo y maximo, con el color especificado
         /// </summary>
-        /// <param name="pMin">Punto mínimo</param>
-        /// <param name="pMax">Punto máximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         /// <param name="color">Color de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromExtremes(Vector3 pMin, Vector3 pMax, Color color)
@@ -125,8 +125,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Crea una caja en base al punto minimo y maximo, con el color especificado
         /// </summary>
-        /// <param name="pMin">Punto mínimo</param>
-        /// <param name="pMax">Punto máximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         /// <param name="texture">Textura de la caja</param>
         /// <returns>Caja creada</returns>
         public static TgcBox fromExtremes(Vector3 pMin, Vector3 pMax, TgcTexture texture)
@@ -167,7 +167,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Color color;
         /// <summary>
-        /// Color de los vértices de la caja
+        /// Color de los vrtices de la caja
         /// </summary>
         public Color Color
         {
@@ -210,7 +210,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// Matriz final que se utiliza para aplicar transformaciones a la malla.
         /// Si la propiedad AutoTransformEnable esta en True, la matriz se reconstruye en cada cuadro
         /// en base a los valores de: Position, Rotation, Scale.
-        /// Si AutoTransformEnable está en False, se respeta el valor que el usuario haya cargado en la matriz.
+        /// Si AutoTransformEnable est en False, se respeta el valor que el usuario haya cargado en la matriz.
         /// </summary>
         public Matrix Transform
         {
@@ -221,9 +221,9 @@ namespace TgcViewer.Utils.TgcGeometry
         bool autoTransformEnable;
         /// <summary>
         /// En True hace que la matriz de transformacion (Transform) de la malla se actualiza en
-        /// cada cuadro en forma automática, según los valores de: Position, Rotation, Scale.
+        /// cada cuadro en forma automtica, segn los valores de: Position, Rotation, Scale.
         /// En False se respeta lo que el usuario haya cargado a mano en la matriz.
-        /// Por default está en True.
+        /// Por default est en True.
         /// </summary>
         public bool AutoTransformEnable
         {
@@ -247,7 +247,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         private Vector3 rotation;
         /// <summary>
-        /// Rotación absoluta de la caja
+        /// Rotacin absoluta de la caja
         /// </summary>
         public Vector3 Rotation
         {
@@ -278,8 +278,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -316,8 +316,7 @@ namespace TgcViewer.Utils.TgcGeometry
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             vertices = new CustomVertex.PositionColoredTextured[36];
-            vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColoredTextured), vertices.Length, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColoredTextured.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, vertices.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColoredTextured)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColoredTextured.Format, Pool.Default);
 
             this.autoTransformEnable = true;
             this.transform = Matrix.Identity;
@@ -475,8 +474,8 @@ namespace TgcViewer.Utils.TgcGeometry
             Device device = GuiController.Instance.D3dDevice;
             if (alphaBlendEnable)
             {
-                device.RenderState.AlphaTestEnable = true;
-                device.RenderState.AlphaBlendEnable = true;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
             }
         }
 
@@ -486,8 +485,8 @@ namespace TgcViewer.Utils.TgcGeometry
         protected void resetAlphaBlend()
         {
             Device device = GuiController.Instance.D3dDevice;
-            device.RenderState.AlphaTestEnable = false;
-            device.RenderState.AlphaBlendEnable = false;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaTestEnable, false);
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         /// <summary>
@@ -507,10 +506,10 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Configurar valores de posicion y tamaño en forma conjunta
+        /// Configurar valores de posicion y tamao en forma conjunta
         /// </summary>
         /// <param name="position">Centro de la caja</param>
-        /// <param name="size">Tamaño de la caja</param>
+        /// <param name="size">Tamao de la caja</param>
         public void setPositionSize(Vector3 position, Vector3 size)
         {
             this.translation = position;
@@ -519,14 +518,14 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Configurar punto mínimo y máximo del box
+        /// Configurar punto mnimo y mximo del box
         /// </summary>
         /// <param name="min">Min</param>
         /// <param name="max">Max</param>
         public void setExtremes(Vector3 min, Vector3 max)
         {
             Vector3 size = Vector3.Subtract(max, min);
-            Vector3 midSize = Vector3.Scale(size, 0.5f);
+            Vector3 midSize = Vector3.Multiply(size, 0.5f);
             Vector3 center = min + midSize;
             setPositionSize(center, size);
         }
@@ -579,7 +578,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Rota la malla respecto del eje X
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateX(float angle)
         {
             this.rotation.X += angle;
@@ -588,7 +587,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Rota la malla respecto del eje Y
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateY(float angle)
         {
             this.rotation.Y += angle;
@@ -597,7 +596,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Rota la malla respecto del eje Z
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateZ(float angle)
         {
             this.rotation.Z += angle;
@@ -609,7 +608,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// </summary>
         private void updateBoundingBox()
         {
-            Vector3 midSize = Vector3.Scale(size, 0.5f);
+            Vector3 midSize = Vector3.Multiply(size, 0.5f);
             boundingBox.setExtremes(Vector3.Subtract(translation, midSize), Vector3.Add(translation, midSize));
         }
 
@@ -631,12 +630,12 @@ namespace TgcViewer.Utils.TgcGeometry
             if (texture != null)
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements, d3dDevice);
+                Mesh d3dMesh = new Mesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)
                 {
-                    GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                    DataStream data = vb.Lock(0, 0, LockFlags.None);
                     for (int j = 0; j < vertices.Length; j++)
                     {
                         TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v = new TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex();
@@ -646,7 +645,7 @@ namespace TgcViewer.Utils.TgcGeometry
                         v.Position = Vector3.TransformCoordinate(vBox.Position, this.transform);
 
                         //normals
-                        v.Normal = Vector3.Empty;
+                        v.Normal = Vector3.Zero;
 
                         //texture coordinates diffuseMap
                         v.Tu = vBox.Tu;
@@ -688,12 +687,12 @@ namespace TgcViewer.Utils.TgcGeometry
             else
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements, d3dDevice);
+                Mesh d3dMesh = new Mesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)
                 {
-                    GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                    DataStream data = vb.Lock(0, 0, LockFlags.None);
                     for (int j = 0; j < vertices.Length; j++)
                     {
                         TgcSceneLoader.TgcSceneLoader.VertexColorVertex v = new TgcSceneLoader.TgcSceneLoader.VertexColorVertex();
@@ -703,7 +702,7 @@ namespace TgcViewer.Utils.TgcGeometry
                         v.Position = Vector3.TransformCoordinate(vBox.Position, this.transform);
 
                         //normals
-                        v.Normal = Vector3.Empty;
+                        v.Normal = Vector3.Zero;
 
                         //color
                         v.Color = vBox.Color;

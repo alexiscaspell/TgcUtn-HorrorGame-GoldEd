@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {

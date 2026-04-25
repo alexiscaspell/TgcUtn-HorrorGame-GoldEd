@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.DirectX.DirectPlay;
+
 using SistPaquetesClient.core;
 using System.Net;
 

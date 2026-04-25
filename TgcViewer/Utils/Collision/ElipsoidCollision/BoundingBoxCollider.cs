@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace TgcViewer.Utils.Collision.ElipsoidCollision
 {
@@ -71,8 +71,8 @@ namespace TgcViewer.Utils.Collision.ElipsoidCollision
                 );
 
             t = -1f;
-            q = Vector3.Empty;
-            n = Vector3.Empty;
+            q = Vector3.Zero;
+            n = Vector3.Zero;
 
             // Compute the AABB resulting from expanding b by sphere radius r
             TgcBoundingBox.AABBStruct e = eAABB.toStruct();
@@ -540,7 +540,7 @@ namespace TgcViewer.Utils.Collision.ElipsoidCollision
 
             tmin = 0.0f; // set to -FLT_MAX to get first hit on line
             float tmax = float.MaxValue; // set to max distance ray can travel (for segment)
-            q = Vector3.Empty;
+            q = Vector3.Zero;
 
             // For all three slabs
             for (int i = 0; i < 3; i++)

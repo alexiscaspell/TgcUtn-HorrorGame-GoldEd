@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
 

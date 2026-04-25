@@ -1,150 +1,105 @@
 using System;
-using System.Collections.Generic;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX.DirectInput;
-using System.Windows.Forms;
 
 namespace TgcViewer.Utils._2D
 {
     public class TgcText2d
     {
-        
-        Microsoft.DirectX.Direct3D.Font d3dFont;
-        /// <summary>
-        /// Fuente de Direct3D para la letra del texto
-        /// </summary>
-        public Microsoft.DirectX.Direct3D.Font D3dFont
-        {
-            get { return d3dFont; }
-        }
+        SharpDX.Direct3D9.Font d3dFont;
+        public SharpDX.Direct3D9.Font D3dFont => d3dFont;
 
-        private Color color;
-        /// <summary>
-        /// Color del texto
-        /// </summary>
-        public Color Color
+        private System.Drawing.Color color;
+        public System.Drawing.Color Color
         {
             get { return color; }
             set { color = value; }
         }
 
-        private Rectangle rectangle;
-        /// <summary>
-        /// Posicion del texto
-        /// </summary>
-        public Point Position
+        private System.Drawing.Rectangle rectangle;
+        public System.Drawing.Point Position
         {
             get { return rectangle.Location; }
             set { rectangle.Location = value; }
         }
-        /// <summary>
-        /// Tamaño maximo del recuadro del texto
-        /// </summary>
-        public Size Size
+        public System.Drawing.Size Size
         {
             get { return rectangle.Size; }
             set { rectangle.Size = value; }
         }
 
         private string text;
-        /// <summary>
-        /// Texto a renderizar
-        /// </summary>
         public string Text
         {
             get { return text; }
             set { text = value; }
         }
 
-        private DrawTextFormat format;
-        /// <summary>
-        /// Formato de renderizado del texto.
-        /// Si se cambia a mano el formato, no se respeta la alineacion del texto que se haya configurado.
-        /// </summary>
-        public DrawTextFormat Format
+        private FontDrawFlags format;
+        public FontDrawFlags Format
         {
             get { return format; }
             set { format = value; }
         }
 
-        /// <summary>
-        /// Alternativas de alineación del texto
-        /// </summary>
-        public enum TextAlign
-        {
-            LEFT,
-            RIGHT,
-            CENTER
-        }
+        public enum TextAlign { LEFT, RIGHT, CENTER }
         private TextAlign align;
-        /// <summary>
-        /// Alineación del texto
-        /// </summary>
         public TextAlign Align
         {
             get { return align; }
             set { changeTextAlign(value); }
         }
 
-        
-
         public TgcText2d()
         {
             changeTextAlign(TextAlign.CENTER);
             changeFont(TgcDrawText.VERDANA_10);
-            color = Color.Black;
+            color = System.Drawing.Color.Black;
 
-            Viewport viewport = GuiController.Instance.D3dDevice.Viewport;
-            rectangle = new Rectangle(0, 0, viewport.Width, viewport.Height);
+            var vp = GuiController.Instance.D3dDevice.Viewport;
+            rectangle = new System.Drawing.Rectangle(0, 0, vp.Width, vp.Height);
         }
 
         public void render()
         {
             Sprite sprite = GuiController.Instance.Text3d.TextSprite;
             sprite.Begin(SpriteFlags.AlphaBlend);
-            d3dFont.DrawText(sprite, text, rectangle, format, color);
+            var rc = new SharpDX.Mathematics.Interop.RawRectangle(
+                rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+            d3dFont.DrawText(sprite, text, rc, format,
+                new SharpDX.ColorBGRA(color.B, color.G, color.R, color.A));
             sprite.End();
         }
 
-        /// <summary>
-        /// Cambia la fuente del texto
-        /// </summary>
-        /// <param name="font">Fuente del sistema</param>
         public void changeFont(System.Drawing.Font font)
         {
-            Sprite sprite = GuiController.Instance.Text3d.TextSprite;
-            d3dFont = new Microsoft.DirectX.Direct3D.Font(GuiController.Instance.D3dDevice, font);
+            var desc = new FontDescription
+            {
+                Height         = font.Height,
+                FaceName       = font.Name,
+                Weight         = font.Bold ? FontWeight.Bold : FontWeight.Normal,
+                Italic         = font.Italic,
+                CharacterSet   = FontCharacterSet.Default,
+                OutputPrecision = FontPrecision.Default,
+                Quality        = FontQuality.Default,
+                PitchAndFamily = FontPitchAndFamily.Default | FontPitchAndFamily.DontCare,
+            };
+            d3dFont = new SharpDX.Direct3D9.Font(GuiController.Instance.D3dDevice, desc);
         }
 
-        /// <summary>
-        /// Cambiar TextAlign y configurar DrawTextFormat
-        /// </summary>
         private void changeTextAlign(TextAlign align)
         {
             this.align = align;
-            DrawTextFormat fAlign = DrawTextFormat.None;
+            FontDrawFlags fAlign = 0;
             switch (align)
             {
-                case TextAlign.LEFT:
-                    fAlign = DrawTextFormat.Left;
-                    break;
-                case TextAlign.RIGHT:
-                    fAlign = DrawTextFormat.Right;
-                    break;
-                case TextAlign.CENTER:
-                    fAlign = DrawTextFormat.Center;
-                    break;
+                case TextAlign.LEFT:   fAlign = FontDrawFlags.Left;   break;
+                case TextAlign.RIGHT:  fAlign = FontDrawFlags.Right;  break;
+                case TextAlign.CENTER: fAlign = FontDrawFlags.Center; break;
             }
-            format = DrawTextFormat.NoClip | DrawTextFormat.ExpandTabs | DrawTextFormat.WordBreak | fAlign;
+            format = FontDrawFlags.NoClip | FontDrawFlags.ExpandTabs | FontDrawFlags.WordBreak | fAlign;
         }
 
-        public void dispose()
-        {
-            //TODO: No se por que pero esto da error al hacer resize de la pantalla
-            //d3dFont.Dispose();
-        }
-        
-
+        public void dispose() { }
     }
 }

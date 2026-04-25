@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer;
 
 namespace Examples.Collision.SphereCollision

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 
 namespace Examples.Transformations

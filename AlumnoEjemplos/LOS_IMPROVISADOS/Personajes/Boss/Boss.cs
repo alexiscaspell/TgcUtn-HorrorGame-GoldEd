@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,10 +54,10 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
             if (!hayColision)
             {
-                movement.Subtract(cuerpo.BoundingBox.Position);
-                movement.Subtract(new Vector3(0, movement.Y, 0));
+                Vector3.Subtract(movement, cuerpo.BoundingBox.Position);
+                Vector3.Subtract(movement, new Vector3(0, movement.Y, 0));
                 movement.Normalize();
-                //dir.Subtract(new Vector3(0, dir.Y, 0));
+                //Vector3.Subtract(dir, new Vector3(0, dir.Y, 0));
 
                 float angulo = FastMath.Acos(Vector3.Dot(movement, direccionVista));// / (movement.Length() * dir.Length()));
 

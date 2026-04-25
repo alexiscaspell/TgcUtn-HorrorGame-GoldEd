@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
 
 namespace TgcViewer.Utils.TgcGeometry
@@ -126,7 +126,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 draw[END_CAPS_VERTEX_COUNT / 2 + i] = -upVector + n;
 
                 //rotamos el vector de dibujado
-                n.TransformNormal(rotationMatrix);
+                n = Vector3.TransformNormal(n, rotationMatrix);
 
                 //vertice final de la tapa superior
                 draw[i + 1] = upVector + n;

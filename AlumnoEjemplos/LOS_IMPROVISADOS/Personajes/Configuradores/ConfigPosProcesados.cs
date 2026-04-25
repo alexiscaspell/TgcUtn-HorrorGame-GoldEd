@@ -21,12 +21,12 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Personajes.Configuradores
         public void iniciarPosProcesadores()
         {
             PosProcesadoAlarma posProcesadoAlarma = new PosProcesadoAlarma(mapa);
-            PosProcesoHechoMierda efectoHechoMierda = new PosProcesoHechoMierda(mapa);
+            PosProcesoDistorsion efectoDistorsion = new PosProcesoDistorsion(mapa);
             PosProcesadoBur posProcesadoBur = new PosProcesadoBur(mapa);
             escondidoLight = new EfectoEscondido(mapa, CamaraFPS.Instance);
             escondidoLight.init();
 
-            posProcesados = new List<APosProcesado>() { posProcesadoAlarma , efectoHechoMierda , posProcesadoBur};
+            posProcesados = new List<APosProcesado>() { posProcesadoAlarma , efectoDistorsion , posProcesadoBur};
         }
 
         public void renderizarPosProcesado(float elapsedTime)

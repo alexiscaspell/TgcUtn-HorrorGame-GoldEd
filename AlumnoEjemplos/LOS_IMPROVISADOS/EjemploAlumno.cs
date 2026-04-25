@@ -1,8 +1,8 @@
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using AlumnoEjemplos.LOS_IMPROVISADOS;
 using System.Windows.Forms;
 using System.Drawing;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils;
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
     public class EjemploAlumno : TgcExample
     {
@@ -26,6 +26,7 @@ namespace AlumnoEjemplos.MiGrupo
         
         public bool playing;
         public GameMenu menuActual;
+        public InputManager input;
 
         DiosMapa diosMapa;
         private FactoryMenu factoryMenu;
@@ -79,6 +80,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             menuPausa = factoryMenu.menuPausa();
 
+            input = InputManager.Initialize();
+
             playing = false;
 
             GameConfig.Instance.execute();
@@ -100,16 +103,16 @@ namespace AlumnoEjemplos.MiGrupo
 
             else {
 
-                if (d3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.P))//Menu de pausa, tiene error de que podes seguir caminando
+                if (input.Pausa())
                 {
                     playing = false;
                     menuActual = menuPausa;
                     return;
                 }
 
-             d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+             d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, new SharpDX.ColorBGRA( Color.Black.B,  Color.Black.G,  Color.Black.R,  Color.Black.A), 1.0f, 0);
 
-             //d3dDevice.Transform.Projection =  Matrix.PerspectiveFovLH(Geometry.DegreeToRadian(45.0f),
+             //d3dDevice.Transform.Projection =  Matrix.PerspectiveFovLH(MathUtil.DegreesToRadians(45.0f),
                //                                TgcD3dDevice.aspectRatio, TgcD3dDevice.zNearPlaneDistance, 5000);
 
             personaje.calcularColisiones();

@@ -1,0 +1,41 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+[Dd]ebug/
+[Rr]elease/
+obj/
+*/obj/
+
+# Compiled binaries
+*.exe
+*.dll
+*.pdb
+
+# Exceptions: third-party dependencies that must be committed
+# (legacy Managed DirectX DLLs and Ionic.Zip, unavailable via NuGet)
+!Ionic.Zip.dll
+!Microsoft.DirectX.dll
+!Microsoft.DirectX.Direct3D.dll
+!Microsoft.DirectX.Direct3DX.dll
+!Microsoft.DirectX.DirectDraw.dll
+!Microsoft.DirectX.DirectInput.dll
+!Microsoft.DirectX.DirectSound.dll
+
+# Installer
+Output/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build check tools (local use only, not for distribution)
+Dockerfile.build
+build-local.sh
+.docker-build/.nuget/
+# Note: TgcViewerCheck.csproj, AlumnoEjemplosCheck.csproj, HorrorGameCheck.csproj
+# are intentionally tracked (used by CI via GitHub Actions docker build)

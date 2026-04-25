@@ -9,7 +9,7 @@ using Examples.TerrainEditor.Brushes.Vegetation;
 using Examples.TerrainEditor.Vegetation;
 using TgcViewer;
 using TgcViewer.Utils.Modifiers;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Collections.Generic;
 using Examples.TerrainEditor.Brushes;
 
@@ -40,7 +40,7 @@ namespace Examples.TerrainEditor.Panel
             textureBrowser.ShowFolders = true;
             textureBrowser.setSelectedImage(GuiController.Instance.ExamplesMediaDir + "Heighmaps\\" + "TerrainTexture1-256x256.jpg");
             pictureBoxModifyTexture.ImageLocation = textureBrowser.SelectedImage;
-            terrainEditor.Terrain.loadHeightmap(heightmapBrowser.SelectedImage, (float)nudScaleXZ.Value, (float)nudScaleY.Value, new Microsoft.DirectX.Vector3(0, 0, 0));
+            terrainEditor.Terrain.loadHeightmap(heightmapBrowser.SelectedImage, (float)nudScaleXZ.Value, (float)nudScaleY.Value, new Vector3(0, 0, 0));
             terrainEditor.Terrain.loadTexture(textureBrowser.SelectedImage);
             
             shovel = new Shovel();

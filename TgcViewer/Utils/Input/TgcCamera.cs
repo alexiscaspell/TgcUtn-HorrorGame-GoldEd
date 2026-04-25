@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace TgcViewer.Utils.Input
 {
@@ -28,7 +28,7 @@ namespace TgcViewer.Utils.Input
         /// <summary>
         /// Actualizar la matriz View en base a los valores de la cámara
         /// </summary>
-        void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice);
+        void updateViewMatrix(SharpDX.Direct3D9.Device d3dDevice);
 
         /// <summary>
         /// Activar o desactivar la camara

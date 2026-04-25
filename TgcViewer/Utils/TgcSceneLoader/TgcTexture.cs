@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.IO;
 using System.Drawing;
 
@@ -99,7 +99,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         {
             try
             {
-                Texture d3dTexture = TextureLoader.FromFile(d3dDevice, filePath);
+                Texture d3dTexture = Texture.FromFile(d3dDevice, filePath);
                 return new TgcTexture(fileName, filePath, d3dTexture, false);
             }
             catch (Exception ex)
@@ -314,7 +314,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     PoolItem newItem = new PoolItem();
                     if (d3dTexture == null)
                     {
-                        d3dTexture = TextureLoader.FromFile(d3dDevice, filePath);
+                        d3dTexture = Texture.FromFile(d3dDevice, filePath);
                     }
                     newItem.Texture = d3dTexture;
                     newItem.FilePath = filePath;

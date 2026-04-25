@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 
 namespace TgcViewer.Utils.PortalRendering
 {
@@ -166,7 +166,8 @@ namespace TgcViewer.Utils.PortalRendering
                 //Armar el plano para que la normal apunte hacia adentro del Frustum
                 Vector3 a = lastP - cameraPos;
                 Vector3 b = nextP - cameraPos;
-                Plane plane = Plane.FromPointNormal(cameraPos, Vector3.Cross(b, a));
+                Vector3 planeNormal = Vector3.Cross(b, a);
+                Plane plane = new Plane(planeNormal, -Vector3.Dot(planeNormal, cameraPos));
 
                 //Guardar después del near y far plane
                 frustumPlanes[i + 2] = plane;

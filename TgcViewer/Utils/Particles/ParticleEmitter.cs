@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer;
 using TgcViewer.Utils;
 using System.Collections;
@@ -224,9 +224,9 @@ namespace TgcViewer.Utils.Particles
                 texturesManager.clear(1);
                 texturesManager.set(0, texture);
                 device.Material = TgcD3dDevice.DEFAULT_MATERIAL;
-                device.RenderState.AlphaBlendEnable = true;
-                device.RenderState.ZBufferWriteEnable = false;
-                device.Transform.World = Matrix.Identity;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.ZWriteEnable, false);
+                device.SetTransform(SharpDX.Direct3D9.TransformState.World, Matrix.Identity);
 
                 // Va recorriendo la lista de particulas vivas,
                 // actualizando el tiempo de vida restante, y dibujando.
@@ -254,8 +254,8 @@ namespace TgcViewer.Utils.Particles
                 }
 
                 //Restaurar valores de RenderState
-                device.RenderState.AlphaBlendEnable = false;
-                device.RenderState.ZBufferWriteEnable = true;
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.ZWriteEnable, true);
             }
         }
 
@@ -278,9 +278,9 @@ namespace TgcViewer.Utils.Particles
                 p.Color = Particle.DEFAULT_COLOR.ToArgb();
 
                 float faux;
-                Vector3 pSpeed = Vector3.Empty;
+                Vector3 pSpeed = Vector3.Zero;
 
-                // Según la dispersion asigno una velocidad inicial. 
+                // Seg?n la dispersion asigno una velocidad inicial. 
                 //(Si la dispersion es 0 la velocidad inicial sera (0,1,0)).
                 faux = random.Next(this.dispersion) / 1000.0f;
                 faux *= (faux * 1000 % 2 == 0 ? 1.0f : -1.0f);
@@ -308,7 +308,7 @@ namespace TgcViewer.Utils.Particles
         private void updateExistingParticle(float elapsedTime, Particle p)
         {
             //Actulizo posicion de la particula.
-            Vector3 scaleVec = Vector3.Scale(this.speed, elapsedTime);
+            Vector3 scaleVec = Vector3.Multiply(this.speed, elapsedTime);
             scaleVec.X *= p.Speed.X;
             scaleVec.Y *= p.Speed.Y;
             scaleVec.Z *= p.Speed.Z;
@@ -339,18 +339,18 @@ namespace TgcViewer.Utils.Particles
             p.Color = Color.FromArgb(alphaComp, origColor.R, origColor.G, origColor.B).ToArgb();
 
             //Render con Moduliacion de color Alpha
-            int color = device.RenderState.TextureFactor;
+            int color = device.GetRenderState(SharpDX.Direct3D9.RenderState.TextureFactor);
 
-            device.RenderState.TextureFactor = p.Color;
-            device.TextureState[0].AlphaOperation = TextureOperation.Modulate;
-            device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
-            device.TextureState[0].AlphaArgument2 = TextureArgument.TFactor;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.TextureFactor, p.Color);
+            device.SetTextureStageState(0, TextureStage.AlphaOperation, (int)TextureOperation.Modulate);
+            device.SetTextureStageState(0, TextureStage.AlphaArg1, (int)TextureArgument.Texture);
+            device.SetTextureStageState(0, TextureStage.AlphaArg2, (int)TextureArgument.TFactor);
 
             particleVertexArray[0] = p.PointSprite;
             device.DrawUserPrimitives(PrimitiveType.PointList, 1, particleVertexArray);
 
             //Restaurar valor original
-            device.RenderState.TextureFactor = color;
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.TextureFactor, color);
         }
 
     }

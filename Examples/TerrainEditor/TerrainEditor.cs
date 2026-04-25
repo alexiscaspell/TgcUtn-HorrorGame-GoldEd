@@ -6,8 +6,8 @@ using System.Windows.Forms;
 using Examples.TerrainEditor.Brushes;
 using Examples.TerrainEditor.Panel;
 using Examples.TerrainEditor.Vegetation;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer;
 using TgcViewer.Example;
 using TgcViewer.Utils.TgcGeometry;
@@ -208,16 +208,16 @@ Mostar AABBs: B";
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.V))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.V))
                ShowVegetation ^= true;
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.P))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.P))
                 PlanePicking ^= true;
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.F))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.F))
                 FpsModeEnable ^= true;
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.B))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.B))
                 RenderBoundingBoxes ^= true;
 
             if (FpsModeEnable) labelFPS.render();

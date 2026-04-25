@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using Examples.MeshCreator.EditablePolyTools.Primitives;
 
 namespace Examples.MeshCreator.EditablePolyTools

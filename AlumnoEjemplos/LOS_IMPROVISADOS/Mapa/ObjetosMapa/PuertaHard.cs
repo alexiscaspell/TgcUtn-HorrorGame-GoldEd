@@ -1,9 +1,10 @@
+using SharpDX.DirectInput;
 ﻿using System;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
@@ -34,7 +35,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
         public void update()
         {
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.E))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.E))
             {
                 rotando = true;
             }
@@ -46,11 +47,11 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
                 {
                     if (abierta)
                     {
-                        mesh.rotateY(Geometry.DegreeToRadian(-speed));
+                        mesh.rotateY(MathUtil.DegreesToRadians(-speed));
                     }
                     else
                     {
-                        mesh.rotateY(Geometry.DegreeToRadian(speed));
+                        mesh.rotateY(MathUtil.DegreesToRadians(speed));
                     }
                 }
                 else

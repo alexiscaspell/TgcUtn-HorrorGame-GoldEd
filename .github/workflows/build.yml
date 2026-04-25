@@ -1,0 +1,73 @@
+name: Build & Release HorrorGame
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [created]
+
+jobs:
+  # ── Job 1: Verificación de compilación (mismo Docker que build-local.sh) ─
+  check:
+    name: Compilation Check (Docker)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -f Dockerfile.build -t horrorgame-build:latest .
+
+  # ── Job 2: Build y empaquetado del distribuible (solo en releases) ────────
+  release:
+    name: Release Build (Windows)
+    runs-on: windows-latest
+    needs: check
+    if: github.event_name == 'release'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore TgcViewer.sln
+
+      - name: Build Release (x86)
+        run: |
+          msbuild TgcViewer.sln `
+            /p:Configuration=Release `
+            /p:Platform="Any CPU"
+
+      - name: Recopilar distributable
+        shell: pwsh
+        run: |
+          $out = "dist\HorrorGame"
+          New-Item -ItemType Directory -Force $out | Out-Null
+
+          Copy-Item HorrorGame.exe     $out\ -ErrorAction SilentlyContinue
+          Copy-Item TgcViewer.exe      $out\ -ErrorAction SilentlyContinue
+          Copy-Item AlumnoEjemplos.dll $out\
+
+          Get-ChildItem -Filter "SharpDX*.dll" | Copy-Item -Destination $out\
+          Copy-Item Ionic.Zip.dll      $out\ -ErrorAction SilentlyContinue
+
+          New-Item -ItemType Directory -Force "$out\AlumnoEjemplos" | Out-Null
+          Copy-Item AlumnoEjemplos\Media -Destination "$out\AlumnoEjemplos\Media" -Recurse
+
+          Copy-Item TgcViewer.exe.config $out\ -ErrorAction SilentlyContinue
+
+      - name: Crear ZIP
+        shell: pwsh
+        run: Compress-Archive -Path dist\HorrorGame\* -DestinationPath HorrorGame.zip
+
+      - name: Upload a GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: HorrorGame.zip

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcSceneLoader;
 
@@ -73,7 +73,7 @@ namespace Examples.SceneLoader
                 mesh.render();
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.H))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.H))
             {
                 meshes[0].dispose();
             }

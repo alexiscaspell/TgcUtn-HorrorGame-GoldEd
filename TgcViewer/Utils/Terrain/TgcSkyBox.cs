@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer;
 using TgcViewer.Utils;
 using TgcViewer.Utils.TgcSceneLoader;
@@ -170,13 +170,13 @@ namespace TgcViewer.Utils.Terrain
             for (int i = 0; i < faces.Length; i++)
             {
                 //Crear mesh de D3D
-                Mesh m = new Mesh(2, 4, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements, d3dDevice);
+                Mesh m = new Mesh(d3dDevice, 2, 4, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
                 SkyFaces skyFace = (SkyFaces)i;
 
                 // Cargo los vértices
                 using (VertexBuffer vb = m.VertexBuffer)
                 {
-                    GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                    DataStream data = vb.Lock(0, 0, LockFlags.None);
                     int colorRgb = this.color.ToArgb();
                     cargarVertices(skyFace, data, colorRgb);
                     vb.Unlock();
@@ -209,7 +209,7 @@ namespace TgcViewer.Utils.Terrain
         /// <summary>
         /// Crear Vertices segun la cara pedida
         /// </summary>
-        private void cargarVertices(SkyFaces face, GraphicsStream data, int color)
+        private void cargarVertices(SkyFaces face, DataStream data, int color)
         {
             switch (face)
             {
@@ -225,7 +225,7 @@ namespace TgcViewer.Utils.Terrain
         /// <summary>
         /// Crear vertices para la cara Up
         /// </summary>
-        private void cargarVerticesUp(GraphicsStream data, int color)
+        private void cargarVerticesUp(DataStream data, int color)
         {
             TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v;
             Vector3 n = new Vector3(0, 1, 0);
@@ -282,7 +282,7 @@ namespace TgcViewer.Utils.Terrain
         /// <summary>
         /// Crear vertices para la cara Down
         /// </summary>
-        private void cargarVerticesDown(GraphicsStream data, int color)
+        private void cargarVerticesDown(DataStream data, int color)
         {
             TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v;
             Vector3 n = new Vector3(0, -1, 0);
@@ -339,7 +339,7 @@ namespace TgcViewer.Utils.Terrain
         /// <summary>
         /// Crear vertices para la cara Front
         /// </summary>
-        private void cargarVerticesFront(GraphicsStream data, int color)
+        private void cargarVerticesFront(DataStream data, int color)
         {
             TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v;
             Vector3 n = new Vector3(0, -1, 0);
@@ -396,7 +396,7 @@ namespace TgcViewer.Utils.Terrain
         /// <summary>
         /// Crear vertices para la cara Back
         /// </summary>
-        private void cargarVerticesBack(GraphicsStream data, int color)
+        private void cargarVerticesBack(DataStream data, int color)
         {
             TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v;
             Vector3 n = new Vector3(0, -1, 0);
@@ -453,7 +453,7 @@ namespace TgcViewer.Utils.Terrain
         /// <summary>
         /// Crear vertices para la cara Right
         /// </summary>
-        private void cargarVerticesRight(GraphicsStream data, int color)
+        private void cargarVerticesRight(DataStream data, int color)
         {
             TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v;
             Vector3 n = new Vector3(0, -1, 0);
@@ -510,7 +510,7 @@ namespace TgcViewer.Utils.Terrain
         /// <summary>
         /// Crear vertices para la cara Left
         /// </summary>
-        private void cargarVerticesLeft(GraphicsStream data, int color)
+        private void cargarVerticesLeft(DataStream data, int color)
         {
             TgcSceneLoader.TgcSceneLoader.DiffuseMapVertex v;
             Vector3 n = new Vector3(0, -1, 0);

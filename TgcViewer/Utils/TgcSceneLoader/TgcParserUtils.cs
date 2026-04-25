@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace TgcViewer.Utils.TgcSceneLoader
 {

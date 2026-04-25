@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX.DirectInput;
+using SharpDX.DirectInput;
 
 namespace Examples.Tutorial
 {
@@ -50,7 +50,7 @@ namespace Examples.Tutorial
 
         public override void init()
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //En este ejemplo primero cargamos una escena 3D entera.
             TgcSceneLoader loader = new TgcSceneLoader();
@@ -69,7 +69,7 @@ namespace Examples.Tutorial
 
         public override void render(float elapsedTime)
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
 
             //Procesamos input de teclado para mover el objeto principal en el plano XZ

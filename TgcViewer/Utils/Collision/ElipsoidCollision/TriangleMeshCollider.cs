@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 
@@ -126,7 +126,7 @@ namespace TgcViewer.Utils.Collision.ElipsoidCollision
                 this.a = a;
                 this.b = b;
                 this.c = c;
-                this.plane = Plane.FromPoints(a, b, c);
+                this.plane = new Plane(a,    b,    c);
                 this.boundingSphere = TgcBoundingSphere.computeFromPoints(new Vector3[] { a, b, c }).toClass();
             }
 
@@ -139,7 +139,7 @@ namespace TgcViewer.Utils.Collision.ElipsoidCollision
                 this.a = a;
                 this.b = b;
                 this.c = c;
-                this.plane = Plane.FromPoints(a, b, c);
+                this.plane = new Plane(a,    b,    c);
                 this.boundingSphere = sphere;
             }
 
@@ -162,10 +162,10 @@ namespace TgcViewer.Utils.Collision.ElipsoidCollision
         /// <returns>True si hay colision</returns>
         public override bool intersectMovingElipsoid(TgcBoundingSphere eSphere, Vector3 eMovementVector, Vector3 eRadius, TgcBoundingSphere movementSphere, out float minT, out Vector3 minQ, out Vector3 n)
         {
-            minQ = Vector3.Empty;
+            minQ = Vector3.Zero;
             minT = float.MaxValue;
-            n = Vector3.Empty;
-            Plane collisionPlane = Plane.Empty;
+            n = Vector3.Zero;
+            Plane collisionPlane = new Plane();
             
             //Colision contra cada triangulo del collider, quedarse con el menor
             Vector3 q;
@@ -220,7 +220,7 @@ namespace TgcViewer.Utils.Collision.ElipsoidCollision
         {
             float t;
             Vector3 q;
-            collisionPoint = Vector3.Empty;
+            collisionPoint = Vector3.Zero;
             minT = float.MaxValue;
 
             //Ver si la esfera en movimiento colisiona con el plano del triangulo
@@ -254,7 +254,7 @@ namespace TgcViewer.Utils.Collision.ElipsoidCollision
 
 
             //Ver de que lado del plano del triangulo esta la esfera
-            float distPlane = triangle.Plane.Dot(sphere.Center);
+            float distPlane = SharpDX.Plane.DotCoordinate(triangle.Plane, sphere.Center);
             float sphereRad = distPlane >= 0.0f ? sphere.Radius : -sphere.Radius;
             Vector3 planeNormal = TgcCollisionUtils.getPlaneNormal(triangle.Plane);
 

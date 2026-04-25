@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.Input;
 using TgcViewer;
 using System.Drawing;
-using Microsoft.DirectX.DirectInput;
+using SharpDX.DirectInput;
 using Examples.MeshCreator.EditablePolyTools.Primitives;
 
 namespace Examples.MeshCreator.EditablePolyTools
@@ -254,7 +254,7 @@ namespace Examples.MeshCreator.EditablePolyTools
             TgcD3dInput input = GuiController.Instance.D3dInput;
 
             //Si mantiene control y clic con el mouse, iniciar cuadro de seleccion para agregar/quitar a la seleccion actual
-            if ((input.keyDown(Microsoft.DirectX.DirectInput.Key.LeftControl) || input.keyDown(Microsoft.DirectX.DirectInput.Key.RightControl))
+            if ((input.keyDown(Key.LeftControl) || input.keyDown(Key.RightControl))
                 && input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             {
                 currentState = State.SelectingObject;

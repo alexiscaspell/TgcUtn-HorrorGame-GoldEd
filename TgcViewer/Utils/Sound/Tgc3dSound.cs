@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.DirectSound;
-using Microsoft.DirectX;
+using SharpDX.DirectSound;
+using SharpDX;
 
 namespace TgcViewer.Utils.Sound
 {
@@ -14,20 +14,20 @@ namespace TgcViewer.Utils.Sound
     /// </summary>
     public class Tgc3dSound
     {
-        private SecondaryBuffer soundBuffer;
+        private SoundBuffer soundBuffer;
         /// <summary>
         /// Buffer con la información del sonido cargado
         /// </summary>
-        public SecondaryBuffer SoundBuffer
+        public SoundBuffer SoundBuffer
         {
             get { return soundBuffer; }
         }
 
-        private Buffer3D buffer3d;
+        private SoundBuffer3D buffer3d;
         /// <summary>
         /// Buffer que manipula la parte 3D del sonido cargado
         /// </summary>
-        public Buffer3D Buffer3d
+        public SoundBuffer3D Buffer3d
         {
             get { return buffer3d; }
         }
@@ -90,8 +90,8 @@ namespace TgcViewer.Utils.Sound
                     bufferDescription.ControlVolume = true;
                 }
 
-                soundBuffer = new SecondaryBuffer(soundPath, bufferDescription, GuiController.Instance.DirectSound.DsDevice);
-                buffer3d = new Buffer3D(soundBuffer);
+                soundBuffer = new SoundBuffer(GuiController.Instance.DirectSound.DsDevice, bufferDescription, GuiController.Instance.DirectSound.DsDevice);
+                buffer3d = new SoundBuffer3D(soundBuffer);
                 buffer3d.MinDistance = 50;
 
                 if (volume != -1)

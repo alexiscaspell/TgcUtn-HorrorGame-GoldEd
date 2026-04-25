@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>disable</Nullable>
+    <NoWarn>0436;0104;1591;1573;CS1572;CS1573;SYSLIB0011;SYSLIB0050;SYSLIB0012;SYSLIB0013</NoWarn>
+    <RootNamespace>TgcViewer</RootNamespace>
+    <AssemblyName>TgcViewer</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D9" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DirectSound" Version="4.2.0" />
+    <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
+    <Reference Include="Ionic.Zip"><HintPath>/build/Ionic.Zip.dll</HintPath></Reference>
+  </ItemGroup>
+  <!-- Resolve System.Drawing vs SharpDX type ambiguities (CS0104) -->
+  <ItemGroup>
+    <Using Include="System.Drawing.Color" Alias="Color" />
+    <Using Include="System.Drawing.Rectangle" Alias="Rectangle" />
+    <Using Include="System.Drawing.Font" Alias="Font" />
+    <Using Include="System.Drawing.Point" Alias="Point" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TgcViewer/**/*.cs"
+      Exclude="TgcViewer/obj/**;TgcViewer/Properties/Settings.Designer.cs;TgcViewer/**/.!*;
+               TgcViewer/Utils/Sound/TgcDirectSound.cs;
+               TgcViewer/Utils/Sound/Tgc3dSound.cs;
+               TgcViewer/Utils/Sound/TgcStaticSound.cs;
+               TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalLoader.cs;
+               TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalMesh.cs" />
+  </ItemGroup>
+</Project>

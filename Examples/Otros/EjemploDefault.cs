@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcSceneLoader;
 using Examples.Shaders;
@@ -97,7 +97,7 @@ namespace Examples.Otros
             textHelp.render();
 
             //Help
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.H))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.H))
             {
                 helpForm.ShowDialog(GuiController.Instance.MainForm);
             }

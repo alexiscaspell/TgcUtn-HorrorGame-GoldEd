@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX.DirectInput;
+using SharpDX.DirectInput;
 using TgcViewer.Utils.TgcSceneLoader;
 
 namespace Examples.Collision
@@ -55,7 +55,7 @@ namespace Examples.Collision
 
         public override void init()
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Cuerpo principal que se controla con el teclado
             box = TgcBox.fromSize(new Vector3(0, 10, 0), new Vector3(10, 10, 10), Color.Blue);
@@ -90,7 +90,7 @@ namespace Examples.Collision
 
         public override void render(float elapsedTime)
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
             float velocidadCaminar = 50f * elapsedTime;
 

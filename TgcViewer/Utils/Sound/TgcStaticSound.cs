@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.DirectSound;
+using SharpDX.DirectSound;
 
 namespace TgcViewer.Utils.Sound
 {
@@ -10,11 +10,11 @@ namespace TgcViewer.Utils.Sound
     /// </summary>
     public class TgcStaticSound
     {
-        private SecondaryBuffer soundBuffer;
+        private SoundBuffer soundBuffer;
         /// <summary>
         /// Buffer con la información del sonido cargado
         /// </summary>
-        public SecondaryBuffer SoundBuffer
+        public SoundBuffer SoundBuffer
         {
             get { return soundBuffer; }
         }
@@ -41,7 +41,7 @@ namespace TgcViewer.Utils.Sound
                     bufferDescription.ControlVolume = true;
                 }
 
-                soundBuffer = new SecondaryBuffer(soundPath, bufferDescription, GuiController.Instance.DirectSound.DsDevice);
+                soundBuffer = new SoundBuffer(GuiController.Instance.DirectSound.DsDevice, bufferDescription, GuiController.Instance.DirectSound.DsDevice);
 
                 if (volume != -1)
                 {

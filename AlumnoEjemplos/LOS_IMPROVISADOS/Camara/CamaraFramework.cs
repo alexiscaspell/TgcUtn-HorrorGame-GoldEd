@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX.DirectInput;
+using SharpDX;
+using SharpDX.Direct3D9;
+using SharpDX.DirectInput;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer;
 using TgcViewer.Utils.Input;
@@ -297,7 +297,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             viewMatrix.M43 = -Vector3.Dot(zAxis, eye);
 
             // Extract the pitch angle from the view matrix.
-            accumPitchDegrees = Geometry.RadianToDegree((float)-Math.Asin((double)viewMatrix.M23));
+            accumPitchDegrees = MathUtil.RadiansToDegrees((float)-Math.Asin((double)viewMatrix.M23));
         }
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         /// </summary>
         private void updatePosition(Vector3 direction, float elapsedTimeSec)
         {
-            if (Vector3.LengthSq(currentVelocity) != 0.0f)
+            if (currentVelocity.LengthSquared() != 0.0f)
             {
                 // Only move the camera if the velocity vector is not of zero length.
                 // Doing this guards against the camera slowly creeping around due to
@@ -458,8 +458,8 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
                 accumPitchDegrees = -90.0f;
             }
 
-            float heading = Geometry.DegreeToRadian(headingDegrees);
-            float pitch = Geometry.DegreeToRadian(pitchDegrees);
+            float heading = MathUtil.DegreesToRadians(headingDegrees);
+            float pitch = MathUtil.DegreesToRadians(pitchDegrees);
 
             Matrix rotMtx;
             Vector4 result;
@@ -700,14 +700,14 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         /// <summary>
         /// Actualiza la ViewMatrix, si es que la camara esta activada
         /// </summary>
-        public void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice)
+        public void updateViewMatrix(SharpDX.Direct3D9.Device d3dDevice)
         {
             if (!enable)
             {
                 return;
             }
 
-            d3dDevice.Transform.View = viewMatrix;
+            d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.View, viewMatrix);
         }
 
         /// <summary>

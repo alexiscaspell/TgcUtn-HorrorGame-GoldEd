@@ -1,6 +1,6 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
     internal class ButtonBackToPlay:GameButton
     {

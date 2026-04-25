@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.Networking;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX.DirectInput;
+using SharpDX.DirectInput;
 using TgcViewer.Utils.TgcGeometry;
 
 namespace Examples
@@ -296,7 +296,7 @@ namespace Examples
         /// </summary>
         private void initClient()
         {
-            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Crear piso
             TgcTexture pisoTexture = TgcTexture.createTexture(d3dDevice,

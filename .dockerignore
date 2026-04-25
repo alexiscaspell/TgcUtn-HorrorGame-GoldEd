@@ -1,0 +1,24 @@
+# Git internals
+.git/
+.gitignore
+# .docker-build/ must NOT be excluded — it contains the wrapper .csproj files
+
+
+# VS IDE
+.vs/
+
+# Build artifacts (already in .gitignore but explicit for Docker)
+**/obj/
+**/bin/
+*.exe
+*.dll
+*.pdb
+# Exception: Ionic.Zip.dll is a committed dependency needed for compilation
+!Ionic.Zip.dll
+
+# Temp/editor files
+*.tmp
+*.bak
+*~
+.!*
+**/.!*

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.Modifiers;
-using Microsoft.DirectX.DirectPlay;
+
 using System.Windows.Forms;
 
 namespace TgcViewer.Utils.Networking

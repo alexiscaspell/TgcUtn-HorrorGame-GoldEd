@@ -4,8 +4,8 @@ using System.Text;
 using System.Windows.Forms;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
@@ -114,11 +114,11 @@ namespace Examples.Shaders.WorkshopShaders
             Control panel3d = GuiController.Instance.Panel3d;
             float aspectRatio = (float)panel3d.Width / (float)panel3d.Height;
             time += elapsedTime;
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.Space))
                 pom = !pom;
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.L))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.L))
                 phong = !phong;
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.S))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.S))
             {
                 if (++nro_textura >= 3)
                     nro_textura = 0;

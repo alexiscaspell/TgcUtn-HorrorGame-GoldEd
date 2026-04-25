@@ -1,7 +1,7 @@
 ﻿using AlumnoEjemplos.LOS_IMPROVISADOS.Menu;
 using System;
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
     internal class FactoryMenu
     {

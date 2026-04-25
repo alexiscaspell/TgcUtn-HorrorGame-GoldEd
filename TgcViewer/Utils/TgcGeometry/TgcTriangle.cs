@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
 
@@ -11,7 +11,7 @@ namespace TgcViewer.Utils.TgcGeometry
 {
     /// <summary>
     /// Herramienta para crear un Triangulo 3D.
-    /// No está pensado para rasterizar gran cantidad de triangulos, sino mas
+    /// No est pensado para rasterizar gran cantidad de triangulos, sino mas
     /// para una herramienta de debug.
     /// </summary>
     public class TgcTriangle : IRenderObject
@@ -21,7 +21,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 a;
         /// <summary>
-        /// Primer vértice del triángulo
+        /// Primer vrtice del tringulo
         /// </summary>
         public Vector3 A
         {
@@ -31,7 +31,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 b;
         /// <summary>
-        /// Segundo vértice del triángulo
+        /// Segundo vrtice del tringulo
         /// </summary>
         public Vector3 B
         {
@@ -41,7 +41,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 c;
         /// <summary>
-        /// Tercer vértice del triángulo
+        /// Tercer vrtice del tringulo
         /// </summary>
         public Vector3 C
         {
@@ -79,8 +79,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -116,13 +116,12 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColored), 3, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, 3 * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
 
 
-            this.a = Vector3.Empty;
-            this.b = Vector3.Empty;
-            this.c = Vector3.Empty;
+            this.a = Vector3.Zero;
+            this.b = Vector3.Zero;
+            this.c = Vector3.Zero;
             this.enabled = true;
             this.color = Color.Blue;
             this.alphaBlendEnable = false;
@@ -133,13 +132,13 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Actualizar parámetros del triángulo en base a los valores configurados
+        /// Actualizar parmetros del tringulo en base a los valores configurados
         /// </summary>
         public void updateValues()
         {
             CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[3];
             
-            //Crear triángulo
+            //Crear tringulo
             int ci = color.ToArgb();
             vertices[0] = new CustomVertex.PositionColored(a, ci);
             vertices[1] = new CustomVertex.PositionColored(b, ci);
@@ -152,7 +151,7 @@ namespace TgcViewer.Utils.TgcGeometry
         
 
         /// <summary>
-        /// Renderizar el Triángulo
+        /// Renderizar el Tringulo
         /// </summary>
         public void render()
         {
@@ -179,7 +178,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Calcular normal del Triángulo
+        /// Calcular normal del Tringulo
         /// </summary>
         /// <returns>Normal (esta normalizada)</returns>
         public Vector3 computeNormal()
@@ -190,12 +189,12 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Calcular centro del Triángulo
+        /// Calcular centro del Tringulo
         /// </summary>
         /// <returns>Centro</returns>
         public Vector3 computeCenter()
         {
-            return Vector3.Scale(a + b + c, 1/3f);
+            return Vector3.Multiply(a + b + c, 1/3f);
         }
 
         /// <summary>
@@ -204,7 +203,7 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <returns>TgcArrow que representa la face-normal</returns>
         public TgcArrow createNormalArrow()
         {
-            return TgcArrow.fromDirection(computeCenter(), Vector3.Scale(computeNormal(), 10f));
+            return TgcArrow.fromDirection(computeCenter(), Vector3.Multiply(computeNormal(), 10f));
         }
 
         /// <summary>
@@ -219,7 +218,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Convierte el Triángulo en un TgcMesh
+        /// Convierte el Tringulo en un TgcMesh
         /// </summary>
         /// <param name="meshName">Nombre de la malla que se va a crear</param>
         public TgcMesh toMesh(string meshName)
@@ -227,7 +226,7 @@ namespace TgcViewer.Utils.TgcGeometry
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Crear Mesh con solo color
-            Mesh d3dMesh = new Mesh(1, 3, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements, d3dDevice);
+            Mesh d3dMesh = new Mesh(d3dDevice, 1, 3, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
 
             //Calcular normal: left-handed
             Vector3 normal = computeNormal();
@@ -236,7 +235,7 @@ namespace TgcViewer.Utils.TgcGeometry
             //Cargar VertexBuffer
             using (VertexBuffer vb = d3dMesh.VertexBuffer)
             {
-                GraphicsStream data = vb.Lock(0, 0, LockFlags.None);
+                DataStream data = vb.Lock(0, 0, LockFlags.None);
                 TgcSceneLoader.TgcSceneLoader.VertexColorVertex v;
 
                 //a

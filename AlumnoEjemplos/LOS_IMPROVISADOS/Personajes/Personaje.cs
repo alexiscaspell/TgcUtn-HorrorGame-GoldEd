@@ -1,9 +1,10 @@
+using SharpDX.DirectInput;
 ﻿using System.Collections.Generic;
 using TgcViewer;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Sound;
-using Microsoft.DirectX;
+using SharpDX;
 using AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado;
 using AlumnoEjemplos.LOS_IMPROVISADOS.Personajes.Configuradores;
 using System;
@@ -158,86 +159,52 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         public void update()
         {
             float elapsedTime = GuiController.Instance.ElapsedTime;
+            var input = InputManager.Current;
 
             Vector3 posActual = camaraFPS.camaraFramework.Position;
-            //updateMemento();
             posMemento = posActual;
 
-            if (GuiController.Instance.D3dInput.buttonPressed(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) && !muerto && !ganaste)
+            if (input.ToggleLuzPrincipal() && !muerto && !ganaste)
             {
                 configIluminador.apagarOPrenderIlumniador();
             }
 
-            if (GuiController.Instance.D3dInput.buttonPressed(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_RIGHT) && !muerto && !ganaste)
+            if (input.ToggleLuzFluor() && !muerto && !ganaste)
             {
                 configIluminador.cambiarAIluminadorFluor();
             }
 
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.LeftShift) && !muerto && !ganaste)
+            if (input.Agacharse() && !muerto && !ganaste)
             {
-                camaraFPS.camaraFramework.setPosition(new Vector3(posActual.X,alturaAgachado, posActual.Z));
-                camaraFPS.camaraFramework.MovementSpeed /= 2; 
+                camaraFPS.camaraFramework.setPosition(new Vector3(posActual.X, alturaAgachado, posActual.Z));
+                camaraFPS.camaraFramework.MovementSpeed /= 2;
             }
 
-            if (GuiController.Instance.D3dInput.keyUp(Microsoft.DirectX.DirectInput.Key.LeftShift) && !muerto && !ganaste)
+            if (!input.Agacharse() && !muerto && !ganaste)
             {
-                camaraFPS.camaraFramework.setPosition(new Vector3(posActual.X,alturaParado, posActual.Z));
+                camaraFPS.camaraFramework.setPosition(new Vector3(posActual.X, alturaParado, posActual.Z));
                 camaraFPS.camaraFramework.MovementSpeed *= 2;
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.F) && !muerto && !ganaste)
+            if (input.SiguienteIluminador() && !muerto && !ganaste)
             {
                 configIluminador.cambiarASiguienteIluminador();
             }
-            /*
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.R))
-            {
-                configIluminador.recargarBateriaLinterna();
-            }*/
 
-            //Checkeo para movimiento de sonido
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) && !muerto && !ganaste)
-            {
+            // Sonido de pasos: activo si hay movimiento (teclado o stick izquierdo)
+            bool moviendose = System.Math.Abs(input.MoveX) > 0.1f || System.Math.Abs(input.MoveZ) > 0.1f;
+            if (moviendose && !muerto && !ganaste)
                 sonidoPasos.play(true);
-                //reproducirSonidoPasos();
-            }
-			if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A) && !muerto && !ganaste)
-            {
-                sonidoPasos.play(true);
-                //reproducirSonidoPasos();
-            }
-			if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S) && !muerto && !ganaste)
-            {
-                sonidoPasos.play(true);
-                //reproducirSonidoPasos();
-            }
-			if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) && !muerto && !ganaste)
-            {
-                sonidoPasos.play(true);
-                //reproducirSonidoPasos();
-            }
-			
-			//Si no esta ninguna direccion apretada, paro el sonido
-			if( !GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) &&
-			    !GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A) &&
-			    !GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S) &&
-			    !GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) )
-			{
+            else
                 sonidoPasos.stop();
-                //sonidoPies[0].stop();
-                //sonidoPies[1].stop();
-			}
-            
-			//Activar objetos
-			if(GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.E))
-			{
-                //Aca deberia ir el codigo
+
+            if (input.Interactuar())
+            {
                 mapa.activarObjetos();
-				//Mapa despues deberia tomar la posicion de la camara y checkear la colision
-			}
+            }
 
             //Activar gameOverScreen (solo p/debug)
-            /*if(GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.M))
+            /*if(GuiController.Instance.D3dInput.keyPressed(Key.M))
 			{
 				GameOver.Instance.activar();
                 morir();

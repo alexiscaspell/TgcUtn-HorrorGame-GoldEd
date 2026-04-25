@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 using System.Drawing;
 

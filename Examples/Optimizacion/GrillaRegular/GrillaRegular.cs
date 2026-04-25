@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 
 namespace Examples.Optimizacion.GrillaRegular

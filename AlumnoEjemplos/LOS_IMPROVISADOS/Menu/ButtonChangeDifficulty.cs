@@ -1,5 +1,5 @@
-﻿using AlumnoEjemplos.MiGrupo;
-using Microsoft.DirectX;
+﻿using AlumnoEjemplos.LOS_IMPROVISADOS;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;

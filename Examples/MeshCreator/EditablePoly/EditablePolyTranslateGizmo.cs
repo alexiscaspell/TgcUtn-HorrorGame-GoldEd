@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.DirectX;
+using SharpDX;
 using Examples.MeshCreator.Gizmos;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer;
@@ -108,7 +108,7 @@ namespace Examples.MeshCreator.EditablePolyTools
                         {
                             if (input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
                             {
-                                bool additive = input.keyDown(Microsoft.DirectX.DirectInput.Key.LeftControl) || input.keyDown(Microsoft.DirectX.DirectInput.Key.RightControl);
+                                bool additive = input.keyDown(Key.LeftControl) || input.keyDown(Key.RightControl);
                                 editablePoly.CurrentState = EditablePoly.State.SelectObject;
                                 editablePoly.doDirectSelection(additive);
                             }

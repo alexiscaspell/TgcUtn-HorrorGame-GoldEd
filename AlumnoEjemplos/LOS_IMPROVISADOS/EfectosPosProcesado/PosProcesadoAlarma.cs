@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer;
 using TgcViewer.Utils.Shaders;
 using TgcViewer.Utils.TgcSceneLoader;
@@ -11,7 +11,7 @@ using System.Drawing;
 using TgcViewer.Utils;
 using TgcViewer.Utils.TgcGeometry;
 using AlumnoEjemplos.LOS_IMPROVISADOS;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 {
@@ -30,7 +30,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
             TgcTexture texturaFondo = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosDir +
                                                                "Media\\mapa\\fondoNegro.png");
 
-            cajaNegra = TgcBox.fromSize(new Vector3(renderDistance, renderDistance, renderDistance), texturaFondo);
+            cajaNegra = TgcBox.fromSize(new Vector3(renderDistance, renderDistance, renderDistance), System.Drawing.Color.Black, texturaFondo);
 
             meshes = new List<TgcMesh>();
 
@@ -53,14 +53,12 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
                 new CustomVertex.PositionTextured(1,-1, 1, 1,1)
             };
             //vertex buffer de los triangulos
-            screenQuadVB = new VertexBuffer(typeof(CustomVertex.PositionTextured),
-                    4, d3dDevice, Usage.Dynamic | Usage.WriteOnly,
-                        CustomVertex.PositionTextured.Format, Pool.Default);
+            screenQuadVB = new VertexBuffer(d3dDevice, 4 * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionTextured)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionTextured.Format, Pool.Default);
             screenQuadVB.SetData(screenQuadVertices, 0, LockFlags.None);
 
             //Creamos un Render Targer sobre el cual se va a dibujar la pantalla
-            renderTarget2D = new Texture(d3dDevice, d3dDevice.PresentationParameters.BackBufferWidth
-                    , d3dDevice.PresentationParameters.BackBufferHeight, 1, Usage.RenderTarget,
+            renderTarget2D = new Texture(d3dDevice, (int)d3dDevice.Viewport.Width
+                    , (int)d3dDevice.Viewport.Height, 1, Usage.RenderTarget,
                         Format.X8R8G8B8, Pool.Default);
 
 
@@ -72,7 +70,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 
 
             //Cargar textura que se va a dibujar arriba de la escena del Render Target
-            alarmTexture = TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Shaders\\efecto_alarma.png");
+            alarmTexture = TgcTexture.createTexture(d3dDevice, GuiController.Instance.AlumnoEjemplosDir + "Media\\Shaders\\efecto_alarma.png");
 
             //Interpolador para efecto de variar la intensidad de la textura de alarma
             intVaivenAlarm = new InterpoladorVaiven();
@@ -111,7 +109,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
             pOldRT = d3dDevice.GetRenderTarget(0);
             Surface pSurf = renderTarget2D.GetSurfaceLevel(0);
             d3dDevice.SetRenderTarget(0, pSurf);
-            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, new SharpDX.ColorBGRA( Color.Black.B,  Color.Black.G,  Color.Black.R,  Color.Black.A), 1.0f, 0);
 
 
             //Dibujamos la escena comun, pero en vez de a la pantalla al Render Target
@@ -159,18 +157,18 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 
             //Cargamos para renderizar el unico modelo que tenemos, un Quad que ocupa toda la pantalla, con la textura de todo lo dibujado antes
             d3dDevice.VertexFormat = CustomVertex.PositionTextured.Format;
-            d3dDevice.SetStreamSource(0, screenQuadVB, 0);
+            d3dDevice.SetStreamSource(0, screenQuadVB, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionTextured)));
 
             //Ver si el efecto de alarma esta activado, configurar Technique del shader segun corresponda
             effect.Technique = "AlarmaTechnique";
 
             //Cargamos parametros en el shader de Post-Procesado
-            effect.SetValue("render_target2D", renderTarget2D);
-            effect.SetValue("textura_alarma", alarmTexture.D3dTexture);
+            effect.SetTexture("render_target2D", renderTarget2D);
+            effect.SetTexture("textura_alarma", alarmTexture.D3dTexture);
             effect.SetValue("alarmaScaleFactor", intVaivenAlarm.update());
 
             //Limiamos la pantalla y ejecutamos el render del shader
-            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, new SharpDX.ColorBGRA( Color.Black.B,  Color.Black.G,  Color.Black.R,  Color.Black.A), 1.0f, 0);
             effect.Begin(FX.None);
             effect.BeginPass(0);
             d3dDevice.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer;
 using TgcViewer.Utils.Shaders;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Interpolation;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
-using Microsoft.DirectX;
+using SharpDX;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 {
@@ -52,24 +52,22 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
                 new CustomVertex.PositionTextured(-1, -1, 1, 0,1),
                 new CustomVertex.PositionTextured(1,-1, 1, 1,1)
             };
-            screenQuadVB = new VertexBuffer(typeof(CustomVertex.PositionTextured),
-                    4, d3dDevice, Usage.Dynamic | Usage.WriteOnly,
-                        CustomVertex.PositionTextured.Format, Pool.Default);
+            screenQuadVB = new VertexBuffer(d3dDevice, 4 * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionTextured)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionTextured.Format, Pool.Default);
             screenQuadVB.SetData(screenQuadVertices, 0, LockFlags.None);
 
-            /*renderTarget2D = new Texture(d3dDevice, d3dDevice.PresentationParameters.BackBufferWidth
-                    , d3dDevice.PresentationParameters.BackBufferHeight, 1, Usage.RenderTarget,
+            /*renderTarget2D = new Texture(d3dDevice, (int)d3dDevice.Viewport.Width
+                    , (int)d3dDevice.Viewport.Height, 1, Usage.RenderTarget,
                         Format.X8R8G8B8, Pool.Default);*/
 
-            renderTarget2D = new Texture(d3dDevice, d3dDevice.PresentationParameters.BackBufferWidth, d3dDevice.PresentationParameters.BackBufferHeight, 1, Usage.RenderTarget, Format.X8R8G8B8, Pool.Default);
+            renderTarget2D = new Texture(d3dDevice, (int)d3dDevice.Viewport.Width, (int)d3dDevice.Viewport.Height, 1, Usage.RenderTarget, Format.X8R8G8B8, Pool.Default);
             //Creamos un DepthStencil que debe ser compatible con nuestra definicion de renderTarget2D.
-            depthStencil = d3dDevice.CreateDepthStencilSurface(d3dDevice.PresentationParameters.BackBufferWidth, d3dDevice.PresentationParameters.BackBufferHeight, DepthFormat.D24S8, MultiSampleType.None, 0, true);
+            depthStencil = d3dDevice.CreateDepthStencilSurface((int)d3dDevice.Viewport.Width, (int)d3dDevice.Viewport.Height, Format.D24S8, MultisampleType.None, 0, true);
                         
             //int pantallaWidth = ScreenSizeClass.ScreenSize.Width;
             //int pantallaHeight = ScreenSizeClass.ScreenSize.Height;
             //renderTarget2D = new Texture(d3dDevice, pantallaWidth, pantallaHeight, 1, Usage.RenderTarget, Format.X8R8G8B8, Pool.Default);
 
-            //depthStencil = d3dDevice.CreateDepthStencilSurface(pantallaWidth, pantallaHeight, DepthFormat.D24S8, MultiSampleType.None, 0, true);
+            //depthStencil = d3dDevice.CreateDepthStencilSurface(pantallaWidth, pantallaHeight, Format.D24S8, MultisampleType.None, 0, true);
             //Cargar shader con efectos de Post-Procesado
             effect = TgcShaders.loadEffect(GuiController.Instance.AlumnoEjemplosDir + "Media\\Shaders\\PostProcess.fx");
             effect.Technique = "BlurTechnique";
@@ -140,7 +138,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
             d3dDevice.DepthStencilSurface = depthStencil;//agregado
             
                 
-            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, new SharpDX.ColorBGRA( Color.Black.B,  Color.Black.G,  Color.Black.R,  Color.Black.A), 1.0f, 0);
 
             drawSceneToRenderTarget(d3dDevice);
 
@@ -191,7 +189,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
                 effect.SetValue("red_intensity", red_intensity);
             }
 
-            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, new SharpDX.ColorBGRA( Color.Black.B,  Color.Black.G,  Color.Black.R,  Color.Black.A), 1.0f, 0);
             effect.Begin(FX.None);
             effect.BeginPass(0);
             d3dDevice.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);

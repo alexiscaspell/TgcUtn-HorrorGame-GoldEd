@@ -7,8 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using SistPaquetesClient.core;
 
 namespace Examples.RoomsEditor

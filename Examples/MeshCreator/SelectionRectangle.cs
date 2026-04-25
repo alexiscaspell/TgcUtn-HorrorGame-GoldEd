@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.Input;
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils;
@@ -49,7 +49,7 @@ namespace Examples.MeshCreator
             TgcD3dInput input = GuiController.Instance.D3dInput;
 
             //Si mantiene control y clic con el mouse, iniciar cuadro de seleccion para agregar/quitar a la seleccion actual
-            if ((input.keyDown(Microsoft.DirectX.DirectInput.Key.LeftControl) || input.keyDown(Microsoft.DirectX.DirectInput.Key.RightControl))
+            if ((input.keyDown(Key.LeftControl) || input.keyDown(Key.RightControl))
                 && input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             {
                 control.CurrentState = MeshCreatorControl.State.SelectingObject;

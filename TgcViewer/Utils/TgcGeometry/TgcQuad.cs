@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
 
@@ -48,7 +48,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector2 size;
         /// <summary>
-        /// Tamaño del plano, en ancho y longitud
+        /// Tamao del plano, en ancho y longitud
         /// </summary>
         public Vector2 Size
         {
@@ -85,8 +85,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -121,10 +121,9 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColored), 6, d3dDevice,
-                Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, 6 * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
 
-            this.center = Vector3.Empty;
+            this.center = Vector3.Zero;
             this.normal = new Vector3(0, 1, 0);
             this.size = new Vector2(10, 10);
             this.enabled = true;
@@ -137,13 +136,13 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Actualizar parámetros del plano en base a los valores configurados
+        /// Actualizar parmetros del plano en base a los valores configurados
         /// </summary>
         public void updateValues()
         {
             CustomVertex.PositionColored[] vertices = new CustomVertex.PositionColored[6];
             
-            //Crear un Quad con dos triángulos sobre XZ con normal default (0, 1, 0)
+            //Crear un Quad con dos tringulos sobre XZ con normal default (0, 1, 0)
             Vector3 min = new Vector3(-size.X / 2, 0, -size.Y / 2);
             Vector3 max = new Vector3(size.X / 2, 0, size.Y / 2);
             int c = color.ToArgb();

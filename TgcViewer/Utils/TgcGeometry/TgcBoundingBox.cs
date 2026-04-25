@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
@@ -86,7 +86,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 pMin;
         /// <summary>
-        /// Punto mÌnimo del BoundingBox
+        /// Punto mùnimo del BoundingBox
         /// </summary>
         public Vector3 PMin
         {
@@ -95,7 +95,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 pMax;
         /// <summary>
-        /// Punto m·ximo del BoundinBox
+        /// Punto mùximo del BoundinBox
         /// </summary>
         public Vector3 PMax
         {
@@ -151,8 +151,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Construir AABB
         /// </summary>
-        /// <param name="pMin">Punto mÌnimo</param>
-        /// <param name="pMax">Punto m·ximo</param>
+        /// <param name="pMin">Punto mùnimo</param>
+        /// <param name="pMax">Punto mùximo</param>
         public TgcBoundingBox(Vector3 pMin, Vector3 pMax) 
             : this()
         {
@@ -187,8 +187,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Configurar los valores extremos del BoundingBox
         /// </summary>
-        /// <param name="pMin">Punto mÌnimo</param>
-        /// <param name="pMax">Punto m·ximo</param>
+        /// <param name="pMin">Punto mùnimo</param>
+        /// <param name="pMax">Punto mùximo</param>
         public void setExtremes(Vector3 pMin, Vector3 pMax)
         {
             this.pMin = pMin;
@@ -222,8 +222,8 @@ namespace TgcViewer.Utils.TgcGeometry
         public float calculateBoxRadiusSquare()
         {
             Vector3 diff = Vector3.Subtract(pMax, pMin);
-            diff.Scale(0.5f);
-            return diff.LengthSq();
+            diff = diff * 0.5f;
+            return diff.LengthSquared();
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// TamaÒo de cada dimensiÛn del BoundingBox
+        /// Tamaùo de cada dimensiùn del BoundingBox
         /// </summary>
         public Vector3 calculateSize()
         {
@@ -258,13 +258,13 @@ namespace TgcViewer.Utils.TgcGeometry
         public Vector3 calculateAxisRadius()
         {
             Vector3 size = calculateSize();
-            size.Multiply(0.5f);
+            size = size * 0.5f;
             return size;
         }
 
         public Vector3 Position
         {
-            //Lo correcto serÌa calcular el centro, pero con un extremo es suficiente.
+            //Lo correcto serùa calcular el centro, pero con un extremo es suficiente.
             //get { return calculateBoxCenter(); }
             get { return pMin; }
         }
@@ -272,8 +272,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vÈrtice de canal Alpha.
-        /// Por default est· deshabilitado.
+        /// con textura o colores por vùrtice de canal Alpha.
+        /// Por default estù deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -284,9 +284,9 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// <summary>
         /// Traslada y escala el BoundingBox.
-        /// Si el BoundingBox tenia alguna rotaciÛn, se pierde.
+        /// Si el BoundingBox tenia alguna rotaciùn, se pierde.
         /// </summary>
-        /// <param name="position">Nueva posiciÛn absoluta de referencia</param>
+        /// <param name="position">Nueva posiciùn absoluta de referencia</param>
         /// <param name="scale">Nueva escala absoluta de referencia</param>
         public void scaleTranslate(Vector3 position, Vector3 scale)
         {
@@ -315,13 +315,13 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Transforma el BondingBox en base a una matriz de transformaciÛn.
+        /// Transforma el BondingBox en base a una matriz de transformaciùn.
         /// Esto implica escalar, rotar y trasladar.
         /// El procedimiento es mas costoso que solo hacer scaleTranslate().
         /// Se construye un nuevo BoundingBox en base a los puntos extremos del original
-        /// m·s la transformaciÛn pedida.
-        /// Si el BoundingBox se transformÛ y luego se llama a scaleTranslate(), se respeta
-        /// la traslaciÛn y la escala, pero la rotaciÛn se va a perder.
+        /// mùs la transformaciùn pedida.
+        /// Si el BoundingBox se transformù y luego se llama a scaleTranslate(), se respeta
+        /// la traslaciùn y la escala, pero la rotaciùn se va a perder.
         /// </summary>
         /// <param name="transform"></param>
         public void transform(Matrix transform)
@@ -414,7 +414,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 this.technique = TgcShaders.T_POSITION_COLORED;
             }
 
-            //Actualizar vertices de BoundingBox solo si hubo una modificaciÛn
+            //Actualizar vertices de BoundingBox solo si hubo una modificaciùn
             if (dirtyValues)
             {
                 updateValues();
@@ -472,9 +472,9 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Calcula los polÌgonos que conforman las 6 caras del BoundingBox 
+        /// Calcula los polùgonos que conforman las 6 caras del BoundingBox 
         /// </summary>
-        /// <returns>Array con las 6 caras del polÌgono en el siguiente orden: Up, Down, Front, Back, Right, Left</returns>
+        /// <returns>Array con las 6 caras del polùgono en el siguiente orden: Up, Down, Front, Back, Right, Left</returns>
         public Face[] computeFaces()
         {
             Face[] faces = new Face[6];
@@ -550,7 +550,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Cara de un BoundingBox representada por un polÌgono rectangular de 4 vÈrtices.
+        /// Cara de un BoundingBox representada por un polùgono rectangular de 4 vùrtices.
         /// </summary>
         public class Face
         {
@@ -561,7 +561,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
             Vector3[] extremes;
             /// <summary>
-            /// Los 4 vÈrtices extremos de la cara
+            /// Los 4 vùrtices extremos de la cara
             /// </summary>
             public Vector3[] Extremes
             {
@@ -571,7 +571,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
             Plane plane;
             /// <summary>
-            /// EcuaciÛn del plano que engloba la cara, con su normal apuntado hacia afuera normalizada.
+            /// Ecuaciùn del plano que engloba la cara, con su normal apuntado hacia afuera normalizada.
             /// </summary>
             public Plane Plane
             {
@@ -603,15 +603,15 @@ namespace TgcViewer.Utils.TgcGeometry
         {
             Device device = GuiController.Instance.D3dDevice;
             Viewport viewport = device.Viewport;
-            Matrix world = device.Transform.World;
-            Matrix view = device.Transform.View;
-            Matrix proj = device.Transform.Projection;
+            Matrix world = device.GetTransform(SharpDX.Direct3D9.TransformState.World);
+            Matrix view = device.GetTransform(SharpDX.Direct3D9.TransformState.View);
+            Matrix proj = device.GetTransform(SharpDX.Direct3D9.TransformState.Projection);
 
             //Proyectar los 8 corners del BoundingBox
             Vector3[] projVertices = computeCorners();
             for (int i = 0; i < projVertices.Length; i++)
             {
-                projVertices[i] = Vector3.Project(projVertices[i], viewport, proj, view, world);
+                projVertices[i] = Vector3.TransformCoordinate(projVertices[i], world * view * proj);
             }
 
             //Buscar los puntos extremos

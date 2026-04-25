@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.DirectX;
-using Microsoft.DirectX.DirectInput;
+using SharpDX;
+using SharpDX.DirectInput;
 using TgcViewer.Utils.Input;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 
 namespace Examples.Quake3Loader
 {
@@ -195,7 +195,7 @@ namespace Examples.Quake3Loader
             updateViewMatrix(GuiController.Instance.D3dDevice);
         }
 
-        public void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice)
+        public void updateViewMatrix(Device d3dDevice)
         {
             d3dDevice.Transform.View = viewMatrix;
         }

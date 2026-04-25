@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils._2D;
@@ -106,12 +106,12 @@ namespace Examples.Sound
 
 
             //Contro el input de teclado
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Y))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.Y))
             {
                 bool playLoop = (bool)GuiController.Instance.Modifiers["PlayLoop"];
                 sound.play(playLoop);
             }
-            else if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.O))
+            else if (GuiController.Instance.D3dInput.keyPressed(Key.O))
             {
                 sound.stop();
             }

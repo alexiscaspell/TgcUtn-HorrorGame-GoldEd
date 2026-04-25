@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 
 namespace Examples.Engine2D

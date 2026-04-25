@@ -8,8 +8,8 @@
  */
 using System;
 using System.Collections.Generic;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Sound;
@@ -295,9 +295,9 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 //            	{
 //            		if(abierta)
 //            		{
-//            			mesh.rotateY(Geometry.DegreeToRadian(-cambioAngulo));
+//            			mesh.rotateY(MathUtil.DegreesToRadians(-cambioAngulo));
 //            		}else{
-//            			mesh.rotateY(Geometry.DegreeToRadian(cambioAngulo));
+//            			mesh.rotateY(MathUtil.DegreesToRadians(cambioAngulo));
 //            		}
 //            	}else{
 //            		anguloRotacion = 0;
@@ -328,9 +328,9 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 		            	{
 		            		if(abierta)
 		            		{
-		            			mesh.rotateY(Geometry.DegreeToRadian(-cambioAngulo));
+		            			mesh.rotateY(MathUtil.DegreesToRadians(-cambioAngulo));
 		            		}else{
-		            			mesh.rotateY(Geometry.DegreeToRadian(cambioAngulo));
+		            			mesh.rotateY(MathUtil.DegreesToRadians(cambioAngulo));
 		            		}
 		            	}else{
 		            		//Ajuste de BB

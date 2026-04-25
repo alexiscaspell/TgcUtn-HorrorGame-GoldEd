@@ -4,8 +4,8 @@ using System.Text;
 using System.Windows.Forms;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
@@ -198,7 +198,7 @@ namespace Examples.Shaders.WorkshopShaders
 
             Vector3 lightPosition = (Vector3)GuiController.Instance.Modifiers["LightPosition"];
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.Space))
                 efecto_blur = !efecto_blur;
 
 

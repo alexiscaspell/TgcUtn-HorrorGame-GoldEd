@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TgcViewer.Utils.Input;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer;
 
 namespace TgcViewer.Utils.Input
@@ -116,9 +116,9 @@ namespace TgcViewer.Utils.Input
             offsetHeight = 20;
             offsetForward = -120;
             rotationY = 0;
-            targetDisplacement = Vector3.Empty;
-            target = Vector3.Empty;
-            position = Vector3.Empty;
+            targetDisplacement = Vector3.Zero;
+            target = Vector3.Zero;
+            position = Vector3.Zero;
             viewMatrix = Matrix.Identity;
         }
 
@@ -182,14 +182,14 @@ namespace TgcViewer.Utils.Input
         }
 
 
-        public void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice)
+        public void updateViewMatrix(SharpDX.Direct3D9.Device d3dDevice)
         {
             if (!enable)
             {
                 return;
             }
 
-            d3dDevice.Transform.View = viewMatrix;
+            d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.View, viewMatrix);
         }
 
     }

@@ -1,5 +1,5 @@
 ﻿using AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.IyCA;
-using Microsoft.DirectX;
+using SharpDX;
 using System.Drawing;
 using TgcViewer;
 using TgcViewer.Utils._2D;

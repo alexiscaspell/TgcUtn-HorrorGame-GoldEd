@@ -8,8 +8,8 @@
  */
 using System;
 using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.DirectInput;
+using SharpDX;
+using SharpDX.DirectInput;
 using TgcViewer;
 using TgcViewer.Utils._2D;
 using TgcViewer.Utils.TgcSceneLoader;
@@ -195,30 +195,32 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 		
 		private void update()
 		{
+			var input = InputManager.Current;
+
 			//Accion de botones
 			if(activado)
 			{//Para no moverme cuando el inventario esta desactivado y que no haga soniditos
-				if(GuiController.Instance.D3dInput.keyPressed(Key.RightArrow) )
+				if(input.MenuDerecha())
 				{
 					indiceColumna++;
 					sonidoCambio.play();
 				}
-				if(GuiController.Instance.D3dInput.keyPressed(Key.LeftArrow) )
+				if(input.MenuIzquierda())
 				{
 					indiceColumna--;
 					sonidoCambio.play();
 				}
-				if(GuiController.Instance.D3dInput.keyPressed(Key.DownArrow) )
+				if(input.MenuAbajo())
 				{
 					indiceFila++;
 					sonidoCambio.play();
 				}
-				if(GuiController.Instance.D3dInput.keyPressed(Key.Up) )
+				if(input.MenuArriba())
 				{
 					indiceFila--;
 					sonidoCambio.play();
 				}
-				if(GuiController.Instance.D3dInput.keyPressed(Key.Space) )
+				if(input.AbrirMapa())
 				{
 					if(minimapActivado)
 					{
@@ -232,7 +234,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 				
 			}
 
-			if(GuiController.Instance.D3dInput.keyPressed(Key.Q) )
+			if(input.ToggleInventario())
 			{
 				if(activado){
 					activado=false;

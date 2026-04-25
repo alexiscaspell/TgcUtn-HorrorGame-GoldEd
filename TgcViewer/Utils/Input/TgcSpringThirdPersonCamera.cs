@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcSceneLoader;
 
 namespace TgcViewer.Utils.Input
@@ -197,8 +197,8 @@ namespace TgcViewer.Utils.Input
             m_headingDegrees *= elapsedTimeSec;
             m_pitchDegrees *= elapsedTimeSec;
 
-            float heading = Geometry.DegreeToRadian(m_headingDegrees);
-            float pitch = Geometry.DegreeToRadian(m_pitchDegrees);
+            float heading = MathUtil.DegreesToRadians(m_headingDegrees);
+            float pitch = MathUtil.DegreesToRadians(m_pitchDegrees);
 
             Quaternion rot;
 
@@ -296,7 +296,7 @@ namespace TgcViewer.Utils.Input
 
         public Vector3 calulateNextPosition(float headingDegrees, float elapsedTimeSec)
         {
-            float heading = Geometry.DegreeToRadian(-headingDegrees * elapsedTimeSec);
+            float heading = MathUtil.DegreesToRadians(-headingDegrees * elapsedTimeSec);
 
             Quaternion quatOrientation = m_orientation;
             if (heading != 0.0f)
@@ -329,14 +329,14 @@ namespace TgcViewer.Utils.Input
         /// <summary>
         /// Actualiza la ViewMatrix, si es que la camara esta activada
         /// </summary>
-        public void updateViewMatrix(Microsoft.DirectX.Direct3D.Device d3dDevice)
+        public void updateViewMatrix(SharpDX.Direct3D9.Device d3dDevice)
         {
             if (!enable)
             {
                 return;
             }
 
-            d3dDevice.Transform.View = m_viewMatrix;
+            d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.View, m_viewMatrix);
         }
 
         public Vector3 getPosition()

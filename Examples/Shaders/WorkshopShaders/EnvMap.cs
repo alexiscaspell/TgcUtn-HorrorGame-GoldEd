@@ -4,8 +4,8 @@ using System.Text;
 using System.Windows.Forms;
 using TgcViewer.Example;
 using TgcViewer;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
@@ -194,16 +194,16 @@ terrain;
             Device device = GuiController.Instance.D3dDevice;
             Control panel3d = GuiController.Instance.Panel3d;
             float aspectRatio = (float)panel3d.Width / (float)panel3d.Height;
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.Space))
             {
                 vel_tanque++;
                 if (vel_tanque > 10)
                     vel_tanque = 0;
             }
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.X))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.X))
                 volar = !volar;
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.S))
+            if (GuiController.Instance.D3dInput.keyPressed(Key.S))
             {
                 // swap mesh
                 TgcMesh mesh_aux = mesh;

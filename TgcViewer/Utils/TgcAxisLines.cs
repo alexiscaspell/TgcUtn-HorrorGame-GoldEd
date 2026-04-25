@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+using SharpDX.Direct3D9;
+using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
@@ -45,8 +45,7 @@ namespace TgcViewer.Utils
         
         public TgcAxisLines(Device d3dDevice)
         {
-            vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionColored), lineVertices.Length,
-                d3dDevice, Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
+            vertexBuffer = new VertexBuffer(d3dDevice, lineVertices.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionColored)), Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Default);
 
             vertexBuffer.Created += new EventHandler(this.onVertexBufferCreate);
             onVertexBufferCreate(vertexBuffer, null);
@@ -72,14 +71,14 @@ namespace TgcViewer.Utils
             float sx = AXIS_POS_OFFSET;
             float sy = h - AXIS_POS_OFFSET;
             
-            Matrix matProj = d3dDevice.Transform.Projection;
+            Matrix matProj = d3dDevice.GetTransform(SharpDX.Direct3D9.TransformState.Projection);
             Vector3 v = new Vector3();
             v.X = (((2.0f * sx) / w) - 1) / matProj.M11;
             v.Y = -(((2.0f * sy) / h) - 1) / matProj.M22;
             v.Z = 1.0f;
 
             //Transform the screen space into 3D space
-            Matrix m = Matrix.Invert(d3dDevice.Transform.View);
+            Matrix m = Matrix.Invert(d3dDevice.GetTransform(SharpDX.Direct3D9.TransformState.View));
             Vector3 rayDir = new Vector3(
                 v.X * m.M11 + v.Y * m.M21 + v.Z * m.M31,
                 v.X * m.M12 + v.Y * m.M22 + v.Z * m.M32,
@@ -93,13 +92,13 @@ namespace TgcViewer.Utils
             texturesManager.clear(0);
             texturesManager.clear(1);
             d3dDevice.Material = TgcD3dDevice.DEFAULT_MATERIAL;
-            d3dDevice.Transform.World = Matrix.Translation(worldCoordPos);
+            d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.World, Matrix.Translation(worldCoordPos));
 
             d3dDevice.VertexFormat = CustomVertex.PositionColored.Format;
             d3dDevice.SetStreamSource(0, vertexBuffer, 0);
             d3dDevice.DrawPrimitives(PrimitiveType.LineList, 0, 3);
 
-            d3dDevice.Transform.World = Matrix.Identity;
+            d3dDevice.SetTransform(SharpDX.Direct3D9.TransformState.World, Matrix.Identity);
         }
 
     }

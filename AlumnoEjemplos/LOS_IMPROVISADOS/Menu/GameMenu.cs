@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX;
+﻿using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using AlumnoEjemplos.LOS_IMPROVISADOS;
 
-namespace AlumnoEjemplos.MiGrupo
+namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
     public class GameMenu
     {
@@ -73,23 +73,25 @@ namespace AlumnoEjemplos.MiGrupo
         {
             if (botones.Count == 0) { return; }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.UpArrow)&&selectedButton>0)
+            var input = InputManager.Current;
+
+            if (input.MenuArriba() && selectedButton > 0)
             {
                 sonidoCambio.play();
                 selectedButton--;
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.DownArrow)&&selectedButton<botones.Count-1)
+            if (input.MenuAbajo() && selectedButton < botones.Count - 1)
             {
                 sonidoCambio.play();
                 selectedButton++;
             }
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space))//por ahora cn space
+            if (input.MenuConfirmar())
             {
                 sonidoAceptar.play();
 
-                botones[selectedButton].execute(application,this);
+                botones[selectedButton].execute(application, this);
             }
 
             for (int i = 0; i < botones.Count; i++)

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
@@ -37,7 +37,7 @@ namespace TgcViewer.Utils.TgcGeometry
             float sy = GuiController.Instance.D3dInput.Ypos;
             int w = d3dDevice.Viewport.Width;
             int h = d3dDevice.Viewport.Height;
-            Matrix matProj = d3dDevice.Transform.Projection;
+            Matrix matProj = d3dDevice.GetTransform(SharpDX.Direct3D9.TransformState.Projection);
 
             Vector3 v = new Vector3();
             v.X = (((2.0f * sx) / w) - 1) / matProj.M11;
@@ -45,7 +45,7 @@ namespace TgcViewer.Utils.TgcGeometry
             v.Z = 1.0f;
 
             //Transform the screen space pick ray into 3D space
-            Matrix m = Matrix.Invert(d3dDevice.Transform.View);
+            Matrix m = Matrix.Invert(d3dDevice.GetTransform(SharpDX.Direct3D9.TransformState.View));
             Vector3 rayDir = new Vector3(
                 v.X * m.M11 + v.Y * m.M21 + v.Z * m.M31,
                 v.X * m.M12 + v.Y * m.M22 + v.Z * m.M32,

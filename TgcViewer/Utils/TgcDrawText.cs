@@ -1,55 +1,44 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Windows.Forms;
 using System.Drawing;
 
 namespace TgcViewer.Utils
 {
-    /// <summary>
-    /// Herramienta para dibujar texto genérico del Framework
-    /// </summary>
     public class TgcDrawText
     {
-        /// <summary>
-        /// Fuente default del framework
-        /// </summary>
-        public static readonly System.Drawing.Font VERDANA_10 = new System.Drawing.Font("Verdana", 10, FontStyle.Regular, GraphicsUnit.Pixel);
+        public static readonly System.Drawing.Font VERDANA_10 =
+            new System.Drawing.Font("Verdana", 10, FontStyle.Regular, GraphicsUnit.Pixel);
 
-        Microsoft.DirectX.Direct3D.Font dxFont;
+        SharpDX.Direct3D9.Font dxFont;
 
         Sprite textSprite;
-        /// <summary>
-        /// Sprite para renderizar texto
-        /// </summary>
-        public Sprite TextSprite
-        {
-            get { return textSprite; }
-        }
+        public Sprite TextSprite => textSprite;
 
         public TgcDrawText(Device d3dDevice)
         {
             textSprite = new Sprite(d3dDevice);
-
-            //Fuente default
-            dxFont = new Microsoft.DirectX.Direct3D.Font(d3dDevice, VERDANA_10);
+            var desc = new FontDescription
+            {
+                Height          = VERDANA_10.Height,
+                FaceName        = VERDANA_10.Name,
+                Weight          = FontWeight.Normal,
+                Italic          = false,
+                CharacterSet    = FontCharacterSet.Default,
+                OutputPrecision = FontPrecision.Default,
+                Quality         = FontQuality.Default,
+                PitchAndFamily  = FontPitchAndFamily.Default | FontPitchAndFamily.DontCare,
+            };
+            dxFont = new SharpDX.Direct3D9.Font(d3dDevice, desc);
         }
 
-        /// <summary>
-        /// Dibujar un texto en la posición indicada, con el color indicado. 
-        /// Utilizar la fuente default del Framework.
-        /// </summary>
-        /// <param name="text">Texto a dibujar</param>
-        /// <param name="x">Posición X de la pantalla</param>
-        /// <param name="y">Posición Y de la pantalla</param>
-        /// <param name="color">Color del texto</param>
-        public void drawText(string text, int x, int y, Color color)
+        public void drawText(string text, int x, int y, System.Drawing.Color color)
         {
             textSprite.Begin(SpriteFlags.AlphaBlend);
-            dxFont.DrawText(textSprite, text, x, y, color);
+            var rc = new SharpDX.Mathematics.Interop.RawRectangle(x, y, x + 500, y + 50);
+            dxFont.DrawText(textSprite, text, rc, FontDrawFlags.Left,
+                new SharpDX.ColorBGRA(color.B, color.G, color.R, color.A));
             textSprite.End();
         }
-
     }
 }

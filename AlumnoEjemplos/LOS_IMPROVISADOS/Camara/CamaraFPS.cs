@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 
 using TgcViewer;
-using Microsoft.DirectX;
+using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 
-using Microsoft.DirectX.Direct3D;
+using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
 using System.Windows.Forms;
