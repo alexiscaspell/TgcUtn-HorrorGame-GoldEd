@@ -22,18 +22,18 @@ namespace TgcViewer.Utils.Sound
             get { return dsDevice; }
         }
 
-        private Listener3D listener3d;
+        private SoundListener3D listener3d;
         /// <summary>
         /// Representa el objeto central del universo 3D que escucha todos los sonidos.
         /// </summary>
-        public Listener3D Listener3d
+        public SoundListener3D Listener3d
         {
             get { return listener3d; }
         }
 
         private ITransformObject listenerTracking;
         /// <summary>
-        /// Objeto al cual el Listener3D va a seguir para variar su posición en cada cuadro.
+        /// Objeto al cual el SoundListener3D va a seguir para variar su posición en cada cuadro.
         /// </summary>
         public ITransformObject ListenerTracking
         {
@@ -51,12 +51,12 @@ namespace TgcViewer.Utils.Sound
             SoundBufferDescription primaryBufferDesc = new SoundBufferDescription();
             primaryBufferDesc.Flags = BufferFlags.Control3D | BufferFlags.PrimaryBuffer;
             primaryBuffer = new PrimaryBuffer(dsDevice);
-            listener3d = new Listener3D(primaryBuffer);
+            listener3d = new SoundListener3D(primaryBuffer);
             listener3d.Position = new Vector3(0f, 0f, 0f);
         }
 
         /// <summary>
-        /// Actualiza la posición del Listener3D en base al ListenerTracking
+        /// Actualiza la posición del SoundListener3D en base al ListenerTracking
         /// </summary>
         internal void updateListener3d()
         {
