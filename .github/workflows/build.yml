@@ -86,14 +86,37 @@ jobs:
           Get-ChildItem "." -Filter "*.exe" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.Name }
           Get-ChildItem "." -Filter "*.dll" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.Name }
 
+          # Copy TgcViewer shaders (required by TgcShaders.cs at runtime)
+          # Path: Examples\Media\Shaders\TgcViewer\ (referenced via ExamplesMediaDir)
+          New-Item -ItemType Directory -Force "$out\Examples\Media\Shaders\TgcViewer" | Out-Null
+          Copy-Item "Examples\Media\Shaders\TgcViewer\*.fx" "$out\Examples\Media\Shaders\TgcViewer\" -ErrorAction SilentlyContinue
+
           # Copy game media assets
           New-Item -ItemType Directory -Force "$out\AlumnoEjemplos" | Out-Null
           Copy-Item AlumnoEjemplos\Media -Destination "$out\AlumnoEjemplos\Media" -Recurse
 
+          # Add README
+          Set-Content "$out\LEEME.txt" @"
+HorrorGame - TGC UTN Horror Game
+=================================
+IMPORTANTE: Extraer TODOS los archivos del ZIP antes de ejecutar el juego.
+No ejecutar HorrorGame.exe directamente desde el ZIP.
+
+Requisitos:
+- Windows 10 o superior
+- .NET Framework 4.8 (incluido en Windows 10+)
+- DirectX 9 (incluido en Windows)
+
+Para jugar: ejecutar HorrorGame.exe desde la carpeta extraida.
+
+Controles: WASD + mouse, F6=fluor, F=linterna, TAB=inventario, M=mapa, ESC=pausa
+Gamepad Xbox: joystick izq.=mover, joystick der.=camara, LB=fluor, RB=linterna
+"@
+
           # Verify at least one file was copied
-          $files = Get-ChildItem $out -ErrorAction SilentlyContinue
+          $files = Get-ChildItem $out -Recurse -File -ErrorAction SilentlyContinue
           Write-Host "=== dist\HorrorGame contents ($($files.Count) files) ===" 
-          $files | ForEach-Object { Write-Host $_.Name }
+          $files | ForEach-Object { Write-Host $_.FullName.Replace($out, '.') }
 
       - name: Crear ZIP
         shell: pwsh
