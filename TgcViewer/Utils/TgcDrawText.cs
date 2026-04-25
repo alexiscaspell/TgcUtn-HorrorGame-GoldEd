@@ -38,11 +38,16 @@ namespace TgcViewer.Utils
 
         public void drawText(string text, int x, int y, System.Drawing.Color color)
         {
-            textSprite.Begin(SpriteFlags.AlphaBlend);
-            var rc = new SharpDX.Mathematics.Interop.RawRectangle(x, y, x + 500, y + 50);
-            dxFont.DrawText(textSprite, text, rc, FontDrawFlags.Left,
-                new SharpDX.ColorBGRA(color.B, color.G, color.R, color.A));
-            textSprite.End();
+            if (string.IsNullOrEmpty(text)) return;
+            try
+            {
+                // Font.DrawText must be called inside BeginScene but without our own Sprite.Begin.
+                // Pass null for sprite so Font manages its own batch internally.
+                var rc = new SharpDX.Mathematics.Interop.RawRectangle(x, y, x + 800, y + 50);
+                dxFont.DrawText(null, text, rc, FontDrawFlags.Left,
+                    new SharpDX.ColorBGRA(color.R, color.G, color.B, color.A));
+            }
+            catch { /* non-critical - FPS counter/debug text */ }
         }
     }
 }
