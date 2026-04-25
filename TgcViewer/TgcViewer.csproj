@@ -298,6 +298,7 @@
     <!-- TgcSkeletalMesh.cs excluded: deep Mesh API not available in SharpDX.Direct3D9 net45
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalMesh.cs" /> -->
     <Compile Include="Utils\SharpDxCompat\CustomVertex.cs" />
+    <Compile Include="Utils\SharpDxCompat\MeshHelper.cs" />
     <Compile Include="Utils\SharpDxCompat\VertexBufferExtensions.cs" />
     <Compile Include="Utils\TgcUserVars.cs" />
     <Compile Include="Utils\Ui\AboutWindow.cs">

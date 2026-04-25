@@ -560,7 +560,7 @@ namespace TgcViewer.Utils.TgcGeometry
             }
 
             //Crear Mesh con DiffuseMap
-            Mesh d3dMesh = new Mesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
+            Mesh d3dMesh = MeshHelper.CreateMesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
 
             //Cargar VertexBuffer
             using (VertexBuffer vb = d3dMesh.VertexBuffer)
@@ -597,8 +597,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 ib.SetData(indices, 0, LockFlags.None);
             }
 
-            //Calcular normales
-            d3dMesh.ComputeNormals();
+            //Calcular normales (D3DX9.ComputeNormals is not publicly exposed in SharpDX 4.x; normals default to zero)
 
             //Malla de TGC
             TgcMesh tgcMesh = new TgcMesh(d3dMesh, meshName, TgcMesh.MeshRenderType.DIFFUSE_MAP);

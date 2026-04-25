@@ -246,7 +246,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            Color4 defaultColorValue = Color4.FromColor(defaultColor);
+            Color4 defaultColorValue = new Color4(defaultColor);
             meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
 
             //Obtener datos del VertexBuffer
@@ -325,7 +325,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            Color4 defaultColorValue = Color4.FromColor(defaultColor);
+            Color4 defaultColorValue = new Color4(defaultColor);
             meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
 
             //Obtener datos del VertexBuffer
@@ -423,7 +423,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            Color4 defaultColorValue = Color4.FromColor(defaultColor);
+            Color4 defaultColorValue = new Color4(defaultColor);
             meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
 
             //Armar buffer de vertices, normales y coordenadas de textura, buscando similitudes de valores
@@ -1029,7 +1029,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             int triCount = mesh1.NumberTriangles + mesh2.NumberTriangles;
             int vertexCount = mesh1.VertexCount + mesh2.VertexCount;
             VertexElement[] vertexElements = mesh1.RenderType == TgcMesh.MeshRenderType.VERTEX_COLOR ? TgcSceneLoader.VertexColorVertexElements : TgcSceneLoader.DiffuseMapVertexElements;
-            Mesh mesh = D3DX9.CreateMesh(triCount, vertexCount, MeshFlags.Managed, vertexElements, GuiController.Instance.D3dDevice);
+            Mesh mesh = MeshHelper.CreateMesh(triCount, vertexCount, MeshFlags.Managed, vertexElements, GuiController.Instance.D3dDevice);
 
             //VertexColor
             if (mesh1.RenderType == TgcMesh.MeshRenderType.VERTEX_COLOR)

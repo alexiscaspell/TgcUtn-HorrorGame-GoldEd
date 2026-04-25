@@ -175,7 +175,7 @@ namespace TgcViewer.Utils.Terrain
             for (int i = 0; i < faces.Length; i++)
             {
                 //Crear mesh de D3D
-                Mesh m = D3DX9.CreateMesh(d3dDevice, 2, 4, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
+                Mesh m = MeshHelper.CreateMesh(d3dDevice, 2, 4, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
                 SkyFaces skyFace = (SkyFaces)i;
 
                 // Cargo los vrtices

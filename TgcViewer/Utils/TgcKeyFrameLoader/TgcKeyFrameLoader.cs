@@ -236,7 +236,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         private TgcKeyFrameMesh crearMeshDiffuseMap(TgcKeyFrameLoaderMaterialAux[] materialsArray, TgcKeyFrameMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = D3DX9.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
+            Mesh mesh = MeshHelper.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
 
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
@@ -330,7 +330,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         private TgcKeyFrameMesh crearMeshSoloColor(TgcKeyFrameMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = D3DX9.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
+            Mesh mesh = MeshHelper.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
 
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
