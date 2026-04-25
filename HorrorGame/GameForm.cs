@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows.Forms;
 using TgcViewer;
 using AlumnoEjemplos.LOS_IMPROVISADOS;
@@ -43,19 +44,39 @@ namespace HorrorGame
 
             ApplicationRunning = true;
 
-            GuiController.newInstance();
-            GuiController gui = GuiController.Instance;
-            gui.initGraphicsStandalone(this, panel3d);
+            try
+            {
+                GuiController.newInstance();
+                GuiController gui = GuiController.Instance;
+                gui.initGraphicsStandalone(this, panel3d);
+                gui.executeExample(new EjemploAlumno());
+            }
+            catch (Exception ex)
+            {
+                LogCrash("INIT ERROR", ex);
+                ApplicationRunning = false;
+                return;
+            }
 
-            // Lanzar el juego directamente sin picker de ejemplos
-            gui.executeExample(new EjemploAlumno());
+            GuiController gui2 = GuiController.Instance;
+            bool firstRender = true;
 
-            // Game loop: igual que MainForm pero sin la UI del viewer
+            // Game loop
             while (ApplicationRunning)
             {
-                if (ContainsFocus)
+                if (ContainsFocus || firstRender)
                 {
-                    gui.render();
+                    firstRender = false;
+                    try
+                    {
+                        gui2.render();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogCrash("RENDER ERROR", ex);
+                        ApplicationRunning = false;
+                        break;
+                    }
                 }
                 else
                 {
@@ -64,6 +85,17 @@ namespace HorrorGame
 
                 Application.DoEvents();
             }
+        }
+
+        private static void LogCrash(string title, Exception ex)
+        {
+            try
+            {
+                string msg = title + ":\n" + ex.ToString();
+                File.WriteAllText("crash.log", msg);
+                MessageBox.Show(msg, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch { }
         }
 
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
