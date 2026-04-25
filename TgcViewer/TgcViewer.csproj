@@ -197,7 +197,8 @@
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimation.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimationFrame.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalBoneAttach.cs" />
-    <!-- TgcSkeletalStub.cs replaced by real TgcSkeletalMesh.cs (fixed for SharpDX) -->
+    <!-- TgcSkeletalStub.cs replaced by real TgcSkeletalMesh.cs + TgcSkeletalLoader.cs -->
+    <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalLoader.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalMesh.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimationBoneData.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimationBoneFrameData.cs" />

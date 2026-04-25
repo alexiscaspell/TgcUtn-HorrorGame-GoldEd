@@ -1230,14 +1230,11 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
 
                 case MeshRenderType.DIFFUSE_MAP:
 
-                    //Calcular normales usando DirectX
-                    int[] adj = new int[this.d3dMesh.GetNumFaces() * 3];
-                    this.d3dMesh.GenerateAdjacency(0, adj);
-                    this.d3dMesh.ComputeNormals(adj);
+                    // D3DX9 ComputeNormals/GenerateAdjacency not publicly exposed in SharpDX
+                    // Normals will be computed from vertex data below
 
                     //Obtener vertexBuffer original
-                    TgcSkeletalLoader.DiffuseMapVertex[] origVertexBuffer = (TgcSkeletalLoader.DiffuseMapVertex[])this.d3dMesh.LockVertexBuffer(
-                                typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.Discard, this.d3dMesh.GetNumVertices());
+                    TgcSkeletalLoader.DiffuseMapVertex[] origVertexBuffer = this.d3dMesh.LockVertexBufferData<TgcSkeletalLoader.DiffuseMapVertex>(LockFlags.Discard, this.d3dMesh.GetNumVertices());
                     
                     //Calcular normales recorriendo los triangulos
                     int triCount = origVertexBuffer.Length / 3;
