@@ -668,11 +668,17 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             float heading = 0.0f;
             float pitch = 0.0f;
 
-            //Obtener direccion segun entrada de teclado
-            Vector3 direction = getMovementDirection(d3dInput);
+            // Get gamepad state for this frame
+            var gp = GuiController.Instance.GamepadInput;
+            float gpRX = gp != null ? gp.RightStickX : 0f;
+            float gpRY = gp != null ? gp.RightStickY : 0f;
 
-            pitch = d3dInput.YposRelative * rotationSpeed;
-            heading = d3dInput.XposRelative * rotationSpeed;
+            //Obtener direccion segun entrada de teclado + stick izquierdo
+            Vector3 direction = getMovementDirection(d3dInput, gp);
+
+            // Camera look: mouse + right stick
+            pitch   = d3dInput.YposRelative * rotationSpeed + gpRY * rotationSpeed * 8f;
+            heading = d3dInput.XposRelative * rotationSpeed + gpRX * rotationSpeed * 8f;
 
             //Solo rotar si se esta aprentando el boton del mouse configurado
 
@@ -713,9 +719,20 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
         /// <summary>
         /// Obtiene la direccion a moverse por la camara en base a la entrada de teclado
         /// </summary>
-        private Vector3 getMovementDirection(TgcD3dInput d3dInput)
+        private Vector3 getMovementDirection(TgcD3dInput d3dInput,
+            TgcViewer.Utils.Input.TgcGamepadInput gp = null)
         {
             Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);
+
+            // Left analog stick (dead zone ~0.2)
+            float gpLX = (gp != null && movActivado) ? gp.LeftStickX : 0f;
+            float gpLY = (gp != null && movActivado) ? gp.LeftStickY : 0f;
+            if (System.Math.Abs(gpLX) < 0.2f) gpLX = 0f;
+            if (System.Math.Abs(gpLY) < 0.2f) gpLY = 0f;
+
+            // Accumulate analog stick into direction (proportional, not just 0/1)
+            direction.X += gpLX;
+            direction.Z += gpLY;
 
             //Forward
             if ( (d3dInput.keyDown(Key.W) && movActivado) || 
