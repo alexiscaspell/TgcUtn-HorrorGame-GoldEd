@@ -1,5 +1,5 @@
 /*
-* Shader genÈrico para TgcMesh.
+* Shader genùrico para TgcMesh.
 * Hay 3 Techniques, una para cada MeshRenderType:
 *	- VERTEX_COLOR
 *	- DIFFUSE_MAP
@@ -62,8 +62,9 @@ VS_OUTPUT_VERTEX_COLOR vs_VertexColor(VS_INPUT_VERTEX_COLOR input)
 	//Proyectar posicion
     output.Position = mul(input.Position, matWorldViewProj);
 
-	//Enviar color directamente
-    output.Color = input.Color;
+	// D3DCOLOR vertex element arrives as (B,G,R,A) in HLSL float4.
+	// Swizzle .zyxw to correct to (R,G,B,A) for display.
+    output.Color = input.Color.zyxw;
 
     return output;
 }
@@ -121,8 +122,8 @@ VS_OUTPUT_DIFFUSE_MAP vs_DiffuseMap(VS_INPUT_DIFFUSE_MAP input)
 	//Proyectar posicion
     output.Position = mul(input.Position, matWorldViewProj);
 
-	//Enviar color directamente
-    output.Color = input.Color;
+	// D3DCOLOR vertex element arrives as (B,G,R,A) - swizzle to (R,G,B,A)
+    output.Color = input.Color.zyxw;
 
 	//Enviar Texcoord directamente
     output.Texcoord = input.Texcoord;
@@ -187,8 +188,8 @@ VS_OUTPUT_DIFFUSE_MAP_AND_LIGHTMAP vs_diffuseMapAndLightmap(VS_INPUT_DIFFUSE_MAP
 	//Proyectar posicion
     output.Position = mul(input.Position, matWorldViewProj);
 
-	//Enviar color directamente
-    output.Color = input.Color;
+	// D3DCOLOR vertex element arrives as (B,G,R,A) - swizzle to (R,G,B,A)
+    output.Color = input.Color.zyxw;
 
 	//Enviar Texcoord directamente
     output.Texcoord = input.Texcoord;
