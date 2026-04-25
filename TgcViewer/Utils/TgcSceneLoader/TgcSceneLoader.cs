@@ -300,9 +300,17 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     v.Tu1 = meshData.textureCoordinatesLightMap[texCoordIdxLM];
                     v.Tv1 = meshData.textureCoordinatesLightMap[texCoordIdxLM + 1];
 
-                    //color
-                    int colorIdx = meshData.colorIndices[j];
-                    v.Color = meshData.verticesColors[colorIdx];
+                    //color: use per-vertex color if available, else white (texture-only meshes)
+                    if (meshData.colorIndices != null && meshData.verticesColors != null &&
+                        j < meshData.colorIndices.Length)
+                    {
+                        int colorIdx = meshData.colorIndices[j];
+                        v.Color = meshData.verticesColors[colorIdx];
+                    }
+                    else
+                    {
+                        v.Color = System.Drawing.Color.White.ToArgb();
+                    }
 
                     data.Write(v);
                 }
@@ -415,9 +423,17 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     v.Tu = meshData.textureCoordinates[texCoordIdx];
                     v.Tv = meshData.textureCoordinates[texCoordIdx + 1];
 
-                    //color
-                    int colorIdx = meshData.colorIndices[j];
-                    v.Color = meshData.verticesColors[colorIdx];
+                    //color: use per-vertex color if available, else white (texture-only meshes)
+                    if (meshData.colorIndices != null && meshData.verticesColors != null &&
+                        j < meshData.colorIndices.Length)
+                    {
+                        int colorIdx = meshData.colorIndices[j];
+                        v.Color = meshData.verticesColors[colorIdx];
+                    }
+                    else
+                    {
+                        v.Color = System.Drawing.Color.White.ToArgb();
+                    }
 
                     data.Write(v);
                 }
@@ -519,9 +535,17 @@ namespace TgcViewer.Utils.TgcSceneLoader
                             );
                     }
 
-                    //color
-                    int colorIdx = meshData.colorIndices[j];
-                    v.Color = meshData.verticesColors[colorIdx];
+                    //color: use per-vertex color if available, else white (texture-only meshes)
+                    if (meshData.colorIndices != null && meshData.verticesColors != null &&
+                        j < meshData.colorIndices.Length)
+                    {
+                        int colorIdx = meshData.colorIndices[j];
+                        v.Color = meshData.verticesColors[colorIdx];
+                    }
+                    else
+                    {
+                        v.Color = System.Drawing.Color.White.ToArgb();
+                    }
 
                     data.Write(v);
                 }
