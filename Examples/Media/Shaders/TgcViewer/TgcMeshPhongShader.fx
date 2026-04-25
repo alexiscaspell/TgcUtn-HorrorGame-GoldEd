@@ -1,5 +1,5 @@
 /*
-* Shader genérico para TgcMesh con iluminación dinámica por pixel (Phong Shading)
+* Shader genrico para TgcMesh con iluminacin dinmica por pixel (Phong Shading)
 * Hay 3 Techniques, una para cada MeshRenderType:
 *	- VERTEX_COLOR
 *	- DIFFUSE_MAP
@@ -74,7 +74,7 @@ VS_OUTPUT_VERTEX_COLOR vs_VertexColor(VS_INPUT_VERTEX_COLOR input)
     output.Position = mul(input.Position, matWorldViewProj);
 
 	//Enviar color directamente
-    output.Color = input.Color;
+    output.Color = input.Color.zyxw; // D3DCOLOR BGRAâ†’RGBA swap
 
 	/* Pasar normal a World-Space
 	Solo queremos rotarla, no trasladarla ni escalarla.
