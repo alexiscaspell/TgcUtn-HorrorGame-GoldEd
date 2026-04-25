@@ -68,23 +68,25 @@ namespace HorrorGame
                 // Keep the D3D device alive AND process Windows messages during init().
                 // Without this, the form freezes and loses focus (orange screen),
                 // and the device gets D3DERR_DEVICELOST from inactivity.
+                // Force full layout so panel3d.Size is correct before the game reads it
+                // (ScreenSizeClass caches panel3d.Size on first access during init)
+                Application.DoEvents();
+                Log($"panel3d.Size after DoEvents: {panel3d.Size}");
+
                 var keepAlive = new System.Threading.Timer(_ =>
                 {
                     try
                     {
-                        // Marshal to UI thread: process messages + keep device alive
-                        BeginInvoke((Action)(() =>
-                        {
-                            gui.keepDeviceAlive();
-                            Application.DoEvents();
-                        }));
+                        BeginInvoke((Action)(() => gui.keepDeviceAlive()));
                     }
                     catch { }
                 }, null, 0, 100);
 
                 try
                 {
-                    Log("Calling executeExample (may take several minutes)...");
+                    // Reset ScreenSizeClass cache so it reads the correct (post-layout) panel size
+                    AlumnoEjemplos.LOS_IMPROVISADOS.ScreenSizeClass.Reset();
+                    Log("Calling executeExample...");
                     gui.executeExample(new EjemploAlumno());
                     Log("executeExample OK");
                 }

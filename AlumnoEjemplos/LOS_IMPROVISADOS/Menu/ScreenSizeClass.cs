@@ -19,12 +19,29 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 	{
 		private static bool yaActivado = false;
 		private static Size screenSize;
+
+		/// <summary>
+		/// Fuerza que el tamaño se lea nuevamente del panel en el próximo acceso.
+		/// Llamar después de que el form esté completamente inicializado.
+		/// </summary>
+		public static void Reset() { yaActivado = false; }
+
 		public static Size ScreenSize
 		{
 			get{
 				if(!yaActivado){
-					screenSize = GuiController.Instance.Panel3d.Size;
-					yaActivado = true;
+					var size = GuiController.Instance.Panel3d.Size;
+					// Guard: si el tamaño es inválido (0,0 pre-layout), no cacheamos
+					if (size.Width > 0 && size.Height > 0)
+					{
+						screenSize = size;
+						yaActivado = true;
+					}
+					else
+					{
+						// Fallback a resolución del monitor primario
+						screenSize = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Size;
+					}
 				}
 				return screenSize;
 			}
