@@ -71,3 +71,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: HorrorGame.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
