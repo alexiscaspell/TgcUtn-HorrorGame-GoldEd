@@ -123,15 +123,38 @@ namespace TgcViewer.Utils.SharpDxCompat
         public static VertexElement[] GetDeclaration(this BaseMesh mesh)
         {
             EnsureInitialized();
-            if (_getDeclarationMethod != null)
+            if (_getDeclarationMethod == null) return Array.Empty<VertexElement>();
+
+            var parms = _getDeclarationMethod.GetParameters();
+            try
             {
-                var result = _getDeclarationMethod.Invoke(mesh, null);
-                if (result is VertexElement[] arr) return arr;
-                // May return with out param
-                var args = new object[] { null };
-                _getDeclarationMethod.Invoke(mesh, args);
-                return args[0] as VertexElement[];
+                if (parms.Length == 0)
+                {
+                    // Returns VertexElement[] directly
+                    var result = _getDeclarationMethod.Invoke(mesh, null);
+                    if (result is VertexElement[] arr) return arr;
+                }
+                else if (parms.Length == 1)
+                {
+                    // GetDeclaration(VertexElement[] decl) fills a pre-allocated array in-place
+                    // D3DXBaseMesh::GetDeclaration takes MAX_FVF_DECL_SIZE (64) element array
+                    var decl = new VertexElement[64];
+                    var args = new object[] { decl };
+                    _getDeclarationMethod.Invoke(mesh, args);
+                    // args[0] may have been updated (out param) or decl was filled in-place
+                    var filled = args[0] as VertexElement[] ?? decl;
+                    // Trim at VertexDeclarationEnd (Stream=0xFF)
+                    int count = filled.Length;
+                    for (int i = 0; i < filled.Length; i++)
+                    {
+                        if (filled[i].Stream == 0xFF) { count = i + 1; break; }
+                    }
+                    var trimmed = new VertexElement[count];
+                    Array.Copy(filled, trimmed, count);
+                    return trimmed;
+                }
             }
+            catch { }
             return Array.Empty<VertexElement>();
         }
 
