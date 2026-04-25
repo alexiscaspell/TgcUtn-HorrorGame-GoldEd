@@ -6,13 +6,11 @@
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{990E714F-7FF2-4A87-86B1-E5FC8D4C2F4C}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TgcViewer</RootNamespace>
     <AssemblyName>TgcViewer</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <StartupObject>TgcViewer.Program</StartupObject>
-    <ApplicationIcon>IconoTgc.ico</ApplicationIcon>
     <Win32Resource>
     </Win32Resource>
     <FileUpgradeFlags>
@@ -69,65 +67,14 @@
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Example\ExampleLoader.cs" />
     <Compile Include="Example\TgcExample.cs" />
     <Compile Include="GuiController.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MainForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utils\Modifiers\TgcMeshBrowser.resx">
-      <DependentUpon>TgcMeshBrowser.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utils\Modifiers\TgcTextureBrowser.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TgcTextureBrowser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utils\Networking\TgcNetworkingModifierClientsDialog.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TgcNetworkingModifierClientsDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utils\Networking\TgcNetworkingModifierControl.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TgcNetworkingModifierControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utils\Networking\TgcNetworkingModifierServersDialog.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TgcNetworkingModifierServersDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utils\Ui\AboutWindow.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AboutWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utils\Ui\FullScreenPanel.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>FullScreenPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -158,45 +105,8 @@
     <Compile Include="Utils\Interpolation\InterpoladorVaiven.cs" />
     <Compile Include="Utils\Interpolation\Position2dInterpolator.cs" />
     <Compile Include="Utils\Interpolation\Temporizador.cs" />
-    <Compile Include="Utils\Modifiers\TgcMeshBrowser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utils\Modifiers\TgcMeshBrowser.Designer.cs">
-      <DependentUpon>TgcMeshBrowser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utils\Modifiers\TgcButtonModifier.cs" />
     <Compile Include="Utils\Modifiers\TgcEnumModifier.cs" />
-    <Compile Include="Utils\Modifiers\TgcTextureBrowser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utils\Modifiers\TgcTextureBrowser.Designer.cs">
-      <DependentUpon>TgcTextureBrowser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Networking\TgcLanBrowser.cs" />
-    <Compile Include="Utils\Networking\TgcNetworkingModifierClientsDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utils\Networking\TgcNetworkingModifierClientsDialog.Designer.cs">
-      <DependentUpon>TgcNetworkingModifierClientsDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Networking\TgcNetworkingModifierServersDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utils\Networking\TgcNetworkingModifierServersDialog.Designer.cs">
-      <DependentUpon>TgcNetworkingModifierServersDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Networking\TgcNetworkingModifier.cs" />
-    <Compile Include="Utils\Networking\TgcNetworkingModifierControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Utils\Networking\TgcNetworkingModifierControl.Designer.cs">
-      <DependentUpon>TgcNetworkingModifierControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Networking\TgcSocketClient.cs" />
-    <Compile Include="Utils\Networking\TgcSocketClientInfo.cs" />
-    <Compile Include="Utils\Networking\TgcSocketMessages.cs" />
-    <Compile Include="Utils\Networking\TgcSocketServer.cs" />
-    <Compile Include="Utils\Networking\TgcSocketServerInfo.cs" />
     <Compile Include="Utils\Particles\ColaDeParticulas.cs" />
     <Compile Include="Utils\Particles\Particle.cs" />
     <Compile Include="Utils\Particles\ParticleEmitter.cs" />
@@ -302,20 +212,6 @@
     <Compile Include="Utils\SharpDxCompat\MeshHelper.cs" />
     <Compile Include="Utils\SharpDxCompat\VertexBufferExtensions.cs" />
     <Compile Include="Utils\TgcUserVars.cs" />
-    <Compile Include="Utils\Ui\AboutWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utils\Ui\AboutWindow.Designer.cs">
-      <DependentUpon>AboutWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Ui\FullScreenPanel.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utils\Ui\FullScreenPanel.Designer.cs">
-      <DependentUpon>FullScreenPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Ui\TgcViewerConfig.cs" />
-    <Compile Include="Utils\Ui\ValidationUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pictureBox1.Image.png" />

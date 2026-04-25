@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using SharpDX;
-using TgcViewer.Utils.Networking;
 using Color = System.Drawing.Color;
 using Rectangle = System.Drawing.Rectangle;
 using Point = System.Drawing.Point;
@@ -183,39 +182,6 @@ namespace TgcViewer.Utils.Modifiers
             add(new TgcVertex2fModifier(varName, minValue, maxValue, defaultValue));
         }
 
-        /// <summary>
-        /// Modifier para Networking.
-        /// Permite crear servidores y conectarse a estos como cliente, mediante conexiones TCP/IP utilizando DirectPlay.
-        /// Abstrae todo el manejo interno de DirectPlay para el manejo de conexiones.
-        /// </summary>
-        /// <param name="varName">Identificador del modifier</param>
-        /// <param name="serverName">Nombre default que va a usar el servidor</param>
-        /// <param name="clientName">Nombre default que va a usar cada cliente</param>
-        /// <param name="port">Puerto en el cual se va a crear y buscar conexiones</param>
-        /// <returns>Modificador creado</returns>
-        public TgcNetworkingModifier addNetworking(string varName, string serverName, string clientName, int port)
-        {
-            TgcNetworkingModifier m = new TgcNetworkingModifier(varName, serverName, clientName, port);
-            add(m);
-            return m;
-        }
-
-        /// <summary>
-        /// Modifier para Networking.
-        /// Permite crear servidores y conectarse a estos como cliente, mediante conexiones TCP/IP utilizando DirectPlay.
-        /// Abstrae todo el manejo interno de DirectPlay para el manejo de conexiones.
-        /// Utiliza el puerto default del framework.
-        /// </summary>
-        /// <param name="varName">Identificador del modifier</param>
-        /// <param name="serverName">Nombre default que va a usar el servidor</param>
-        /// <param name="clientName">Nombre default que va a usar cada cliente</param>
-        /// <returns>Modificador creado</returns>
-        public TgcNetworkingModifier addNetworking(string varName, string serverName, string clientName)
-        {
-            TgcNetworkingModifier m = new TgcNetworkingModifier(varName, serverName, clientName, TgcSocketMessages.DEFAULT_PORT);
-            add(m);
-            return m;
-        }
 
         /// <summary>
         /// Modificador que agrega un Boton

@@ -53,7 +53,7 @@ namespace HorrorGame
             // Game loop: igual que MainForm pero sin la UI del viewer
             while (ApplicationRunning)
             {
-                if (ContainsFocus || gui.FullScreenPanel != null && gui.FullScreenPanel.ContainsFocus)
+                if (ContainsFocus)
                 {
                     gui.render();
                 }

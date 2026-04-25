@@ -72,9 +72,8 @@ jobs:
 
           # Copy the main executable and DLLs from repo root (OutputPath=..\)
           Copy-Item "HorrorGame.exe"     $out\ -ErrorAction SilentlyContinue
-          Copy-Item "TgcViewer.exe"      $out\ -ErrorAction SilentlyContinue
-          Copy-Item "TgcViewer.dll"      $out\ -ErrorAction SilentlyContinue
-          Copy-Item "AlumnoEjemplos.dll" $out\ -ErrorAction SilentlyContinue
+          Copy-Item "TgcViewer.dll"      $out\
+          Copy-Item "AlumnoEjemplos.dll" $out\
           Copy-Item "HorrorGame.exe.config" $out\ -ErrorAction SilentlyContinue
 
           # Copy SharpDX and other runtime DLLs from repo root

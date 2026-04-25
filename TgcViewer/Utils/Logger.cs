@@ -92,16 +92,12 @@ namespace TgcViewer.Utils
 
 
 
-        private delegate void LogInThreadHandler(string txt, Color color);
-
         /// <summary>
-        /// Metodo para logear en la consola de mensajes cuando estamos desde otro Thread
-        /// distinto del de la interfaz grafica
+        /// Loguea un mensaje desde otro hilo. En modo standalone simplemente llama a log().
         /// </summary>
         public static void logInThread(string txt, Color color)
         {
-            LogInThreadHandler handler = new LogInThreadHandler(GuiController.Instance.Logger.log);
-            GuiController.Instance.MainForm.BeginInvoke(handler, txt, color);
+            GuiController.Instance?.Logger?.log(txt, color);
         }
 
     }
