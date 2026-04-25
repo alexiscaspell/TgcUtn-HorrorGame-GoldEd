@@ -1027,7 +1027,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// Actualiza el cuadro actual de animacion y renderiza la malla.
         /// Es equivalente a llamar a updateAnimation() y luego a render()
         /// </summary>
-        public void animateAndRender()
+        public void animateAndRender(float elapsedTime = 0f)
         {
             if (!enabled)
                 return;

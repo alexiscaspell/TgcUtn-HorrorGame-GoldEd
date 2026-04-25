@@ -201,7 +201,7 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
 
         public void render()
         {
-            cuerpo.animateAndRender(0f);
+            cuerpo.animateAndRender(GuiController.Instance.ElapsedTime);
         }
 
         private void seguirPersonaje()
