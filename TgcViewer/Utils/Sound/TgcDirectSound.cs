@@ -41,7 +41,7 @@ namespace TgcViewer.Utils.Sound
             set { listenerTracking = value; }
         }
 
-        private PrimaryBuffer primaryBuffer;
+        private SoundBuffer primaryBuffer;
 
         public TgcDirectSound()
         {
@@ -50,7 +50,7 @@ namespace TgcViewer.Utils.Sound
 
             SoundBufferDescription primaryBufferDesc = new SoundBufferDescription();
             primaryBufferDesc.Flags = BufferFlags.Control3D | BufferFlags.PrimaryBuffer;
-            primaryBuffer = new PrimaryBuffer(dsDevice);
+            primaryBuffer = new SoundBuffer(dsDevice, primaryBufferDesc);
             listener3d = new SoundListener3D(primaryBuffer);
             listener3d.Position = new Vector3(0f, 0f, 0f);
         }
