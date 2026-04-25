@@ -7,17 +7,34 @@ on:
     types: [created]
 
 jobs:
-  # ── Job 1: Verificación de compilación (mismo Docker que build-local.sh) ─
+  # ── Job 1: Verificación de compilación (dotnet SDK, mismo que build-local.sh) ─
   check:
-    name: Compilation Check (Docker)
+    name: Compilation Check
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: docker build -f Dockerfile.build -t horrorgame-build:latest .
+      - name: Setup dotnet SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore NuGet packages
+        run: |
+          dotnet restore TgcViewerCheck.csproj
+          dotnet restore AlumnoEjemplosCheck.csproj
+          dotnet restore HorrorGameCheck.csproj
+
+      - name: Build TgcViewer
+        run: dotnet build TgcViewerCheck.csproj -c Debug --no-restore --nologo
+
+      - name: Build AlumnoEjemplos (game code)
+        run: dotnet build AlumnoEjemplosCheck.csproj -c Debug --no-restore --nologo
+
+      - name: Build HorrorGame (launcher)
+        run: dotnet build HorrorGameCheck.csproj -c Debug --no-restore --nologo
 
   # ── Job 2: Build y empaquetado del distribuible (solo en releases) ────────
   release:
