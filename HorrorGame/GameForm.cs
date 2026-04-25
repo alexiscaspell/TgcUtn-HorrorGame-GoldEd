@@ -50,12 +50,21 @@ namespace HorrorGame
                 GuiController gui = GuiController.Instance;
                 gui.initGraphicsStandalone(this, panel3d);
 
-                // Keep the D3D device alive during the long init() by presenting
-                // empty frames via a timer. Without this the device gets
-                // D3DERR_DEVICELOST after a few minutes of inactivity.
+                // Keep the D3D device alive AND process Windows messages during init().
+                // Without this, the form freezes and loses focus (orange screen),
+                // and the device gets D3DERR_DEVICELOST from inactivity.
                 var keepAlive = new System.Threading.Timer(_ =>
                 {
-                    gui.keepDeviceAlive();
+                    try
+                    {
+                        // Marshal to UI thread: process messages + keep device alive
+                        BeginInvoke((Action)(() =>
+                        {
+                            gui.keepDeviceAlive();
+                            Application.DoEvents();
+                        }));
+                    }
+                    catch { }
                 }, null, 0, 100);
 
                 try
@@ -75,6 +84,10 @@ namespace HorrorGame
             }
 
             GuiController gui2 = GuiController.Instance;
+
+            // Regain focus after the long init() (form may have lost it)
+            this.Activate();
+            panel3d.Focus();
 
             // Game loop
             while (ApplicationRunning)
