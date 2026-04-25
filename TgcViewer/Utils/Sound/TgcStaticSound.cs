@@ -1,22 +1,39 @@
 using System;
 using System.Media;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 
 namespace TgcViewer.Utils.Sound
 {
     /// <summary>
-    /// Reproduce archivos WAV usando System.Media.SoundPlayer.
-    /// - Sonidos de un solo uso (play sin loop): cada llamada crea una instancia 
-    ///   temporal en un thread del pool, permitiendo reproducción concurrente.
-    /// - Sonidos en loop: usa una instancia reutilizable por TgcStaticSound.
+    /// Reproduce archivos WAV con dos mecanismos:
+    /// - Loops (música, pasos): SoundPlayer.PlayLooping() — sin gaps, seamless.
+    /// - Efectos de un solo uso: MCI con alias único — verdaderamente concurrente.
+    ///   MCI usa waveOut handles independientes de PlaySound(), por lo que
+    ///   no cancela sonidos en loop ni otros efectos simultáneos.
     /// </summary>
     public class TgcStaticSound
     {
-        private SoundPlayer loopPlayer;   // for PlayLooping() only
+        // ??? MCI (for non-looping concurrent effects) ??????????????????????
+        [DllImport("winmm.dll", CharSet = CharSet.Auto)]
+        private static extern int mciSendString(string command, StringBuilder retVal, int retLen, IntPtr cb);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        private static extern int GetShortPathName(string longPath, StringBuilder shortPath, int bufSize);
+
+        private static int _counter = 0;
+        private static string NewAlias() => "snd" + Interlocked.Increment(ref _counter);
+
+        // ??? Fields ?????????????????????????????????????????????????????????
         private string loadedPath;
-        private bool isLooping;
+        private string shortPath;
+
+        // For looping sounds (SoundPlayer — seamless gapless loop)
+        private SoundPlayer loopPlayer;
 
         public object SoundBuffer => null;
+        public bool IsPlaying => loopPlayer != null;
 
         public TgcStaticSound() { }
 
@@ -24,26 +41,24 @@ namespace TgcViewer.Utils.Sound
 
         public void loadSound(string soundPath)
         {
-            try
-            {
-                stop();
-                loadedPath = soundPath;
-                // Pre-load the loopPlayer so looping starts immediately
-                loopPlayer?.Dispose();
-                loopPlayer = new SoundPlayer(soundPath);
-                loopPlayer.Load();
-            }
-            catch { }
+            stop();
+            loadedPath = soundPath;
+            var sb = new StringBuilder(260);
+            shortPath = GetShortPathName(soundPath, sb, 260) > 0 ? sb.ToString() : soundPath;
+
+            // Pre-load loop player (fast start when play(true) is called)
+            loopPlayer?.Dispose();
+            loopPlayer = new SoundPlayer(soundPath);
+            try { loopPlayer.Load(); } catch { }
         }
 
         public void play(bool playLoop)
         {
             if (loadedPath == null) return;
-            isLooping = playLoop;
 
             if (playLoop)
             {
-                // Looping: use dedicated instance
+                // Seamless looping via SoundPlayer — no gaps between repetitions
                 try
                 {
                     loopPlayer?.Stop();
@@ -54,17 +69,16 @@ namespace TgcViewer.Utils.Sound
             }
             else
             {
-                // Non-looping: new instance per call ? concurrent playback
-                // Each ThreadPool thread plays one sound then dies
-                string path = loadedPath;
+                // Concurrent one-shot via MCI — doesn't cancel loops or other effects
+                string alias = NewAlias();
+                string path = shortPath ?? loadedPath;
                 ThreadPool.QueueUserWorkItem(_ =>
                 {
                     try
                     {
-                        using (var sp = new SoundPlayer(path))
-                        {
-                            sp.PlaySync(); // blocks thread until sound ends
-                        }
+                        mciSendString($"open \"{path}\" type waveaudio alias {alias}", null, 0, IntPtr.Zero);
+                        mciSendString($"play {alias} wait", null, 0, IntPtr.Zero);
+                        mciSendString($"close {alias}", null, 0, IntPtr.Zero);
                     }
                     catch { }
                 });
@@ -75,7 +89,6 @@ namespace TgcViewer.Utils.Sound
 
         public void stop()
         {
-            isLooping = false;
             try { loopPlayer?.Stop(); } catch { }
         }
 
@@ -84,9 +97,7 @@ namespace TgcViewer.Utils.Sound
             stop();
             try { loopPlayer?.Dispose(); loopPlayer = null; } catch { }
             loadedPath = null;
+            shortPath = null;
         }
-
-        /// <summary>True si el sonido en loop está activo.</summary>
-        public bool IsPlaying => isLooping;
     }
 }

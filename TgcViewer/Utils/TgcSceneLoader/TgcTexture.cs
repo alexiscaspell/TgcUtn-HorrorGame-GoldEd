@@ -103,7 +103,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         {
             try
             {
-                Texture d3dTexture = Texture.FromFile(d3dDevice, filePath);
+                Texture d3dTexture = Texture.FromFile(d3dDevice, filePath, 0, 0, 0, Usage.None, Format.A8R8G8B8, SharpDX.Direct3D9.Pool.Managed, Filter.None, Filter.None, 0);
                 return new TgcTexture(fileName, filePath, d3dTexture, false);
             }
             catch (Exception ex)
@@ -318,7 +318,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     PoolItem newItem = new PoolItem();
                     if (d3dTexture == null)
                     {
-                        d3dTexture = Texture.FromFile(d3dDevice, filePath);
+                        d3dTexture = Texture.FromFile(d3dDevice, filePath, 0, 0, 0, Usage.None, Format.A8R8G8B8, SharpDX.Direct3D9.Pool.Managed, Filter.None, Filter.None, 0);
                     }
                     newItem.Texture = d3dTexture;
                     newItem.FilePath = filePath;
