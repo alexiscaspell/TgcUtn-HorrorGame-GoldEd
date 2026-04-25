@@ -111,6 +111,8 @@ namespace HorrorGame
 
             // Game loop: render capped to ~60 FPS to keep physics/movement deterministic.
             // Without a cap, 1000+ FPS causes runaway movement speed.
+            // timeBeginPeriod(1) improves Thread.Sleep precision to ~1ms on Windows.
+            NativeMethods.timeBeginPeriod(1);
             int frameCount = 0;
             const int TARGET_MS = 16; // ~62 fps
             var frameTimer = System.Diagnostics.Stopwatch.StartNew();
@@ -189,7 +191,17 @@ namespace HorrorGame
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ApplicationRunning = false;
+            NativeMethods.timeEndPeriod(1);
             try { GuiController.Instance.shutDown(); } catch { }
         }
+    }
+
+    internal static class NativeMethods
+    {
+        [System.Runtime.InteropServices.DllImport("winmm.dll")]
+        internal static extern int timeBeginPeriod(int period);
+
+        [System.Runtime.InteropServices.DllImport("winmm.dll")]
+        internal static extern int timeEndPeriod(int period);
     }
 }
