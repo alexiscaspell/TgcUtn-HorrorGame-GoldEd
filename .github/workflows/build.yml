@@ -61,7 +61,7 @@ jobs:
         run: |
           msbuild HorrorGame\HorrorGame.csproj `
             /p:Configuration=Release `
-            /p:Platform="Any CPU"
+            /p:Platform=AnyCPU
 
       - name: Recopilar distributable
         shell: pwsh
