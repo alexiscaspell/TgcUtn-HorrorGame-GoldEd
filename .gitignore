@@ -33,8 +33,6 @@ Output/
 .DS_Store
 Thumbs.db
 
-# Local build helper script (not needed in CI)
-build-local.sh
 .docker-build/.nuget/
 # Note: TgcViewerCheck.csproj, AlumnoEjemplosCheck.csproj, HorrorGameCheck.csproj
 # are intentionally tracked (used by CI via GitHub Actions docker build)
