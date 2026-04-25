@@ -246,7 +246,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            ColorValue defaultColorValue = ColorValue.FromColor(defaultColor);
+            Color4 defaultColorValue = Color4.FromColor(defaultColor);
             meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
 
             //Obtener datos del VertexBuffer
@@ -325,7 +325,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            ColorValue defaultColorValue = ColorValue.FromColor(defaultColor);
+            Color4 defaultColorValue = Color4.FromColor(defaultColor);
             meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
 
             //Obtener datos del VertexBuffer
@@ -423,7 +423,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            ColorValue defaultColorValue = ColorValue.FromColor(defaultColor);
+            Color4 defaultColorValue = Color4.FromColor(defaultColor);
             meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
 
             //Armar buffer de vertices, normales y coordenadas de textura, buscando similitudes de valores
@@ -613,7 +613,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
                 //Configurar Mesh
                 meshData.materialId = 0;
-                meshData.materialsIds = tgcMesh.D3dMesh.LockAttributeBufferArray(LockFlags.ReadOnly);
+                meshData.materialsIds = tgcMesh.D3dMesh.LockAttributeBuffer(LockFlags.ReadOnly);
                 tgcMesh.D3dMesh.UnlockAttributeBuffer();
             }
         }
@@ -1138,13 +1138,13 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 //Cargar el AttributeBuffer con la suma de ambos mesh
                 int attIdx = 0;
                 int textureId = 0;
-                int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
+                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
 
                 //AttributeBuffer del mesh 1
                 if (mesh1.DiffuseMaps.Length > 1)
                 {
                     //Copiar el AttributeBuffer del mesh1 tal cual al mesh unificado
-                    int[] attributeBuffer1 = mesh1.D3dMesh.LockAttributeBufferArray(LockFlags.ReadOnly);
+                    int[] attributeBuffer1 = mesh1.D3dMesh.LockAttributeBuffer(LockFlags.ReadOnly);
                     Array.Copy(attributeBuffer1, attributeBuffer, attributeBuffer1.Length);
                     mesh1.D3dMesh.UnlockAttributeBuffer();
                 }
@@ -1163,7 +1163,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 if (mesh2.DiffuseMaps.Length > 1)
                 {
                     //Copiar el AttributeBuffer del mesh2 al mesh unificado pero sumando el offset de texturas del primero
-                    int[] attributeBuffer2 = mesh2.D3dMesh.LockAttributeBufferArray(LockFlags.ReadOnly);
+                    int[] attributeBuffer2 = mesh2.D3dMesh.LockAttributeBuffer(LockFlags.ReadOnly);
                     int[] attributeBuffer2Offset = new int[attributeBuffer2.Length];
                     for (int i = 0; i < attributeBuffer2.Length; i++)
                     {

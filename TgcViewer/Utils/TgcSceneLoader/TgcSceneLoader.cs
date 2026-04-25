@@ -335,7 +335,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             else
             {
                 //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
+                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
                 mesh.UnlockAttributeBuffer();
 
@@ -447,7 +447,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             else
             {
                 //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
+                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
                 mesh.UnlockAttributeBuffer();
 
@@ -604,17 +604,17 @@ namespace TgcViewer.Utils.TgcSceneLoader
             //Crear material
             Material material = new Material();
             matAux.materialId = material;
-            material.Ambient = new ColorValue(
+            material.Ambient = new Color4(
                 materialData.ambientColor[0],
                 materialData.ambientColor[1],
                 materialData.ambientColor[2],
                 materialData.ambientColor[3]);
-            material.Diffuse = new ColorValue(
+            material.Diffuse = new Color4(
                 materialData.diffuseColor[0],
                 materialData.diffuseColor[1],
                 materialData.diffuseColor[2],
                 materialData.diffuseColor[3]);
-            material.Specular = new ColorValue(
+            material.Specular = new Color4(
                 materialData.specularColor[0],
                 materialData.specularColor[1],
                 materialData.specularColor[2],

@@ -881,7 +881,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 this.diffuseMaps = newDiffuseMapsArray;
 
                 //Modificar attributeBuffer. Hay que reemplazar el id que se elimino y hacer shift de todo lo que estaba a la derecha
-                int[] attributeBuffer = d3dMesh.LockAttributeBufferArray(LockFlags.None);
+                int[] attributeBuffer = d3dMesh.LockAttributeBuffer(LockFlags.None);
                 for (int i = 0; i < attributeBuffer.Length; i++)
                 {
                     if (attributeBuffer[i] == diffuseMapSlot)
