@@ -150,9 +150,6 @@ namespace TgcViewer
 
             d3dDevice.BeginScene();
 
-            // Diagnostic: render a frame counter to verify D3D text rendering works
-            text3d.drawText("FRAME OK - " + System.DateTime.Now.Millisecond, 10, 10, System.Drawing.Color.Red);
-
             if (currentExample != null)
                 currentExample.render(elapsedTime);
 

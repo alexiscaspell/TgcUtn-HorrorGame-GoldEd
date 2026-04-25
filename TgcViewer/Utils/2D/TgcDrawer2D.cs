@@ -31,7 +31,9 @@ namespace TgcViewer.Utils._2D
         /// </summary>
         public void beginDrawSprite()
         {
-            dxSprite.Begin(SpriteFlags.AlphaBlend | SpriteFlags.SortDepthFrontToBack);
+            // AlphaBlend only — no sort flags to avoid deferred/batched rendering
+            // that can silently fail in SharpDX.Direct3D9 net45
+            dxSprite.Begin(SpriteFlags.AlphaBlend);
         }
 
         /// <summary>
@@ -39,6 +41,7 @@ namespace TgcViewer.Utils._2D
         /// </summary>
         public void endDrawSprite()
         {
+            dxSprite.Flush(); // force immediate draw submission
             dxSprite.End();
         }
 
@@ -49,9 +52,10 @@ namespace TgcViewer.Utils._2D
         public void drawSprite(TgcSprite sprite)
         {
             dxSprite.Transform = sprite.TransformationMatrix;
+            // ColorBGRA ctor takes (R, G, B, A) - pass in correct order
             var c = sprite.Color;
             dxSprite.Draw(sprite.Texture.D3dTexture,
-                new SharpDX.ColorBGRA(c.B, c.G, c.R, c.A));
+                new SharpDX.ColorBGRA(c.R, c.G, c.B, c.A));
         }
 
     }
