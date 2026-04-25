@@ -6,6 +6,10 @@ using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
@@ -86,7 +90,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 pMin;
         /// <summary>
-        /// Punto mùnimo del BoundingBox
+        /// Punto mnimo del BoundingBox
         /// </summary>
         public Vector3 PMin
         {
@@ -95,7 +99,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Vector3 pMax;
         /// <summary>
-        /// Punto mùximo del BoundinBox
+        /// Punto mximo del BoundinBox
         /// </summary>
         public Vector3 PMax
         {
@@ -151,8 +155,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Construir AABB
         /// </summary>
-        /// <param name="pMin">Punto mùnimo</param>
-        /// <param name="pMax">Punto mùximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         public TgcBoundingBox(Vector3 pMin, Vector3 pMax) 
             : this()
         {
@@ -187,8 +191,8 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// Configurar los valores extremos del BoundingBox
         /// </summary>
-        /// <param name="pMin">Punto mùnimo</param>
-        /// <param name="pMax">Punto mùximo</param>
+        /// <param name="pMin">Punto mnimo</param>
+        /// <param name="pMax">Punto mximo</param>
         public void setExtremes(Vector3 pMin, Vector3 pMax)
         {
             this.pMin = pMin;
@@ -245,7 +249,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Tamaùo de cada dimensiùn del BoundingBox
+        /// Tamao de cada dimensin del BoundingBox
         /// </summary>
         public Vector3 calculateSize()
         {
@@ -264,7 +268,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         public Vector3 Position
         {
-            //Lo correcto serùa calcular el centro, pero con un extremo es suficiente.
+            //Lo correcto sera calcular el centro, pero con un extremo es suficiente.
             //get { return calculateBoxCenter(); }
             get { return pMin; }
         }
@@ -272,8 +276,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vùrtice de canal Alpha.
-        /// Por default estù deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -284,9 +288,9 @@ namespace TgcViewer.Utils.TgcGeometry
         /// <summary>
         /// <summary>
         /// Traslada y escala el BoundingBox.
-        /// Si el BoundingBox tenia alguna rotaciùn, se pierde.
+        /// Si el BoundingBox tenia alguna rotacin, se pierde.
         /// </summary>
-        /// <param name="position">Nueva posiciùn absoluta de referencia</param>
+        /// <param name="position">Nueva posicin absoluta de referencia</param>
         /// <param name="scale">Nueva escala absoluta de referencia</param>
         public void scaleTranslate(Vector3 position, Vector3 scale)
         {
@@ -315,13 +319,13 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Transforma el BondingBox en base a una matriz de transformaciùn.
+        /// Transforma el BondingBox en base a una matriz de transformacin.
         /// Esto implica escalar, rotar y trasladar.
         /// El procedimiento es mas costoso que solo hacer scaleTranslate().
         /// Se construye un nuevo BoundingBox en base a los puntos extremos del original
-        /// mùs la transformaciùn pedida.
-        /// Si el BoundingBox se transformù y luego se llama a scaleTranslate(), se respeta
-        /// la traslaciùn y la escala, pero la rotaciùn se va a perder.
+        /// ms la transformacin pedida.
+        /// Si el BoundingBox se transform y luego se llama a scaleTranslate(), se respeta
+        /// la traslacin y la escala, pero la rotacin se va a perder.
         /// </summary>
         /// <param name="transform"></param>
         public void transform(Matrix transform)
@@ -414,7 +418,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 this.technique = TgcShaders.T_POSITION_COLORED;
             }
 
-            //Actualizar vertices de BoundingBox solo si hubo una modificaciùn
+            //Actualizar vertices de BoundingBox solo si hubo una modificacin
             if (dirtyValues)
             {
                 updateValues();
@@ -472,9 +476,9 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Calcula los polùgonos que conforman las 6 caras del BoundingBox 
+        /// Calcula los polgonos que conforman las 6 caras del BoundingBox 
         /// </summary>
-        /// <returns>Array con las 6 caras del polùgono en el siguiente orden: Up, Down, Front, Back, Right, Left</returns>
+        /// <returns>Array con las 6 caras del polgono en el siguiente orden: Up, Down, Front, Back, Right, Left</returns>
         public Face[] computeFaces()
         {
             Face[] faces = new Face[6];
@@ -550,7 +554,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Cara de un BoundingBox representada por un polùgono rectangular de 4 vùrtices.
+        /// Cara de un BoundingBox representada por un polgono rectangular de 4 vrtices.
         /// </summary>
         public class Face
         {
@@ -561,7 +565,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
             Vector3[] extremes;
             /// <summary>
-            /// Los 4 vùrtices extremos de la cara
+            /// Los 4 vrtices extremos de la cara
             /// </summary>
             public Vector3[] Extremes
             {
@@ -571,7 +575,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
             Plane plane;
             /// <summary>
-            /// Ecuaciùn del plano que engloba la cara, con su normal apuntado hacia afuera normalizada.
+            /// Ecuacin del plano que engloba la cara, con su normal apuntado hacia afuera normalizada.
             /// </summary>
             public Plane Plane
             {

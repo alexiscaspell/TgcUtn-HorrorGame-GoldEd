@@ -67,7 +67,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// Carga una escena a partir de un archivo en formato .ZIP.
         /// Se asume que dentro del ZIP se encuentra el archivo XML de la escena y todas las texturas necesarias.
         /// </summary>
-        /// <param name="sceneFileName">Nombre del archivo XML que tiene la información de la escena</param>
+        /// <param name="sceneFileName">Nombre del archivo XML que tiene la informacin de la escena</param>
         /// <param name="zipFilePath">Path del archivo ZIP que contiene la escena.</param>
         /// <param name="extractDir">Path del directorio en donde se va a extraer el ZIP</param>
         /// <returns>Escena cargada</returns>
@@ -226,7 +226,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             }
             
 
-            //Cargar parte de PortalRendering, solo hay información
+            //Cargar parte de PortalRendering, solo hay informacin
             if (sceneData.portalData != null)
             {
                 TgcPortalRenderingLoader portalLoader = new TgcPortalRenderingLoader();
@@ -329,7 +329,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             //Configurar Material y Textura para varios SubSet
             else
             {
-                //Cargar attributeBuffer con los id de las texturas de cada triángulo
+                //Cargar attributeBuffer con los id de las texturas de cada tringulo
                 int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
                 mesh.UnlockAttributeBuffer();
@@ -441,7 +441,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             //Configurar Material y Textura para varios SubSet
             else
             {
-                //Cargar attributeBuffer con los id de las texturas de cada triángulo
+                //Cargar attributeBuffer con los id de las texturas de cada tringulo
                 int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
                 mesh.UnlockAttributeBuffer();
@@ -521,6 +521,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Cargar indexBuffer en forma plana
             using (IndexBuffer ib = mesh.IndexBuffer)
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
             {
                 short[] indices = new short[meshData.coordinatesIndices.Length];
                 for (int i = 0; i < indices.Length; i++)
@@ -553,7 +557,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         }
 
         /// <summary>
-        /// Convierte un Quaternion a rotación de Euler
+        /// Convierte un Quaternion a rotacin de Euler
         /// </summary>
         private Vector3 quaternionToEuler(Quaternion quat)
         {
@@ -786,8 +790,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
             /// </summary>
             /// <param name="name">Nombre de la malla</param>
             /// <param name="parentInstance">Malla original desde la cual basarse</param>
-            /// <param name="translation">Traslación respecto de la malla original</param>
-            /// <param name="rotation">Rotación respecto de la malla original</param>
+            /// <param name="translation">Traslacin respecto de la malla original</param>
+            /// <param name="rotation">Rotacin respecto de la malla original</param>
             /// <param name="scale">Escala respecto de la malla original</param>
             /// <returns>Instancia de TgcMesh creada</returns>
             TgcMesh createNewMeshInstance(string meshName, TgcMesh originalMesh, Vector3 translation, Vector3 rotation, Vector3 scale);

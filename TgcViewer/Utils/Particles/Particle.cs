@@ -2,6 +2,10 @@ using System;
 using System.Drawing;
 using SharpDX;
 using SharpDX.Direct3D9;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.Particles
 {
@@ -104,7 +108,7 @@ namespace TgcViewer.Utils.Particles
         }
 
         /// <summary>
-        /// Tamaño de la particula
+        /// Tamao de la particula
         /// </summary>
         public float PointSize
         {

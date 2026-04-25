@@ -4,11 +4,15 @@ using System.Text;
 using SharpDX.Direct3D9;
 using System.IO;
 using System.Drawing;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcSceneLoader
 {
     /// <summary>
-    /// Encapsula una textura de DirectX junto con información adicional
+    /// Encapsula una textura de DirectX junto con informacin adicional
     /// </summary>
     public class TgcTexture
     {
@@ -329,9 +333,9 @@ namespace TgcViewer.Utils.TgcSceneLoader
             }
 
             /// <summary>
-            /// Hace Dispose de una textura del pool, pero solo si nadie mas la está utilizando.
+            /// Hace Dispose de una textura del pool, pero solo si nadie mas la est utilizando.
             /// </summary>
-            /// <returns>True si se hizo un Dispose físico</returns>
+            /// <returns>True si se hizo un Dispose fsico</returns>
             public bool disposeTexture(string filePath)
             {
                 if (texturesPool.ContainsKey(filePath))
@@ -399,7 +403,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
         /// <summary>
         /// Herrramienta para administrar las texturas cargadas en el Device.
-        /// Antes evita hacer device.SetTexture() innecesarios, dado que es una operación
+        /// Antes evita hacer device.SetTexture() innecesarios, dado que es una operacin
         /// bastante costosa.
         /// Pero ahora quedo deprecada esa parte, porque DirectX hace ese control internamente y no
         /// tiene sentido hacerlo.
@@ -422,10 +426,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
             }
 
             /// <summary>
-            /// Carga una textura como parámetro de un Shader
+            /// Carga una textura como parmetro de un Shader
             /// </summary>
             /// <param name="effect">Shader</param>
-            /// <param name="parameterName">Nombre del parámetro en el Shader</param>
+            /// <param name="parameterName">Nombre del parmetro en el Shader</param>
             /// <param name="texture">Textura a aplicar</param>
             public void shaderSet(Effect effect, string parameterName, TgcTexture texture)
             {

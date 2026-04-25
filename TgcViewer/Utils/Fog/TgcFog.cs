@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using SharpDX.Direct3D9;
 using System.Drawing;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.Fog
 {
@@ -81,7 +85,7 @@ namespace TgcViewer.Utils.Fog
 
         /// <summary>
         /// Actualiza todos los valores de la niebla.
-        /// Activa o desactiva efectivamente el efecto, según como se haya configurado.
+        /// Activa o desactiva efectivamente el efecto, segn como se haya configurado.
         /// </summary>
         public void updateValues()
         {

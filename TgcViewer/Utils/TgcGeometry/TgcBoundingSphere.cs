@@ -6,6 +6,10 @@ using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
@@ -15,7 +19,7 @@ namespace TgcViewer.Utils.TgcGeometry
     public class TgcBoundingSphere : IRenderObject
     {
         /// <summary>
-        /// Cantidad de tramos que tendrá el mesh del BoundingSphere a dibujar
+        /// Cantidad de tramos que tendr el mesh del BoundingSphere a dibujar
         /// </summary>
         public const int SPHERE_MESH_RESOLUTION = 10;
 
@@ -87,7 +91,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Desplazar el centro respecto de su posición actual
+        /// Desplazar el centro respecto de su posicin actual
         /// </summary>
         /// <param name="movement">Movimiento relativo a realizar</param>
         public void moveCenter(Vector3 movement)
@@ -130,8 +134,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -205,7 +209,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 this.technique = TgcShaders.T_POSITION_COLORED;
             }
 
-            //Actualizar vertices de BoundingSphere solo si hubo una modificación
+            //Actualizar vertices de BoundingSphere solo si hubo una modificacin
             if (dirtyValues)
             {
                 updateValues();
@@ -282,7 +286,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         /// <summary>
         /// Crear un BoundingSphere a partir de un conjunto de puntos, utilizando el algoritmo de Ritter:
-        /// [Ritter, Jack. "An Efficient Bounding Sphere," in Andrew Glassner (ed.), Graphics Gems, Academic Press, pp. 301–303, 1990.]
+        /// [Ritter, Jack. "An Efficient Bounding Sphere," in Andrew Glassner (ed.), Graphics Gems, Academic Press, pp. 301303, 1990.]
         /// </summary>
         /// <param name="pt">Puntos a partir del cual calcular el BoundingSphere</param>
         /// <returns>BoundingSphere calculado</returns>

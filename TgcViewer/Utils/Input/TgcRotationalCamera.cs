@@ -6,6 +6,10 @@ using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.TgcGeometry;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.Input
 {
@@ -49,7 +53,7 @@ namespace TgcViewer.Utils.Input
             set{ 
                 enable = value;
 
-                //Si se habilito la camara, cargar como la cámara actual
+                //Si se habilito la camara, cargar como la cmara actual
                 if (value)
                 {
                     GuiController.Instance.CurrentCamera = this;
@@ -278,7 +282,7 @@ namespace TgcViewer.Utils.Input
         }
 
         /// <summary>
-        /// Configura los parámetros de la cámara en funcion del BoundingBox de un modelo
+        /// Configura los parmetros de la cmara en funcion del BoundingBox de un modelo
         /// </summary>
         /// <param name="boundingBox">BoundingBox en base al cual configurar</param>
         public void targetObject(TgcBoundingBox boundingBox)

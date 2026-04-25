@@ -193,7 +193,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 	                }
                     meshExport.MeshData.originalMesh = parentIdx;
 
-                    //TODO: la rotación no se exporta correctamente cuando la malla original esta rotada
+                    //TODO: la rotacin no se exporta correctamente cuando la malla original esta rotada
 
                     //Posicion, rotacion y escala con diferencia de la malla original
                     meshExport.MeshData.position = TgcParserUtils.vector3ToFloat3Array(tgcMesh.Position - parentInstance.Position);
@@ -764,7 +764,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             //Chequear que sea mismo tipo de malla
             if (mExp1.MeshRenderType != mExp2.MeshRenderType)
             {
-                throw new Exception("Se intentó juntar dos Mallas de formato distintos: " + mExp1.MeshData.name + " y " + mExp2.MeshData.name);
+                throw new Exception("Se intent juntar dos Mallas de formato distintos: " + mExp1.MeshData.name + " y " + mExp2.MeshData.name);
             }
 
             //Por ahora no se pueden unificar LightMaps
@@ -1010,7 +1010,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             //Chequear que sea mismo tipo de malla
             if (mesh1.RenderType != mesh2.RenderType)
             {
-                throw new Exception("Se intentó juntar dos Mallas de formato distintos: " + mesh1.Name + " y " + mesh2.Name);
+                throw new Exception("Se intent juntar dos Mallas de formato distintos: " + mesh1.Name + " y " + mesh2.Name);
             }
 
             //Por ahora no se pueden unificar LightMaps
@@ -1088,6 +1088,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Cargar indexBuffer en forma plana
             using (IndexBuffer ib = mesh.IndexBuffer)
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
             {
                 short[] indices = new short[vertexCount];
                 for (int i = 0; i < indices.Length; i++)
@@ -1232,8 +1236,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
         
 
         /// <summary>
-        /// Graba una escena a XML, en base a información de varios TgcMesh.
-        /// También crea una carpeta Textures relativa al XML y copia ahí todas las texturas utilizadas por las Mallas.
+        /// Graba una escena a XML, en base a informacin de varios TgcMesh.
+        /// Tambin crea una carpeta Textures relativa al XML y copia ah todas las texturas utilizadas por las Mallas.
         /// Lo mismo para LightMaps.
         /// </summary>
         /// <param name="sceneName">Nombre de la escena</param>

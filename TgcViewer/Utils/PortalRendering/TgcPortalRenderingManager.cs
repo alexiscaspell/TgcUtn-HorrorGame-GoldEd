@@ -6,14 +6,18 @@ using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
 using SharpDX.Direct3D9;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.PortalRendering
 {
     /// <summary>
     /// Herramienta para optimizar la visibilidad de objetos mediante PortalRendering.
     /// Determina que objetos se ven y cuales no en base a celdas y portales.
-    /// Esta herramienta implementa una estrategia de Portal Rendering muy básica.
-    /// Aún posee muchos aspectos para pulir y optimizar.
+    /// Esta herramienta implementa una estrategia de Portal Rendering muy bsica.
+    /// An posee muchos aspectos para pulir y optimizar.
     /// </summary>
     public class TgcPortalRenderingManager
     {
@@ -56,7 +60,7 @@ namespace TgcViewer.Utils.PortalRendering
         /// Las modelos visibles se cargan como Enable = true, mientras que el
         /// resto se deshabilita.
         /// </summary>
-        /// <param name="cameraPos">Posición de la cámara</param>
+        /// <param name="cameraPos">Posicin de la cmara</param>
         public void updateVisibility(Vector3 cameraPos)
         {
             //Armar Frustum para uso internor, en base al Frustum actual
@@ -80,7 +84,7 @@ namespace TgcViewer.Utils.PortalRendering
                 }
             }
 
-            //Buscar la celda actual en la que se encuentra la cámara
+            //Buscar la celda actual en la que se encuentra la cmara
             TgcPortalRenderingCell currentCell = findCellFromPoint(cameraPos);
             if (currentCell == null)
             {
@@ -94,7 +98,7 @@ namespace TgcViewer.Utils.PortalRendering
 
         /// <summary>
         /// Renderiza todos los meshes habilitados, y los vuelve a marcar como inhabilitados
-        /// para el próximo cuadro.
+        /// para el prximo cuadro.
         /// Debe ejecutarse luego de haber llamado a updateVisibility()
         /// </summary>
         public void render()
@@ -118,16 +122,16 @@ namespace TgcViewer.Utils.PortalRendering
             foreach (TgcPortalRenderingConnection connection in cell.Connections)
             {
                 //Si el portal ya fue visitado, ignorar
-                //TODO: Hay una configuración extrema de celdas y portales que no es tenida en cuenta con este atajo. Analizar en más detalle.
+                //TODO: Hay una configuracin extrema de celdas y portales que no es tenida en cuenta con este atajo. Analizar en ms detalle.
                 if (connection.Portal.Visited)
                     continue;
 
-                //TODO: quizás convendria hacer un test Frustum-BoundingSphere del Portal para descartar más rápido los que no se ven
+                //TODO: quizs convendria hacer un test Frustum-BoundingSphere del Portal para descartar ms rpido los que no se ven
 
-                //Hacer clipping entre el Frustum y el polígono del portal
+                //Hacer clipping entre el Frustum y el polgono del portal
                 Vector3[] clippedPortalVerts = doPortalClipping(currentFrustumPlanes, connection.Polygon);
 
-                //Si quedó algún remanente luego de hacer clipping, avanzar hacia esa celda
+                //Si qued algn remanente luego de hacer clipping, avanzar hacia esa celda
                 if (clippedPortalVerts != null)
                 {
                     //Crear nuevo Frustum recortado por el portal
@@ -143,12 +147,12 @@ namespace TgcViewer.Utils.PortalRendering
 
         /// <summary>
         /// Crear un nuevo Frustum acotado usando como base el portal recorado.
-        /// La cantidad de planos del nuevo Frustum no tiene por qué ser 6.
+        /// La cantidad de planos del nuevo Frustum no tiene por qu ser 6.
         /// Depende de la forma que haya quedado en el portal recortado.
         /// </summary>
         private Plane[] createFrustumPlanes(Vector3 cameraPos, Plane[] currentFrustumPlanes, Vector3[] portalVerts, Plane portalPlane)
         {
-            //Hay un plano por cada vértice del polígono + 2 por el near y far plane
+            //Hay un plano por cada vrtice del polgono + 2 por el near y far plane
             Plane[] frustumPlanes = new Plane[2 + portalVerts.Length];
 
             //Cargar near y far plane originales
@@ -156,8 +160,8 @@ namespace TgcViewer.Utils.PortalRendering
             frustumPlanes[0] = currentFrustumPlanes[0];
             frustumPlanes[1] = currentFrustumPlanes[1];
 
-            //Generar los planos laterales en base al polígono remanente del portal
-            //Vamos tomando de a dos puntos del polígono + la posición de la cámara y creamos un plano
+            //Generar los planos laterales en base al polgono remanente del portal
+            //Vamos tomando de a dos puntos del polgono + la posicin de la cmara y creamos un plano
             Vector3 lastP = portalVerts[portalVerts.Length - 1];
             for (int i = 0; i < portalVerts.Length; i++)
             {
@@ -169,7 +173,7 @@ namespace TgcViewer.Utils.PortalRendering
                 Vector3 planeNormal = Vector3.Cross(b, a);
                 Plane plane = new Plane(planeNormal, -Vector3.Dot(planeNormal, cameraPos));
 
-                //Guardar después del near y far plane
+                //Guardar despus del near y far plane
                 frustumPlanes[i + 2] = plane;
 
                 lastP = nextP;
@@ -180,10 +184,10 @@ namespace TgcViewer.Utils.PortalRendering
 
         /// <summary>
         /// Recorta el portal en base al frustum.
-        /// Este método se realiza haciendo un clipping del Frustum contra la cara del portal.
+        /// Este mtodo se realiza haciendo un clipping del Frustum contra la cara del portal.
         /// El recorte se hace en 3D.
-        /// Existen técnicas más eficientes para realizar el clipping en 2D, utilizando la proyección del BoundingBox del portal.
-        /// Ver Capítulo 13 - Portal Rendering, del libro Core Techniques and Algorithms in Game Programming, para optimizar la estrategia.
+        /// Existen tcnicas ms eficientes para realizar el clipping en 2D, utilizando la proyeccin del BoundingBox del portal.
+        /// Ver Captulo 13 - Portal Rendering, del libro Core Techniques and Algorithms in Game Programming, para optimizar la estrategia.
         /// </summary>
         private Vector3[] doPortalClipping(Plane[] frustumPlanes, TgcConvexPolygon portalPoly)
         {
@@ -201,11 +205,11 @@ namespace TgcViewer.Utils.PortalRendering
         }
 
         /// <summary>
-        /// Habilitar los modelos visibles de esta celda, según el Frustum restringido
+        /// Habilitar los modelos visibles de esta celda, segn el Frustum restringido
         /// </summary>
         private void findVisibleMeshes(TgcPortalRenderingCell cell, Plane[] currentFrustumPlanes)
         {
-            //El Frustum puede tener más de 6 planos, asi que lo tratamos como un cuerpo convexo general.
+            //El Frustum puede tener ms de 6 planos, asi que lo tratamos como un cuerpo convexo general.
             frustumConvexPolyhedon.Planes = currentFrustumPlanes;
             foreach (TgcMesh mesh in cell.Meshes)
             {

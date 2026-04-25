@@ -6,11 +6,15 @@ using System.Drawing;
 using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
     /// <summary>
-    /// Herramienta para crear una línea 3D y renderizarla con color.
+    /// Herramienta para crear una lnea 3D y renderizarla con color.
     /// </summary>
     public class TgcLine : IRenderObject
     {
@@ -18,11 +22,11 @@ namespace TgcViewer.Utils.TgcGeometry
         #region Creacion
 
         /// <summary>
-        /// Crea una línea en base a sus puntos extremos
+        /// Crea una lnea en base a sus puntos extremos
         /// </summary>
         /// <param name="start">Punto de inicio</param>
         /// <param name="end">Punto de fin</param>
-        /// <returns>Línea creada</returns>
+        /// <returns>Lnea creada</returns>
         public static TgcLine fromExtremes(Vector3 start, Vector3 end)
         {
             TgcLine line = new TgcLine();
@@ -33,12 +37,12 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una línea en base a sus puntos extremos, con el color especificado
+        /// Crea una lnea en base a sus puntos extremos, con el color especificado
         /// </summary>
         /// <param name="start">Punto de inicio</param>
         /// <param name="end">Punto de fin</param>
-        /// <param name="color">Color de la línea</param>
-        /// <returns>Línea creada</returns>
+        /// <param name="color">Color de la lnea</param>
+        /// <returns>Lnea creada</returns>
         public static TgcLine fromExtremes(Vector3 start, Vector3 end, Color color)
         {
             TgcLine line = new TgcLine();
@@ -96,15 +100,15 @@ namespace TgcViewer.Utils.TgcGeometry
 
         public Vector3 Position
         {
-            //Lo correcto sería calcular el centro, pero con un extremo es suficiente.
+            //Lo correcto sera calcular el centro, pero con un extremo es suficiente.
             get { return pStart; }
         }
 
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -148,7 +152,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Actualizar parámetros de la línea en base a los valores configurados
+        /// Actualizar parmetros de la lnea en base a los valores configurados
         /// </summary>
         public void updateValues()
         {
@@ -160,7 +164,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
 
         /// <summary>
-        /// Renderizar la línea
+        /// Renderizar la lnea
         /// </summary>
         public void render()
         {
@@ -186,7 +190,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Liberar recursos de la línea
+        /// Liberar recursos de la lnea
         /// </summary>
         public void dispose()
         {

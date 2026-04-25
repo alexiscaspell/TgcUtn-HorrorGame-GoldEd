@@ -7,6 +7,10 @@ using TgcViewer.Utils;
 using System.Collections;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Collections.Generic;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.Particles
 {
@@ -78,7 +82,7 @@ namespace TgcViewer.Utils.Particles
 
         protected float minSizeParticle;
         /// <summary>
-        /// Minimo tamaño que puede tener una particula.
+        /// Minimo tamao que puede tener una particula.
         /// </summary>
         public float MinSizeParticle
         {
@@ -88,7 +92,7 @@ namespace TgcViewer.Utils.Particles
 
         protected float maxSizeParticle;
         /// <summary>
-        /// Maximo tamaño que puede tener una particula.
+        /// Maximo tamao que puede tener una particula.
         /// </summary>
         public float MaxSizeParticle
         {
@@ -245,7 +249,7 @@ namespace TgcViewer.Utils.Particles
                     }
                     else
                     {
-                        //Actualizo y Dibujo la partícula
+                        //Actualizo y Dibujo la partcula
                         this.updateExistingParticle(elapsedTime, p);
                         this.renderParticle(p);
                     }
@@ -268,10 +272,10 @@ namespace TgcViewer.Utils.Particles
             if (particlesDead.Count > 0)
             {
                 Particle p = particlesDead.Pop();
-                //Agrego la partícula a la lista de partículas vivas.
+                //Agrego la partcula a la lista de partculas vivas.
                 this.particlesAlive.enqueue(p);
 
-                //Seteo valores iniciales de la partícula.
+                //Seteo valores iniciales de la partcula.
                 p.TotalTimeToLive = this.particleTimeToLive;
                 p.TimeToLive = this.particleTimeToLive;
                 p.Position = position;
@@ -295,7 +299,7 @@ namespace TgcViewer.Utils.Particles
 
                 p.Speed = pSpeed;
 
-                //Modifico el tamaño de manera aleatoria.
+                //Modifico el tamao de manera aleatoria.
                 float size = (float)random.NextDouble() * this.maxSizeParticle;
                 if (size < this.minSizeParticle) size = this.minSizeParticle;
                 p.PointSize = size;

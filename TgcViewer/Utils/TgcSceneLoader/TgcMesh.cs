@@ -8,14 +8,18 @@ using TgcViewer.Utils;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcSceneLoader
 {
     /// <summary>
-    /// Representa una malla estática.
-    /// Puede moverse y rotarse pero no tiene animación.
-    /// La malla puede tener colores por vértice, texturas y lightmaps.
-    /// Puede crearse como una malla nueva o como una instancia de otra existente y reutilizar así su geometría.
+    /// Representa una malla esttica.
+    /// Puede moverse y rotarse pero no tiene animacin.
+    /// La malla puede tener colores por vrtice, texturas y lightmaps.
+    /// Puede crearse como una malla nueva o como una instancia de otra existente y reutilizar as su geometra.
     /// </summary>
     public class TgcMesh : IRenderObject, ITransformObject
     {
@@ -125,7 +129,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// Matriz final que se utiliza para aplicar transformaciones a la malla.
         /// Si la propiedad AutoTransformEnable esta en True, la matriz se reconstruye en cada cuadro
         /// en base a los valores de: Position, Rotation, Scale.
-        /// Si AutoTransformEnable está en False, se respeta el valor que el usuario haya cargado en la matriz.
+        /// Si AutoTransformEnable est en False, se respeta el valor que el usuario haya cargado en la matriz.
         /// </summary>
         public Matrix Transform
         {
@@ -136,9 +140,9 @@ namespace TgcViewer.Utils.TgcSceneLoader
         protected bool autoTransformEnable;
         /// <summary>
         /// En True hace que la matriz de transformacion (Transform) de la malla se actualiza en
-        /// cada cuadro en forma automática, según los valores de: Position, Rotation, Scale.
+        /// cada cuadro en forma automtica, segn los valores de: Position, Rotation, Scale.
         /// En False se respeta lo que el usuario haya cargado a mano en la matriz.
-        /// Por default está en True.
+        /// Por default est en True.
         /// </summary>
         public bool AutoTransformEnable
         {
@@ -163,7 +167,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
         protected Vector3 rotation;
         /// <summary>
-        /// Rotación absoluta de la malla
+        /// Rotacin absoluta de la malla
         /// </summary>
         public Vector3 Rotation
         {
@@ -265,7 +269,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         }
 
         /// <summary>
-        /// Cantidad de triángulos de la malla
+        /// Cantidad de tringulos de la malla
         /// </summary>
         public int NumberTriangles
         {
@@ -273,7 +277,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         }
 
         /// <summary>
-        /// Cantidad de vértices de la malla
+        /// Cantidad de vrtices de la malla
         /// </summary>
         public int NumberVertices
         {
@@ -283,8 +287,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
         protected bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -312,12 +316,12 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
         /// <summary>
         /// Crea una nueva malla que es una instancia de otra malla original.
-        /// Reutiliza toda la geometría de la malla original sin duplicarla.
+        /// Reutiliza toda la geometra de la malla original sin duplicarla.
         /// </summary>
         /// <param name="name">Nombre de la malla</param>
         /// <param name="parentInstance">Malla original desde la cual basarse</param>
-        /// <param name="translation">Traslación respecto de la malla original</param>
-        /// <param name="rotation">Rotación respecto de la malla original</param>
+        /// <param name="translation">Traslacin respecto de la malla original</param>
+        /// <param name="rotation">Rotacin respecto de la malla original</param>
         /// <param name="scale">Escala respecto de la malla original</param>
         public TgcMesh(string name, TgcMesh parentInstance, Vector3 translation, Vector3 rotation, Vector3 scale)
         {
@@ -328,7 +332,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             this.lightMap = parentInstance.lightMap;
             this.effect = parentInstance.effect;
 
-            //Almacenar transformación inicial
+            //Almacenar transformacin inicial
             this.translation = translation;
             this.rotation = rotation;
             this.scale = scale;
@@ -513,7 +517,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// <summary>
         /// Libera los recursos de la malla.
         /// Si la malla es una instancia se deshabilita pero no se liberan recursos.
-        /// Si la malla es el original y tiene varias instancias adjuntadas, se hace dispose() también de las instancias.
+        /// Si la malla es el original y tiene varias instancias adjuntadas, se hace dispose() tambin de las instancias.
         /// </summary>
         public void dispose()
         {
@@ -617,7 +621,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// <summary>
         /// Rota la malla respecto del eje X
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateX(float angle)
         {
             this.rotation.X += angle;
@@ -626,7 +630,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// <summary>
         /// Rota la malla respecto del eje Y
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateY(float angle)
         {
             this.rotation.Y += angle;
@@ -635,14 +639,14 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// <summary>
         /// Rota la malla respecto del eje Z
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateZ(float angle)
         {
             this.rotation.Z += angle;
         }
 
         /// <summary>
-        /// Devuelve un array con todas las posiciones de los vértices de la malla
+        /// Devuelve un array con todas las posiciones de los vrtices de la malla
         /// </summary>
         /// <returns>Array creado</returns>
         public Vector3[] getVertexPositions()
@@ -754,7 +758,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         }
 
         /// <summary>
-        /// Cambia el color de todos los vértices de la malla.
+        /// Cambia el color de todos los vrtices de la malla.
         /// Esta operacion tiene que hacer un lock del VertexBuffer y es poco performante.
         /// </summary>
         /// <param name="color">Color nuevo</param>
@@ -826,7 +830,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
         /// <summary>
         /// Agregar una nueva textura a la lista de texturas que tiene el mesh.
-        /// Esta nueva textura no va a ser utilizada por ningún triángulo si no se
+        /// Esta nueva textura no va a ser utilizada por ningn tringulo si no se
         /// adapta correctamente el attributeBuffer.
         /// No se controla si esa textura ya esta repetida en el mesh.
         /// </summary>
@@ -895,12 +899,12 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
         /// <summary>
         /// Crea una nueva malla que es una instancia de esta malla original
-        /// Reutiliza toda la geometría de la malla original sin duplicarla.
+        /// Reutiliza toda la geometra de la malla original sin duplicarla.
         /// Solo se puede crear instancias a partir de originales.
         /// </summary>
         /// <param name="name">Nombre de la malla</param>
-        /// <param name="translation">Traslación respecto de la malla original</param>
-        /// <param name="rotation">Rotación respecto de la malla original</param>
+        /// <param name="translation">Traslacin respecto de la malla original</param>
+        /// <param name="rotation">Rotacin respecto de la malla original</param>
         /// <param name="scale">Escala respecto de la malla original</param>
         public TgcMesh createMeshInstance(string name, Vector3 translation, Vector3 rotation, Vector3 scale)
         {
@@ -922,7 +926,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
         /// <summary>
         /// Crea una nueva malla que es una instancia de esta malla original
-        /// Reutiliza toda la geometría de la malla original sin duplicarla.
+        /// Reutiliza toda la geometra de la malla original sin duplicarla.
         /// Solo se puede crear instancias a partir de originales.
         /// </summary>
         /// <param name="name">Nombre de la malla</param>

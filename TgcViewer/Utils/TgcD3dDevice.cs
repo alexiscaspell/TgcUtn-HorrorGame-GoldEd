@@ -4,6 +4,10 @@ using SharpDX.Direct3D9;
 using System.Windows.Forms;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils
 {

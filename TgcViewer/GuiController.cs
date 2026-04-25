@@ -18,6 +18,10 @@ using TgcViewer.Utils.Ui;
 using TgcViewer.Utils.Fog;
 using TgcViewer.Utils._2D;
 using TgcViewer.Utils.Shaders;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer
 {
@@ -148,7 +152,7 @@ namespace TgcViewer
         }
        
         /// <summary>
-        /// Versión standalone de initGraphics: inicializa el engine sin el picker de ejemplos de TgcViewer.
+        /// Versin standalone de initGraphics: inicializa el engine sin el picker de ejemplos de TgcViewer.
         /// Usar desde HorrorGame.exe en lugar de initGraphics(MainForm, Control).
         /// </summary>
         internal void initGraphicsStandalone(System.Windows.Forms.Form hostForm, Control panel3d)

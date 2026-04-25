@@ -6,6 +6,10 @@ using TgcViewer.Utils.TgcGeometry;
 using SharpDX;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcKeyFrameLoader
 {
@@ -100,7 +104,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// Matriz final que se utiliza para aplicar transformaciones a la malla.
         /// Si la propiedad AutoTransformEnable esta en True, la matriz se reconstruye en cada cuadro
         /// en base a los valores de: Position, Rotation, Scale.
-        /// Si AutoTransformEnable está en False, se respeta el valor que el usuario haya cargado en la matriz.
+        /// Si AutoTransformEnable est en False, se respeta el valor que el usuario haya cargado en la matriz.
         /// </summary>
         public Matrix Transform
         {
@@ -111,9 +115,9 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         bool autoTransformEnable;
         /// <summary>
         /// En True hace que la matriz de transformacion (Transform) de la malla se actualiza en
-        /// cada cuadro en forma automática, según los valores de: Position, Rotation, Scale.
+        /// cada cuadro en forma automtica, segn los valores de: Position, Rotation, Scale.
         /// En False se respeta lo que el usuario haya cargado a mano en la matriz.
-        /// Por default está en True.
+        /// Por default est en True.
         /// </summary>
         public bool AutoTransformEnable
         {
@@ -137,7 +141,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
         private Vector3 rotation;
         /// <summary>
-        /// Rotación absoluta de la malla
+        /// Rotacin absoluta de la malla
         /// </summary>
         public Vector3 Rotation
         {
@@ -174,14 +178,14 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         };
 
         /// <summary>
-        /// BoundingBox de la malla sin ninguna animación.
+        /// BoundingBox de la malla sin ninguna animacin.
         /// </summary>
         private TgcBoundingBox staticMeshBoundingBox;
 
         private TgcBoundingBox boundingBox;
         /// <summary>
         /// BoundingBox del Mesh.
-        /// Puede variar según la animación que tiene configurada en el momento.
+        /// Puede variar segn la animacin que tiene configurada en el momento.
         /// </summary>
         public TgcBoundingBox BoundingBox
         {
@@ -224,7 +228,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
         TgcKeyFrameAnimation currentAnimation;
         /// <summary>
-        /// Animación actual de la malla
+        /// Animacin actual de la malla
         /// </summary>
         public TgcKeyFrameAnimation CurrentAnimation
         {
@@ -251,7 +255,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
         bool isAnimating;
         /// <summary>
-        /// Indica si actualmente hay una animación en curso.
+        /// Indica si actualmente hay una animacin en curso.
         /// </summary>
         public bool IsAnimating
         {
@@ -260,7 +264,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
         bool playLoop;
         /// <summary>
-        /// Indica si la animación actual se ejecuta con un Loop
+        /// Indica si la animacin actual se ejecuta con un Loop
         /// </summary>
         public bool PlayLoop
         {
@@ -288,8 +292,8 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -301,15 +305,15 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         #region Eventos
 
         /// <summary>
-        /// Indica que la animación actual ha finalizado.
-        /// Se llama cuando se acabaron los frames de la animación.
+        /// Indica que la animacin actual ha finalizado.
+        /// Se llama cuando se acabaron los frames de la animacin.
         /// Si se anima en Loop, se llama cada vez que termina.
         /// </summary>
         /// <param name="mesh">Malla animada</param>
         public delegate void AnimationEndsHandler(TgcKeyFrameMesh mesh);
         /// <summary>
-        /// Evento que se llama cada vez que la animación actual finaliza.
-        /// Se llama cuando se acabaron los frames de la animación.
+        /// Evento que se llama cada vez que la animacin actual finaliza.
+        /// Se llama cuando se acabaron los frames de la animacin.
         /// Si se anima en Loop, se llama cada vez que termina.
         /// </summary>
         public event AnimationEndsHandler AnimationEnds;
@@ -317,7 +321,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         #endregion
 
 		/// <summary>
-        /// Cantidad de triángulos de la malla
+        /// Cantidad de tringulos de la malla
         /// </summary>
         public int NumberTriangles
         {
@@ -325,7 +329,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         }
 
         /// <summary>
-        /// Cantidad de vértices de la malla
+        /// Cantidad de vrtices de la malla
         /// </summary>
         public int NumberVertices
         {
@@ -354,13 +358,13 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
         /// <summary>
         /// Crea una nueva malla que es una instancia de otra malla original.
-        /// Reutiliza toda la geometría de la malla original sin duplicarla.
+        /// Reutiliza toda la geometra de la malla original sin duplicarla.
         /// Debe crearse luego de haber cargado todas las animaciones en la malla original
         /// </summary>
         /// <param name="name">Nombre de la malla</param>
         /// <param name="parentInstance">Malla original desde la cual basarse</param>
-        /// <param name="translation">Traslación respecto de la malla original</param>
-        /// <param name="rotation">Rotación respecto de la malla original</param>
+        /// <param name="translation">Traslacin respecto de la malla original</param>
+        /// <param name="rotation">Rotacin respecto de la malla original</param>
         /// <param name="scale">Escala respecto de la malla original</param>
         public TgcKeyFrameMesh(string name, TgcKeyFrameMesh parentInstance, Vector3 translation, Vector3 rotation, Vector3 scale)
         {
@@ -369,7 +373,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             this.diffuseMaps = parentInstance.diffuseMaps;
             this.materials = parentInstance.materials;
 
-            //Almacenar transformación inicial
+            //Almacenar transformacin inicial
             this.translation = translation;
             this.rotation = rotation;
             this.scale = scale;
@@ -430,7 +434,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// </summary>
         /// <param name="animationName">Nombre de la animacion a activar</param>
         /// <param name="playLoop">Indica si la animacion vuelve a comenzar al terminar</param>
-        /// <param name="userFrameRate">FrameRate personalizado. Con -1 se utiliza el default de la animación</param>
+        /// <param name="userFrameRate">FrameRate personalizado. Con -1 se utiliza el default de la animacin</param>
         public void playAnimation(string animationName, bool playLoop, float userFrameRate)
         {
             //ya se esta animando algo
@@ -464,7 +468,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// Establece cual es la animacion activa de la malla.
         /// Si la animacion activa es la misma que ya esta siendo animada actualmente, no se para ni se reinicia.
         /// Para forzar que se reinicie es necesario hacer stopAnimation().
-        /// Utiliza el FrameRate default de cada animación
+        /// Utiliza el FrameRate default de cada animacin
         /// </summary>
         /// <param name="animationName">Nombre de la animacion a activar</param>
         /// <param name="playLoop">Indica si la animacion vuelve a comenzar al terminar</param>
@@ -478,7 +482,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// Si la animacion activa es la misma que ya esta siendo animada actualmente, no se para ni se reinicia.
         /// Para forzar que se reinicie es necesario hacer stopAnimation().
         /// Se reproduce con loop.
-        /// Utiliza el FrameRate default de cada animación
+        /// Utiliza el FrameRate default de cada animacin
         /// </summary>
         /// <param name="animationName">Nombre de la animacion a activar</param>
         public void playAnimation(string animationName)
@@ -528,7 +532,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             isAnimating = false;
             boundingBox = staticMeshBoundingBox;
 
-            //Invocar evento de finalización
+            //Invocar evento de finalizacin
             if (AnimationEnds != null)
             {
                 AnimationEnds.Invoke(this);
@@ -919,7 +923,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// <summary>
         /// Rota la malla respecto del eje X
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateX(float angle)
         {
             this.rotation.X += angle;
@@ -928,7 +932,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// <summary>
         /// Rota la malla respecto del eje Y
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateY(float angle)
         {
             this.rotation.Y += angle;
@@ -937,7 +941,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// <summary>
         /// Rota la malla respecto del eje Z
         /// </summary>
-        /// <param name="angle">Ángulo de rotación en radianes</param>
+        /// <param name="angle">ngulo de rotacin en radianes</param>
         public void rotateZ(float angle)
         {
             this.rotation.Z += angle;
@@ -945,7 +949,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
 
         /// <summary>
-        /// Devuelve un array con todas las posiciones de los vértices de la malla, en el estado actual
+        /// Devuelve un array con todas las posiciones de los vrtices de la malla, en el estado actual
         /// </summary>
         /// <returns>Array creado</returns>
         public Vector3[] getVertexPositions()
@@ -1003,10 +1007,10 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         }
 
         /// <summary>
-        /// Cambia el color de todos los vértices de la malla.
-        /// En modelos complejos puede resultar una operación poco performante.
-        /// La actualización será visible la próxima vez que se haga updateAnimation()
-        /// Si hay instnacias de este modelo, sea el original o una copia, todos los demás se verán
+        /// Cambia el color de todos los vrtices de la malla.
+        /// En modelos complejos puede resultar una operacin poco performante.
+        /// La actualizacin ser visible la prxima vez que se haga updateAnimation()
+        /// Si hay instnacias de este modelo, sea el original o una copia, todos los dems se vern
         /// afectados
         /// </summary>
         /// <param name="color">Color nuevo</param>
@@ -1047,13 +1051,13 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
         /// <summary>
         /// Crea una nueva malla que es una instancia de esta malla original
-        /// Reutiliza toda la geometría de la malla original sin duplicarla.
+        /// Reutiliza toda la geometra de la malla original sin duplicarla.
         /// Solo se puede crear instancias a partir de originales.
-        /// Se debe crear después de haber agregado todas las animaciones al original.
+        /// Se debe crear despus de haber agregado todas las animaciones al original.
         /// </summary>
         /// <param name="name">Nombre de la malla</param>
-        /// <param name="translation">Traslación respecto de la malla original</param>
-        /// <param name="rotation">Rotación respecto de la malla original</param>
+        /// <param name="translation">Traslacin respecto de la malla original</param>
+        /// <param name="rotation">Rotacin respecto de la malla original</param>
         /// <param name="scale">Escala respecto de la malla original</param>
         public TgcKeyFrameMesh createMeshInstance(string name, Vector3 translation, Vector3 rotation, Vector3 scale)
         {
@@ -1075,9 +1079,9 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
         /// <summary>
         /// Crea una nueva malla que es una instancia de esta malla original
-        /// Reutiliza toda la geometría de la malla original sin duplicarla.
+        /// Reutiliza toda la geometra de la malla original sin duplicarla.
         /// Solo se puede crear instancias a partir de originales.
-        /// Se debe crear después de haber agregado todas las animaciones al original.
+        /// Se debe crear despus de haber agregado todas las animaciones al original.
         /// </summary>
         /// <param name="name">Nombre de la malla</param>
         public TgcKeyFrameMesh createMeshInstance(string name)

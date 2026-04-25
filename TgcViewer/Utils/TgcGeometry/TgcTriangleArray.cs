@@ -4,6 +4,10 @@ using System.Text;
 using TgcViewer.Utils.TgcSceneLoader;
 using SharpDX;
 using System.Drawing;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcGeometry
 {

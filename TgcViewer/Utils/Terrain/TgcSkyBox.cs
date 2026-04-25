@@ -34,7 +34,7 @@ namespace TgcViewer.Utils.Terrain
 
         private float skyEpsilon;
         /// <summary>
-        /// Valor de desplazamiento utilizado para que las caras del SkyBox encajen bien entre sí.
+        /// Valor de desplazamiento utilizado para que las caras del SkyBox encajen bien entre s.
         /// Llamar a updateValues() para aplicar cambios.
         /// </summary>
         public float SkyEpsilon
@@ -45,7 +45,7 @@ namespace TgcViewer.Utils.Terrain
 
         private Vector3 size;
         /// <summary>
-        /// Tamaño del SkyBox.
+        /// Tamao del SkyBox.
         /// Llamar a updateValues() para aplicar cambios.
         /// </summary>
         public Vector3 Size
@@ -99,8 +99,8 @@ namespace TgcViewer.Utils.Terrain
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -173,7 +173,7 @@ namespace TgcViewer.Utils.Terrain
                 Mesh m = new Mesh(d3dDevice, 2, 4, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
                 SkyFaces skyFace = (SkyFaces)i;
 
-                // Cargo los vértices
+                // Cargo los vrtices
                 using (VertexBuffer vb = m.VertexBuffer)
                 {
                     DataStream data = vb.Lock(0, 0, LockFlags.None);
@@ -182,8 +182,12 @@ namespace TgcViewer.Utils.Terrain
                     vb.Unlock();
                 }
 
-                // Cargo los índices
+                // Cargo los ndices
                 using (IndexBuffer ib = m.IndexBuffer)
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
                 {
                     short[] ibArray = new short[6];
                     cargarIndices(ibArray);

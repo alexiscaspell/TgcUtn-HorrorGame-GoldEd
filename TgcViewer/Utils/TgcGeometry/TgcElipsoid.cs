@@ -6,6 +6,10 @@ using SharpDX.Direct3D9;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
@@ -15,7 +19,7 @@ namespace TgcViewer.Utils.TgcGeometry
     public class TgcElipsoid : IRenderObject
     {
         /// <summary>
-        /// Cantidad de tramos que tendrá el mesh del Elipsoid a dibujar
+        /// Cantidad de tramos que tendr el mesh del Elipsoid a dibujar
         /// </summary>
         public const int ELIPSOID_MESH_RESOLUTION = 10;
 
@@ -89,7 +93,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Desplazar el centro respecto de su posición actual
+        /// Desplazar el centro respecto de su posicin actual
         /// </summary>
         /// <param name="movement">Movimiento relativo a realizar</param>
         public void moveCenter(Vector3 movement)
@@ -132,8 +136,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -207,7 +211,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 this.technique = TgcShaders.T_POSITION_COLORED;
             }
 
-            //Actualizar vertices del Elipsoid solo si hubo una modificación
+            //Actualizar vertices del Elipsoid solo si hubo una modificacin
             if (dirtyValues)
             {
                 updateValues();

@@ -40,7 +40,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         Orientations orientation;
         /// <summary>
-        /// Orientación de la pared.
+        /// Orientacin de la pared.
         /// Llamar a updateValues() para aplicar cambios.
         /// </summary>
         public Orientations Orientation
@@ -103,7 +103,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         bool autoAdjustUv;
         /// <summary>
-        /// Auto ajustar coordenadas UV en base a la relación de tamaño de la pared y la textura
+        /// Auto ajustar coordenadas UV en base a la relacin de tamao de la pared y la textura
         /// Llamar a updateValues() para aplicar cambios.
         /// </summary>
         public bool AutoAdjustUv
@@ -149,8 +149,8 @@ namespace TgcViewer.Utils.TgcGeometry
         private bool alphaBlendEnable;
         /// <summary>
         /// Habilita el renderizado con AlphaBlending para los modelos
-        /// con textura o colores por vértice de canal Alpha.
-        /// Por default está deshabilitado.
+        /// con textura o colores por vrtice de canal Alpha.
+        /// Por default est deshabilitado.
         /// </summary>
         public bool AlphaBlendEnable
         {
@@ -200,11 +200,11 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una pared con un punto de origen, el tamaño de la pared y la orientación de la misma, especificando
+        /// Crea una pared con un punto de origen, el tamao de la pared y la orientacin de la misma, especificando
         /// el tiling de la textura
         /// </summary>
         /// <param name="origin">Punto de origen de la pared</param>
-        /// <param name="size">Dimensiones de la pared. Uno de los valores será ignorado, según la orientación elegida</param>
+        /// <param name="size">Dimensiones de la pared. Uno de los valores ser ignorado, segn la orientacin elegida</param>
         /// <param name="orientation">Orientacion de la pared</param>
         /// <param name="texture">Textura de la pared</param>
         /// <param name="uTile">Cantidad de tile de la textura en coordenada U</param>
@@ -225,11 +225,11 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Crea una pared con un punto de origen, el tamaño de la pared y la orientación de la misma, con ajuste automatico
+        /// Crea una pared con un punto de origen, el tamao de la pared y la orientacin de la misma, con ajuste automatico
         /// de coordenadas de textura
         /// </summary>
         /// <param name="origin">Punto de origen de la pared</param>
-        /// <param name="size">Dimensiones de la pared. Uno de los valores será ignorado, según la orientación elegida</param>
+        /// <param name="size">Dimensiones de la pared. Uno de los valores ser ignorado, segn la orientacin elegida</param>
         /// <param name="orientation">Orientacion de la pared</param>
         /// <param name="texture">Textura de la pared</param>
         public TgcPlaneWall(Vector3 origin, Vector3 size, Orientations orientation, TgcTexture texture)
@@ -249,7 +249,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
         /// <summary>
         /// Configurar punto minimo y maximo de la pared.
-        /// Se ignora un valor de cada punto según la orientación elegida.
+        /// Se ignora un valor de cada punto segn la orientacin elegida.
         /// Llamar a updateValues() para aplicar cambios.
         /// </summary>
         /// <param name="min">Min</param>
@@ -261,7 +261,7 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
-        /// Actualizar parámetros de la pared en base a los valores configurados
+        /// Actualizar parmetros de la pared en base a los valores configurados
         /// </summary>
         public void updateValues()
         {
@@ -320,7 +320,7 @@ namespace TgcViewer.Utils.TgcGeometry
             vertices[4] = new CustomVertex.PositionTextured(tRight, offsetU, offsetV);
             vertices[5] = new CustomVertex.PositionTextured(bRight, offsetU + uTile, offsetV);
 
-            /*Versión con triángulos para el otro sentido
+            /*Versin con tringulos para el otro sentido
             //Primer triangulo
             vertices[0] = new CustomVertex.PositionTextured(tLeft, 0 * this.uTile, 1 * this.vTile);
             vertices[1] = new CustomVertex.PositionTextured(bLeft, 1 * this.uTile, 1 * this.vTile);
@@ -452,6 +452,10 @@ namespace TgcViewer.Utils.TgcGeometry
 
             //Cargar IndexBuffer en forma plana
             using (IndexBuffer ib = d3dMesh.IndexBuffer)
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
             {
                 short[] indices = new short[vertices.Length];
                 for (int j = 0; j < indices.Length; j++)
