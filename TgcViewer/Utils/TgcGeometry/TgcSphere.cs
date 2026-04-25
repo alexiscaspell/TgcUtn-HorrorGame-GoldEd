@@ -1262,7 +1262,7 @@ namespace TgcViewer.Utils.TgcGeometry
             {
                 return new Vector3(NX, NY, NZ);
             }
-            public static VertexFormat Format { get { return VertexFormat.PositionNormal | VertexFormat.Texture1 | VertexFormat.Diffuse; } }
+            public static VertexFormat Format { get { return VertexFormat.Position | VertexFormat.Normal | VertexFormat.Texture1 | VertexFormat.Diffuse; } }
             public override String ToString()
             {
                 return getPosition().ToString();

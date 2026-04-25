@@ -286,7 +286,7 @@
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimation.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimationFrame.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalBoneAttach.cs" />
-    <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalLoader.cs" />
+    <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalStub.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimationBoneData.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimationBoneFrameData.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalAnimationData.cs" />
@@ -295,7 +295,8 @@
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalParser.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalBoneData.cs" />
     <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalVertexWeight.cs" />
-    <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalMesh.cs" />
+    <!-- TgcSkeletalMesh.cs excluded: deep Mesh API not available in SharpDX.Direct3D9 net45
+    <Compile Include="Utils\TgcSkeletalAnimation\TgcSkeletalMesh.cs" /> -->
     <Compile Include="Utils\SharpDxCompat\CustomVertex.cs" />
     <Compile Include="Utils\SharpDxCompat\VertexBufferExtensions.cs" />
     <Compile Include="Utils\TgcUserVars.cs" />
