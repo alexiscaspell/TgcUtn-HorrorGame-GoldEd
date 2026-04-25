@@ -246,8 +246,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            Color4 defaultColorValue = new Color4(defaultColor.R / 255f, defaultColor.G / 255f, defaultColor.B / 255f, defaultColor.A / 255f);
-            meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
+            Color4 defaultColor4 = new Color4(defaultColor.R / 255f, defaultColor.G / 255f, defaultColor.B / 255f, defaultColor.A / 255f);
+            meshData.color = new float[] { defaultColor4.Red, defaultColor4.Green, defaultColor4.Blue };
 
             //Obtener datos del VertexBuffer
             TgcSceneLoader.VertexColorVertex[] vbData = (TgcSceneLoader.VertexColorVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
@@ -325,8 +325,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            Color4 defaultColorValue = new Color4(defaultColor.R / 255f, defaultColor.G / 255f, defaultColor.B / 255f, defaultColor.A / 255f);
-            meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
+            Color4 defaultColor4 = new Color4(defaultColor.R / 255f, defaultColor.G / 255f, defaultColor.B / 255f, defaultColor.A / 255f);
+            meshData.color = new float[] { defaultColor4.Red, defaultColor4.Green, defaultColor4.Blue };
 
             //Obtener datos del VertexBuffer
             TgcSceneLoader.DiffuseMapVertex[] vbData = (TgcSceneLoader.DiffuseMapVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
@@ -423,8 +423,8 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Color general
             Color defaultColor = Color.White;
-            Color4 defaultColorValue = new Color4(defaultColor.R / 255f, defaultColor.G / 255f, defaultColor.B / 255f, defaultColor.A / 255f);
-            meshData.color = new float[] { defaultColorValue.Red, defaultColorValue.Green, defaultColorValue.Blue };
+            Color4 defaultColor4 = new Color4(defaultColor.R / 255f, defaultColor.G / 255f, defaultColor.B / 255f, defaultColor.A / 255f);
+            meshData.color = new float[] { defaultColor4.Red, defaultColor4.Green, defaultColor4.Blue };
 
             //Armar buffer de vertices, normales y coordenadas de textura, buscando similitudes de valores
             List<int> coordinatesIndices = new List<int>();
@@ -1027,9 +1027,9 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Crear Mesh de D3D
             int triCount = mesh1.NumberTriangles + mesh2.NumberTriangles;
-            int vertexCount = mesh1.GetNumVertices() + mesh2.GetNumVertices();
+            int vertexCount = mesh1.D3dMesh.GetNumVertices() + mesh2.D3dMesh.GetNumVertices();
             VertexElement[] vertexElements = mesh1.RenderType == TgcMesh.MeshRenderType.VERTEX_COLOR ? TgcSceneLoader.VertexColorVertexElements : TgcSceneLoader.DiffuseMapVertexElements;
-            Mesh mesh = MeshHelper.CreateMesh(triCount, vertexCount, MeshFlags.Managed, vertexElements, GuiController.Instance.D3dDevice);
+            Mesh mesh = MeshHelper.CreateMesh(GuiController.Instance.D3dDevice, triCount, vertexCount, MeshFlags.Managed, vertexElements);
 
             //VertexColor
             if (mesh1.RenderType == TgcMesh.MeshRenderType.VERTEX_COLOR)
@@ -1054,7 +1054,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 {
                     verts2[i].Position = TgcVectorUtils.transform(verts2[i].Position, mesh2.Transform);
                 }
-                Array.Copy(verts2, 0, vertsData, mesh1.GetNumVertices(), verts2.Length);
+                Array.Copy(verts2, 0, vertsData, mesh1.D3dMesh.GetNumVertices(), verts2.Length);
                 mesh2.D3dMesh.UnlockVertexBuffer();
                 verts2 = null;
 
@@ -1084,7 +1084,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 {
                     verts2[i].Position = TgcVectorUtils.transform(verts2[i].Position, mesh2.Transform);
                 }
-                Array.Copy(verts2, 0, vertsData, mesh1.GetNumVertices(), verts2.Length);
+                Array.Copy(verts2, 0, vertsData, mesh1.D3dMesh.GetNumVertices(), verts2.Length);
                 mesh2.D3dMesh.UnlockVertexBuffer();
                 verts2 = null;
 

@@ -448,7 +448,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
 
             indexBuffer = new IndexBuffer(d3dDevice, indices.Count * System.Runtime.InteropServices.Marshal.SizeOf(typeof(int)), Usage.Dynamic | Usage.WriteOnly, Pool.Default);
-            indexBuffer.SetData(indices.ToArray(), 0, LockFlags.None);
+            indexBuffer.SetData(indices.ToArray(, false), 0, LockFlags.None);
 
 
             mustUpdate = false;

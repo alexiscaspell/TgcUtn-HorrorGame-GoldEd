@@ -676,7 +676,7 @@ namespace TgcViewer.Utils.TgcGeometry
                 }
 
                 //Calcular normales
-                d3dMesh.ComputeNormals();
+                //d3dMesh.ComputeNormals(); // D3DX9.ComputeNormals not publicly exposed in SharpDX
 
                 //Malla de TGC
                 TgcMesh tgcMesh = new TgcMesh(d3dMesh, meshName, TgcMesh.MeshRenderType.DIFFUSE_MAP);

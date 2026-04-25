@@ -155,6 +155,20 @@ namespace TgcViewer.Utils.SharpDxCompat
             }
         }
 
+        /// <summary>
+        /// Reads a typed array from a DataStream (helper for LockVertexBuffer/LockIndexBuffer results).
+        /// Disposes the DataStream after reading.
+        /// </summary>
+        public static T[] ReadRange<T>(SharpDX.DataStream stream, int count) where T : struct
+        {
+            if (stream == null) return new T[count];
+            using (stream)
+            {
+                stream.Position = 0;
+                return stream.ReadRange<T>(count);
+            }
+        }
+
         /// <summary>Writes back and unlocks the attribute buffer.</summary>
         public static void UnlockAttributeBuffer(this Mesh mesh, int[] attributeBuffer = null)
         {
