@@ -29,6 +29,9 @@ jobs:
         run: docker build -f Dockerfile.build -t horrorgame-build:latest .
 
   # ── Job 2: Build y release (solo en workflow_dispatch) ───────────────────
+  # NOTE: Windows release build requires SharpDX.Direct3D9 Mesh API fixes.
+  # The D3DXCreateMesh wrapper in SharpDX net45 has API differences vs MDX.
+  # TODO: Fix Mesh constructor in TgcSceneLoader.cs and related files.
   release:
     name: Release Build (Windows)
     runs-on: windows-latest
