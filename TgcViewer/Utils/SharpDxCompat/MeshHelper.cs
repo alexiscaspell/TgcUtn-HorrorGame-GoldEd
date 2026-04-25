@@ -240,29 +240,54 @@ namespace TgcViewer.Utils.SharpDxCompat
         }
 
         /// <summary>
-        /// Reads vertex data from a BaseMesh.
-        /// Both net45 and netstandard1.3: LockVertexBuffer(int, IntPtr) takes IntPtr by value.
-        /// We pass a pointer-to-pointer (address of a local IntPtr) using unsafe code.
+        /// Reads vertex data from a BaseMesh via VertexBuffer.Lock() (DataStream approach).
+        /// Avoids the unsafe pointer trick that left dataPtr=0 and broke bounding boxes.
         /// </summary>
-        public static unsafe T[] LockVertexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
+        public static T[] LockVertexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
         {
-            IntPtr dataPtr;
-            mesh.LockVertexBuffer((int)flags, new IntPtr(&dataPtr));
-            if (dataPtr == IntPtr.Zero) return new T[count]; // null pointer guard - avoids AccessViolation
-            try { return ReadPtrRange<T>(dataPtr, count); }
-            finally { mesh.UnlockVertexBuffer(); }
+            try
+            {
+                using (var vb = mesh.VertexBuffer)
+                {
+                    if (vb == null) return new T[count];
+                    SharpDX.DataStream ds = vb.Lock(0, 0, flags);
+                    try
+                    {
+                        ds.Position = 0;
+                        return ds.ReadRange<T>(count);
+                    }
+                    finally
+                    {
+                        vb.Unlock();
+                    }
+                }
+            }
+            catch { return new T[count]; }
         }
 
         /// <summary>
-        /// Reads index data from a BaseMesh.
+        /// Reads index data from a BaseMesh via IndexBuffer.Lock() (DataStream approach).
         /// </summary>
-        public static unsafe T[] LockIndexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
+        public static T[] LockIndexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
         {
-            IntPtr dataPtr;
-            mesh.LockIndexBuffer((int)flags, new IntPtr(&dataPtr));
-            if (dataPtr == IntPtr.Zero) return new T[count]; // null pointer guard
-            try { return ReadPtrRange<T>(dataPtr, count); }
-            finally { mesh.UnlockIndexBuffer(); }
+            try
+            {
+                using (var ib = mesh.IndexBuffer)
+                {
+                    if (ib == null) return new T[count];
+                    SharpDX.DataStream ds = ib.Lock(0, 0, flags);
+                    try
+                    {
+                        ds.Position = 0;
+                        return ds.ReadRange<T>(count);
+                    }
+                    finally
+                    {
+                        ib.Unlock();
+                    }
+                }
+            }
+            catch { return new T[count]; }
         }
 
         /// <summary>

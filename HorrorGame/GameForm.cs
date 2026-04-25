@@ -109,15 +109,18 @@ namespace HorrorGame
             panel3d.Focus();
             Log($"Before game loop: ContainsFocus={ContainsFocus}, panel3d.Focused={panel3d.Focused}");
 
-            // Game loop — render always, regardless of WinForms focus.
-            // ContainsFocus is unreliable for fullscreen borderless games:
-            // something in the game's render (Cursor.Position, etc.) causes
-            // WinForms to report focus loss even though D3D is still active.
+            // Game loop: render capped to ~60 FPS to keep physics/movement deterministic.
+            // Without a cap, 1000+ FPS causes runaway movement speed.
             int frameCount = 0;
+            const int TARGET_MS = 16; // ~62 fps
+            var frameTimer = System.Diagnostics.Stopwatch.StartNew();
+
             while (ApplicationRunning)
             {
                 if (frameCount == 0) Log("First render frame executing...");
                 frameCount++;
+
+                frameTimer.Restart();
 
                 try
                 {
@@ -139,6 +142,11 @@ namespace HorrorGame
                 }
 
                 Application.DoEvents();
+
+                // Sleep remaining time to maintain ~60 FPS cap
+                int elapsed = (int)frameTimer.ElapsedMilliseconds;
+                if (elapsed < TARGET_MS)
+                    System.Threading.Thread.Sleep(TARGET_MS - elapsed);
             }
             Log($"Game loop ended after {frameCount} frames.");
         }
