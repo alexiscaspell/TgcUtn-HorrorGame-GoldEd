@@ -33,8 +33,7 @@ Output/
 .DS_Store
 Thumbs.db
 
-# Build check tools (local use only, not for distribution)
-Dockerfile.build
+# Local build helper script (not needed in CI)
 build-local.sh
 .docker-build/.nuget/
 # Note: TgcViewerCheck.csproj, AlumnoEjemplosCheck.csproj, HorrorGameCheck.csproj

@@ -1,0 +1,43 @@
+# Build container para TgcViewer / HorrorGame — verificación de errores C#
+# Usa dotnet SDK 8.0 nativo (arm64 en macOS Apple Silicon / amd64 en Linux).
+# Compila contra net8.0-windows con EnableWindowsTargeting para verificar tipos C#.
+# Los wrapper .csproj están en la raíz del repo.
+# NO ejecuta el juego — solo verifica errores de compilación.
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+WORKDIR /build
+
+# ── Paso 1: copiar dependencias commiteadas ───────────────────────────────
+COPY Ionic.Zip.dll ./
+
+# ── Paso 2: copiar wrapper .csproj (cacheado si no cambian) ──────────────
+COPY TgcViewerCheck.csproj     ./
+COPY AlumnoEjemplosCheck.csproj ./
+COPY HorrorGameCheck.csproj    ./
+
+# ── Paso 3: restore NuGet (solo re-corre si cambian los .csproj) ──────────
+RUN dotnet restore TgcViewerCheck.csproj && \
+    dotnet restore AlumnoEjemplosCheck.csproj && \
+    dotnet restore HorrorGameCheck.csproj
+
+# ── Paso 4: copiar todo el código fuente ─────────────────────────────────
+COPY . .
+
+# ── Paso 5: compilar y mostrar errores ───────────────────────────────────
+SHELL ["/bin/bash", "-c"]
+RUN dotnet build TgcViewerCheck.csproj \
+        --no-restore -c Debug --nologo \
+        2>&1 | tee /tmp/build_tgc.log; \
+    dotnet build AlumnoEjemplosCheck.csproj \
+        --no-restore -c Debug --nologo \
+        2>&1 | tee /tmp/build_alumnos.log; \
+    dotnet build HorrorGameCheck.csproj \
+        --no-restore -c Debug --nologo \
+        2>&1 | tee /tmp/build_horrorgame.log; \
+    echo ""; \
+    echo "══════════════════════ ERRORES ══════════════════════"; \
+    grep -hE " error (CS|NETSDK|MSB|SYSLIB)[0-9]+" /tmp/build_tgc.log /tmp/build_alumnos.log /tmp/build_horrorgame.log \
+        | sed 's|/build/||g' | sort -u || echo "  (ninguno)"; \
+    echo "══════════════════════════════════════════════════════"; \
+    grep -qE "[1-9][0-9]* Error\(s\)" /tmp/build_tgc.log /tmp/build_alumnos.log /tmp/build_horrorgame.log 2>/dev/null && exit 1 || exit 0
