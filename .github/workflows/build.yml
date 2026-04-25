@@ -67,23 +67,33 @@ jobs:
         shell: pwsh
         run: |
           $out = "dist\HorrorGame"
-          $binDir = "HorrorGame\bin\Release"
+          # HorrorGame.csproj uses OutputPath=..\ so binaries go to the repo root
           New-Item -ItemType Directory -Force $out | Out-Null
 
-          # Copy the main executable and all DLLs from HorrorGame bin
-          Copy-Item "$binDir\HorrorGame.exe"     $out\ -ErrorAction SilentlyContinue
-          Copy-Item "$binDir\TgcViewer.dll"      $out\ -ErrorAction SilentlyContinue
-          Copy-Item "$binDir\AlumnoEjemplos.dll" $out\ -ErrorAction SilentlyContinue
-          Copy-Item "$binDir\HorrorGame.exe.config" $out\ -ErrorAction SilentlyContinue
+          # Copy the main executable and DLLs from repo root (OutputPath=..\)
+          Copy-Item "HorrorGame.exe"     $out\ -ErrorAction SilentlyContinue
+          Copy-Item "TgcViewer.exe"      $out\ -ErrorAction SilentlyContinue
+          Copy-Item "TgcViewer.dll"      $out\ -ErrorAction SilentlyContinue
+          Copy-Item "AlumnoEjemplos.dll" $out\ -ErrorAction SilentlyContinue
+          Copy-Item "HorrorGame.exe.config" $out\ -ErrorAction SilentlyContinue
 
-          # Copy SharpDX and other runtime DLLs
-          Get-ChildItem "$binDir" -Filter "SharpDX*.dll" | Copy-Item -Destination $out\
-          Copy-Item "$binDir\Ionic.Zip.dll" $out\ -ErrorAction SilentlyContinue
-          Copy-Item Ionic.Zip.dll $out\ -ErrorAction SilentlyContinue
+          # Copy SharpDX and other runtime DLLs from repo root
+          Get-ChildItem "." -Filter "SharpDX*.dll" -ErrorAction SilentlyContinue | Copy-Item -Destination $out\
+          Copy-Item "Ionic.Zip.dll" $out\ -ErrorAction SilentlyContinue
+
+          # Show what was built
+          Write-Host "=== Built files in root ==="
+          Get-ChildItem "." -Filter "*.exe" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.Name }
+          Get-ChildItem "." -Filter "*.dll" -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.Name }
 
           # Copy game media assets
           New-Item -ItemType Directory -Force "$out\AlumnoEjemplos" | Out-Null
           Copy-Item AlumnoEjemplos\Media -Destination "$out\AlumnoEjemplos\Media" -Recurse
+
+          # Verify at least one file was copied
+          $files = Get-ChildItem $out -ErrorAction SilentlyContinue
+          Write-Host "=== dist\HorrorGame contents ($($files.Count) files) ===" 
+          $files | ForEach-Object { Write-Host $_.Name }
 
       - name: Crear ZIP
         shell: pwsh
