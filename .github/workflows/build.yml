@@ -49,11 +49,17 @@ jobs:
         uses: NuGet/setup-nuget@v2
 
       - name: Restore NuGet packages
-        run: nuget restore TgcViewer.sln
+        # Restore only the projects needed for the game (not Examples which has MDX leftovers)
+        run: |
+          nuget restore TgcViewer\TgcViewer.csproj
+          nuget restore AlumnoEjemplos\AlumnoEjemplos.csproj
+          nuget restore HorrorGame\HorrorGame.csproj
 
       - name: Build Release (x86)
+        # Build only HorrorGame (+ its dependencies TgcViewer and AlumnoEjemplos)
+        # Examples project is excluded - it has MDX leftovers not needed by the game
         run: |
-          msbuild TgcViewer.sln `
+          msbuild HorrorGame\HorrorGame.csproj `
             /p:Configuration=Release `
             /p:Platform="Any CPU"
 
@@ -61,19 +67,23 @@ jobs:
         shell: pwsh
         run: |
           $out = "dist\HorrorGame"
+          $binDir = "HorrorGame\bin\Release"
           New-Item -ItemType Directory -Force $out | Out-Null
 
-          Copy-Item HorrorGame.exe     $out\ -ErrorAction SilentlyContinue
-          Copy-Item TgcViewer.exe      $out\ -ErrorAction SilentlyContinue
-          Copy-Item AlumnoEjemplos.dll $out\
+          # Copy the main executable and all DLLs from HorrorGame bin
+          Copy-Item "$binDir\HorrorGame.exe"     $out\ -ErrorAction SilentlyContinue
+          Copy-Item "$binDir\TgcViewer.dll"      $out\ -ErrorAction SilentlyContinue
+          Copy-Item "$binDir\AlumnoEjemplos.dll" $out\ -ErrorAction SilentlyContinue
+          Copy-Item "$binDir\HorrorGame.exe.config" $out\ -ErrorAction SilentlyContinue
 
-          Get-ChildItem -Filter "SharpDX*.dll" | Copy-Item -Destination $out\
-          Copy-Item Ionic.Zip.dll      $out\ -ErrorAction SilentlyContinue
+          # Copy SharpDX and other runtime DLLs
+          Get-ChildItem "$binDir" -Filter "SharpDX*.dll" | Copy-Item -Destination $out\
+          Copy-Item "$binDir\Ionic.Zip.dll" $out\ -ErrorAction SilentlyContinue
+          Copy-Item Ionic.Zip.dll $out\ -ErrorAction SilentlyContinue
 
+          # Copy game media assets
           New-Item -ItemType Directory -Force "$out\AlumnoEjemplos" | Out-Null
           Copy-Item AlumnoEjemplos\Media -Destination "$out\AlumnoEjemplos\Media" -Recurse
-
-          Copy-Item TgcViewer.exe.config $out\ -ErrorAction SilentlyContinue
 
       - name: Crear ZIP
         shell: pwsh
