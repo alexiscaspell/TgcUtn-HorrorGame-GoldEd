@@ -635,7 +635,7 @@ namespace TgcViewer.Utils.TgcGeometry
             if (texture != null)
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
+                Mesh d3dMesh = MeshHelper.CreateMesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)
@@ -692,7 +692,7 @@ namespace TgcViewer.Utils.TgcGeometry
             else
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
+                Mesh d3dMesh = MeshHelper.CreateMesh(d3dDevice, vertices.Length / 3, vertices.Length, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)

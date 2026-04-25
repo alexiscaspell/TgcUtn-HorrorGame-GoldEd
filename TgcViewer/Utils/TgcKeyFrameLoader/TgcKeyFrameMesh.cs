@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TgcViewer.Utils.SharpDxCompat;
 using SharpDX.Direct3D9;
 using TgcViewer.Utils.TgcGeometry;
 using SharpDX;
@@ -325,7 +326,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// </summary>
         public int NumberTriangles
         {
-            get { return d3dMesh.NumberFaces; }
+            get { return d3dMesh.GetNumFaces(); }
         }
 
         /// <summary>
@@ -333,7 +334,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         /// </summary>
         public int NumberVertices
         {
-            get { return d3dMesh.NumberVertices; }
+            get { return d3dMesh.GetNumVertices(); }
         }
 
         /// <summary>
@@ -403,7 +404,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             this.meshInstances = new List<TgcKeyFrameMesh>();
             this.alphaBlendEnable = false;
 
-            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.Declaration);
+            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.GetDeclaration());
 
             //variables de movimiento
             this.autoTransformEnable = true;
@@ -799,7 +800,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             if (alphaBlendEnable)
             {
                 device.SetRenderState(SharpDX.Direct3D9.RenderState.ATestEnable, true);
-                device.SetRenderState(SharpDX.Direct3D9.RenderState.ABlendEnable, true);
+                device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, true);
             }
         }
 
@@ -810,7 +811,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
         {
             Device device = GuiController.Instance.D3dDevice;
             device.SetRenderState(SharpDX.Direct3D9.RenderState.ATestEnable, false);
-            device.SetRenderState(SharpDX.Direct3D9.RenderState.ABlendEnable, false);
+            device.SetRenderState(SharpDX.Direct3D9.RenderState.AlphaBlendEnable, false);
         }
 
         /// <summary>
@@ -959,7 +960,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             {
                 case MeshRenderType.VERTEX_COLOR:
                     TgcKeyFrameLoader.VertexColorVertex[] verts1 = (TgcKeyFrameLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcKeyFrameLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcKeyFrameLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     points = new Vector3[verts1.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -970,7 +971,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
 
                 case MeshRenderType.DIFFUSE_MAP:
                     TgcKeyFrameLoader.DiffuseMapVertex[] verts2 = (TgcKeyFrameLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcKeyFrameLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.NumberVertices);
+                        typeof(TgcKeyFrameLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     points = new Vector3[verts2.Length];
                     for (int i = 0; i < points.Length; i++)
                     {

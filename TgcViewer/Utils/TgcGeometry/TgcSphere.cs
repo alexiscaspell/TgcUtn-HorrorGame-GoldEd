@@ -722,7 +722,7 @@ namespace TgcViewer.Utils.TgcGeometry
 
             effect.Begin(0);
             effect.BeginPass(0);
-            d3dDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexCount, 0, triangleCount);
+            d3dDevice.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, VertexCount, 0, triangleCount);
             effect.EndPass();
             effect.End();
             d3dDevice.SetRenderState(SharpDX.Direct3D9.RenderState.FillMode, (int)old);
@@ -898,7 +898,7 @@ namespace TgcViewer.Utils.TgcGeometry
             if (texture != null)
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(d3dDevice, indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
+                Mesh d3dMesh = MeshHelper.CreateMesh(d3dDevice, indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)
@@ -954,7 +954,7 @@ namespace TgcViewer.Utils.TgcGeometry
             else
             {
                 //Crear Mesh
-                Mesh d3dMesh = new Mesh(d3dDevice, indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
+                Mesh d3dMesh = MeshHelper.CreateMesh(d3dDevice, indices.Count / 3, indices.Count, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
 
                 //Cargar VertexBuffer
                 using (VertexBuffer vb = d3dMesh.VertexBuffer)
