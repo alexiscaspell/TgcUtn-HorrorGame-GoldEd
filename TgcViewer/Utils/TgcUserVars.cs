@@ -1,113 +1,73 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
 
 namespace TgcViewer.Utils
 {
     /// <summary>
-    /// Admnistrador de la tabla de User Vars.
+    /// Administrador de variables de usuario (UserVars).
+    /// Implementado con Dictionary — sin dependencia de DataGridView.
     /// </summary>
     public class TgcUserVars
     {
-        const string NAME_COL = "ColumnName";
-        const string VALUE_COL = "ColumnValue";
-        readonly Color DEFAULT_VALUE_COLOR = Color.Black;
+        private readonly Dictionary<string, object> vars = new Dictionary<string, object>();
 
-        DataGridView dataGrid;
-
-        public TgcUserVars(DataGridView dataGrid)
+        // Constructor original mantenido por compatibilidad (ignora el DataGridView)
+        public TgcUserVars(System.Windows.Forms.DataGridView dataGrid)
         {
-            this.dataGrid = dataGrid;
+            // DataGridView ignored in standalone mode
         }
 
-        /// <summary>
-        /// Elimina todas las UserVars
-        /// </summary>
+        public TgcUserVars()
+        {
+        }
+
+        /// <summary>Elimina todas las UserVars.</summary>
         public void clearVars()
         {
-            dataGrid.Rows.Clear();
+            vars.Clear();
         }
 
-        /// <summary>
-        /// Agrega una nueva UserVar
-        /// </summary>
-        /// <param name="name">Identificador unico de la variable</param>
+        /// <summary>Agrega una nueva UserVar con valor vacío.</summary>
         public void addVar(string name)
         {
-            dataGrid.Rows.Add(name, "");
+            if (!vars.ContainsKey(name))
+                vars[name] = "";
         }
 
-        /// <summary>
-        /// Carga el valor de una variable
-        /// </summary>
-        /// <param name="name">Identificador de la variable, cargado previamente</param>
-        /// <param name="value">Valor a cargar</param>
-        /// <param name="foreColor">Color de la letra</param>
-        public void setValue(string name, object value, Color foreColor)
-        {
-            DataGridViewRow row = findRowByVarName(name);
-            if (row == null)
-            {
-                throw new Exception("Se intentó cargar una UserVar inexistente: " + name);
-            }
-            row.Cells[VALUE_COL].Value = value;
-            row.Cells[VALUE_COL].Style.ForeColor = foreColor;
-        }
-
-        /// <summary>
-        /// Carga el valor de una variable
-        /// </summary>
-        /// <param name="name">Identificador de la variable, cargado previamente</param>
-        /// <param name="value">Valor a cargar</param>
-        public void setValue(string name, object value)
-        {
-            setValue(name, value, DEFAULT_VALUE_COLOR);
-        }
-
-        /// <summary>
-        /// Devuelve el valor de la variable especificada
-        /// </summary>
-        /// <param name="?">Identificador de la variable</param>
-        /// <returns></returns>
-        public object getValue(string name)
-        {
-            DataGridViewRow row = findRowByVarName(name);
-            if (row == null)
-            {
-                throw new Exception("Se intentó acceder una UserVar inexistente: " + name);
-            }
-            return row.Cells[VALUE_COL].Value;
-        }
-
-        /// <summary>
-        /// Agrega una nueva variable junto con su valor
-        /// </summary>
-        /// <param name="name">Identificador unico de la variable</param>
-        /// <param name="value">Valor a cargar</param>
+        /// <summary>Agrega una nueva variable junto con su valor.</summary>
         public void addVar(string name, object value)
         {
-            addVar(name);
-            setValue(name, value);
+            vars[name] = value ?? "";
+        }
+
+        /// <summary>Carga el valor de una variable.</summary>
+        public void setValue(string name, object value, Color foreColor)
+        {
+            if (!vars.ContainsKey(name))
+                throw new Exception("Se intentó cargar una UserVar inexistente: " + name);
+            vars[name] = value;
+        }
+
+        /// <summary>Carga el valor de una variable.</summary>
+        public void setValue(string name, object value)
+        {
+            if (!vars.ContainsKey(name))
+                throw new Exception("Se intentó cargar una UserVar inexistente: " + name);
+            vars[name] = value;
+        }
+
+        /// <summary>Devuelve el valor de la variable especificada.</summary>
+        public object getValue(string name)
+        {
+            if (!vars.TryGetValue(name, out object val))
+                throw new Exception("Se intentó acceder una UserVar inexistente: " + name);
+            return val;
         }
 
         public string this[string varName]
         {
             set { setValue(varName, value); }
         }
-
-        private DataGridViewRow findRowByVarName(string name)
-        {
-            foreach (DataGridViewRow row in dataGrid.Rows)
-            {
-                if (row.Cells[NAME_COL].Value.Equals(name))
-                {
-                    return row;
-                }
-            }
-            return null;
-        }
-
     }
 }
