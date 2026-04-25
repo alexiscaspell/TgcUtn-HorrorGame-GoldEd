@@ -100,9 +100,10 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             kb.keyPressed(Key.Space) ||
             gp.buttonPressed(GamepadButtonFlags.DPadRight);
 
-        /// <summary>Pausa (P / Start).</summary>
+        /// <summary>Pausa (P / ESC / Start).</summary>
         public bool Pausa() =>
             kb.keyPressed(Key.P) ||
+            kb.keyPressed(Key.Escape) ||
             gp.buttonPressed(GamepadButtonFlags.Start);
 
         // ── Menús ─────────────────────────────────────────────────────────

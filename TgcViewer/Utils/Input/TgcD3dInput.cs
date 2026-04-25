@@ -223,11 +223,8 @@ namespace TgcViewer.Utils.Input
                 updateKeyboard();
                 updateMouse();
 
-                //Terminar ejemplo
-                if (keyPressed(Key.Escape))
-                {
-                    GuiController.Instance.stopCurrentExample();
-                }
+                // ESC is handled by the game via InputManager.Pausa()
+                // (do not call stopCurrentExample here — that clears the scene)
             }
         }
 
