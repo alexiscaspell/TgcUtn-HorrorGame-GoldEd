@@ -676,9 +676,9 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             //Obtener direccion segun entrada de teclado + stick izquierdo
             Vector3 direction = getMovementDirection(d3dInput, gp);
 
-            // Camera look: mouse (× 0.7 for comfort) + right stick (× 4 sensitivity)
-            pitch   = d3dInput.YposRelative * rotationSpeed * 0.7f + gpRY * rotationSpeed * 4f;
-            heading = d3dInput.XposRelative * rotationSpeed * 0.7f + gpRX * rotationSpeed * 4f;
+            // Camera look: mouse (× 0.7) + right stick (× 2, Y inverted)
+            pitch   = d3dInput.YposRelative * rotationSpeed * 0.7f - gpRY * rotationSpeed * 2f;
+            heading = d3dInput.XposRelative * rotationSpeed * 0.7f + gpRX * rotationSpeed * 2f;
 
             //Solo rotar si se esta aprentando el boton del mouse configurado
 
