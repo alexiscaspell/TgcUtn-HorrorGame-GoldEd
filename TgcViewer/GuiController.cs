@@ -180,6 +180,17 @@ namespace TgcViewer
             catch (Exception e)
             {
                 Logger.logError("Error en init() de ejemplo: " + example.getName(), e);
+                // Also write to file so we can diagnose without a UI logger
+                try
+                {
+                    string logPath = System.IO.Path.Combine(
+                        System.IO.Path.GetDirectoryName(
+                            System.Reflection.Assembly.GetEntryAssembly()?.Location ?? ""),
+                        "startup.log");
+                    System.IO.File.AppendAllText(logPath,
+                        $"[{System.DateTime.Now:HH:mm:ss.fff}] INIT ERROR in {example.getName()}: {e}\n");
+                }
+                catch { }
             }
         }
 

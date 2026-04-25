@@ -1,5 +1,5 @@
 using SharpDX.DirectInput;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TgcViewer;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
