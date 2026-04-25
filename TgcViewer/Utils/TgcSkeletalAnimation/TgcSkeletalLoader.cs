@@ -380,7 +380,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         private TgcSkeletalMesh crearMeshDiffuseMap(TgcSkeletalLoaderMaterialAux[] materialsArray, TgcSkeletalMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
+            Mesh mesh = MeshHelper.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
 
             //Cargar esqueleto
             TgcSkeletalBone[] bones = loadSkeleton(meshData);
@@ -491,7 +491,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             else
             {
                 //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
+                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
                 mesh.UnlockAttributeBuffer();
 
@@ -521,7 +521,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         private TgcSkeletalMesh crearMeshSoloColor(TgcSkeletalMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
+            Mesh mesh = MeshHelper.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
 
             //Cargar esqueleto
             TgcSkeletalBone[] bones = loadSkeleton(meshData);
@@ -628,17 +628,17 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             //Crear material
             Material material = new Material();
             matAux.materialId = material;
-            material.Ambient = new ColorValue(
+            material.Ambient = new Color4(
                 materialData.ambientColor[0],
                 materialData.ambientColor[1],
                 materialData.ambientColor[2],
                 materialData.ambientColor[3]);
-            material.Diffuse = new ColorValue(
+            material.Diffuse = new Color4(
                 materialData.diffuseColor[0],
                 materialData.diffuseColor[1],
                 materialData.diffuseColor[2],
                 materialData.diffuseColor[3]);
-            material.Specular = new ColorValue(
+            material.Specular = new Color4(
                 materialData.specularColor[0],
                 materialData.specularColor[1],
                 materialData.specularColor[2],
@@ -702,7 +702,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
 
             new VertexElement(0, 40, DeclarationType.Float3,
                                      DeclarationMethod.Default,
-                                     DeclarationUsage.BiNormal, 0),
+                                     DeclarationUsage.Binormal, 0),
 
             new VertexElement(0, 52, DeclarationType.Float4,
                                      DeclarationMethod.Default,
@@ -757,7 +757,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
 
             new VertexElement(0, 48, DeclarationType.Float3,
                                      DeclarationMethod.Default,
-                                     DeclarationUsage.BiNormal, 0),
+                                     DeclarationUsage.Binormal, 0),
 
             new VertexElement(0, 60, DeclarationType.Float4,
                                      DeclarationMethod.Default,
