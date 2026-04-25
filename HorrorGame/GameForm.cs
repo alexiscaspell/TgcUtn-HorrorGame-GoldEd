@@ -49,7 +49,23 @@ namespace HorrorGame
                 GuiController.newInstance();
                 GuiController gui = GuiController.Instance;
                 gui.initGraphicsStandalone(this, panel3d);
-                gui.executeExample(new EjemploAlumno());
+
+                // Keep the D3D device alive during the long init() by presenting
+                // empty frames via a timer. Without this the device gets
+                // D3DERR_DEVICELOST after a few minutes of inactivity.
+                var keepAlive = new System.Threading.Timer(_ =>
+                {
+                    try { gui.D3dDevice?.Present(); } catch { }
+                }, null, 0, 100);
+
+                try
+                {
+                    gui.executeExample(new EjemploAlumno());
+                }
+                finally
+                {
+                    keepAlive.Dispose();
+                }
             }
             catch (Exception ex)
             {
@@ -59,17 +75,21 @@ namespace HorrorGame
             }
 
             GuiController gui2 = GuiController.Instance;
-            bool firstRender = true;
 
             // Game loop
             while (ApplicationRunning)
             {
-                if (ContainsFocus || firstRender)
+                if (ContainsFocus)
                 {
-                    firstRender = false;
                     try
                     {
                         gui2.render();
+                    }
+                    catch (SharpDX.SharpDXException sEx) when (IsDeviceLost(sEx))
+                    {
+                        // D3DERR_DEVICELOST (screen saver, alt-tab, sleep)
+                        // Wait until the device can be reset and recover
+                        RecoverDevice(gui2);
                     }
                     catch (Exception ex)
                     {
@@ -84,6 +104,29 @@ namespace HorrorGame
                 }
 
                 Application.DoEvents();
+            }
+        }
+
+        private static bool IsDeviceLost(SharpDX.SharpDXException ex)
+        {
+            // D3DERR_DEVICELOST = 0x88760868,  D3DERR_DEVICENOTRESET = 0x88760869
+            return ex.HResult == unchecked((int)0x88760868)
+                || ex.HResult == unchecked((int)0x88760869);
+        }
+
+        private static void RecoverDevice(GuiController gui)
+        {
+            // Poll until the device can be reset
+            for (int attempts = 0; attempts < 300; attempts++)
+            {
+                System.Threading.Thread.Sleep(100);
+                Application.DoEvents();
+                try
+                {
+                    gui.onResetDevice();
+                    return; // recovered
+                }
+                catch { }
             }
         }
 

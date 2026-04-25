@@ -225,7 +225,7 @@ namespace TgcViewer
         /// <summary>
         /// Cuando el D3D Device se resetea.
         /// </summary>
-        internal void onResetDevice()
+        public void onResetDevice()
         {
             TgcExample exampleBackup = currentExample;
             if (exampleBackup != null)
