@@ -33,6 +33,7 @@
                TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalLoader.cs;
                TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalMesh.cs;
                TgcViewer/Utils/TgcGeometry/TgcGeometryStubs.cs;
-               TgcViewer/Utils/TgcSceneLoader/TgcSceneLoaderStubs.cs" />
+               TgcViewer/Utils/TgcSceneLoader/TgcSceneLoaderStubs.cs;
+               TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalMesh.cs" />
   </ItemGroup>
 </Project>

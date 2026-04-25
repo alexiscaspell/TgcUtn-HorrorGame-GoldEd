@@ -6,6 +6,7 @@ using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
+using TgcViewer.Utils.SharpDxCompat;
 using Color = System.Drawing.Color;
 using Rectangle = System.Drawing.Rectangle;
 using Point = System.Drawing.Point;
@@ -342,7 +343,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// </summary>
         public int NumberTriangles
         {
-            get { return d3dMesh.FaceCount; }
+            get { return d3dMesh.GetNumFaces(); }
         }
 
         /// <summary>
@@ -350,7 +351,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// </summary>
         public int NumberVertices
         {
-            get { return d3dMesh.VertexCount; }
+            get { return d3dMesh.GetNumVertices(); }
         }
 
         protected bool renderSkeleton;
@@ -489,7 +490,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             this.boneSpaceFinalTransforms = new Matrix[MAX_BONE_COUNT];
 
             //Shader
-            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.GetDeclaration());
+            vertexDeclaration = new VertexDeclaration(GuiController.Instance.D3dDevice, mesh.GetDeclaration());
             this.effect = GuiController.Instance.Shaders.TgcSkeletalMeshShader;
             this.technique = GuiController.Instance.Shaders.getTgcSkeletalMeshTechnique(this.renderType);
 
@@ -1194,8 +1195,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             switch (renderType)
             {
                 case MeshRenderType.VERTEX_COLOR:
-                    TgcSkeletalLoader.VertexColorVertex[] verts1 = (TgcSkeletalLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
+                    TgcSkeletalLoader.VertexColorVertex[] verts1 = d3dMesh.LockVertexBufferData<TgcSkeletalLoader.VertexColorVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     points = new Vector3[verts1.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -1205,8 +1205,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
                     break;
 
                 case MeshRenderType.DIFFUSE_MAP:
-                    TgcSkeletalLoader.DiffuseMapVertex[] verts2 = (TgcSkeletalLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
+                    TgcSkeletalLoader.DiffuseMapVertex[] verts2 = d3dMesh.LockVertexBufferData<TgcSkeletalLoader.DiffuseMapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     points = new Vector3[verts2.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -1232,13 +1231,13 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
                 case MeshRenderType.DIFFUSE_MAP:
 
                     //Calcular normales usando DirectX
-                    int[] adj = new int[this.d3dMesh.FaceCount * 3];
+                    int[] adj = new int[this.d3dMesh.GetNumFaces() * 3];
                     this.d3dMesh.GenerateAdjacency(0, adj);
                     this.d3dMesh.ComputeNormals(adj);
 
                     //Obtener vertexBuffer original
                     TgcSkeletalLoader.DiffuseMapVertex[] origVertexBuffer = (TgcSkeletalLoader.DiffuseMapVertex[])this.d3dMesh.LockVertexBuffer(
-                                typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.Discard, this.d3dMesh.VertexCount);
+                                typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.Discard, this.d3dMesh.GetNumVertices());
                     
                     //Calcular normales recorriendo los triangulos
                     int triCount = origVertexBuffer.Length / 3;
@@ -1324,8 +1323,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             switch (renderType)
             {
                 case MeshRenderType.VERTEX_COLOR:
-                    TgcSkeletalLoader.VertexColorVertex[] verts1 = (TgcSkeletalLoader.VertexColorVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.VertexColorVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
+                    TgcSkeletalLoader.VertexColorVertex[] verts1 = d3dMesh.LockVertexBufferData<TgcSkeletalLoader.VertexColorVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     for (int i = 0; i < verts1.Length; i++)
                     {
                         verts1[i].Color = c;
@@ -1335,8 +1333,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
                     break;
 
                 case MeshRenderType.DIFFUSE_MAP:
-                    TgcSkeletalLoader.DiffuseMapVertex[] verts2 = (TgcSkeletalLoader.DiffuseMapVertex[])d3dMesh.LockVertexBuffer(
-                        typeof(TgcSkeletalLoader.DiffuseMapVertex), LockFlags.ReadOnly, d3dMesh.VertexCount);
+                    TgcSkeletalLoader.DiffuseMapVertex[] verts2 = d3dMesh.LockVertexBufferData<TgcSkeletalLoader.DiffuseMapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     for (int i = 0; i < verts2.Length; i++)
                     {
                         verts2[i].Color = c;
