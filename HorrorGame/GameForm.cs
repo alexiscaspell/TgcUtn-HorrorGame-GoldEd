@@ -85,10 +85,9 @@ namespace HorrorGame
                     {
                         gui2.render();
                     }
-                    catch (SharpDX.SharpDXException sEx) when (IsDeviceLost(sEx))
+                    catch (Exception renderEx) when (IsDeviceLost(renderEx))
                     {
                         // D3DERR_DEVICELOST (screen saver, alt-tab, sleep)
-                        // Wait until the device can be reset and recover
                         RecoverDevice(gui2);
                     }
                     catch (Exception ex)
@@ -107,11 +106,12 @@ namespace HorrorGame
             }
         }
 
-        private static bool IsDeviceLost(SharpDX.SharpDXException ex)
+        private static bool IsDeviceLost(Exception ex)
         {
-            // D3DERR_DEVICELOST = 0x88760868,  D3DERR_DEVICENOTRESET = 0x88760869
-            return ex.HResult == unchecked((int)0x88760868)
-                || ex.HResult == unchecked((int)0x88760869);
+            // D3DERR_DEVICELOST = 0x88760868, D3DERR_DEVICENOTRESET = 0x88760869
+            int hr = ex.HResult;
+            return hr == unchecked((int)0x88760868)
+                || hr == unchecked((int)0x88760869);
         }
 
         private static void RecoverDevice(GuiController gui)
