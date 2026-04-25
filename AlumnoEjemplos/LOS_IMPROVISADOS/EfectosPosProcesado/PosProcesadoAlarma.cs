@@ -13,6 +13,8 @@ using TgcViewer.Utils.TgcGeometry;
 using AlumnoEjemplos.LOS_IMPROVISADOS;
 using SharpDX;
 using TgcViewer.Utils.SharpDxCompat;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 {

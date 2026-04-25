@@ -7,6 +7,8 @@ using AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.IyCA;
 using TgcViewer.Utils.TgcGeometry;
 using System.Collections.Generic;
 using TgcViewer.Utils.TgcSkeletalAnimation;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.linternas
 {
@@ -45,17 +47,17 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.linternas
                 mesh.Effect.SetValue("lightPosition", TgcParserUtils.vector3ToFloat4Array(camaraFPS.camaraFramework.Position));
                 mesh.Effect.SetValue("eyePosition", TgcParserUtils.vector3ToFloat4Array(camaraFPS.camaraFramework.Position));
                 mesh.Effect.SetValue("spotLightDir", TgcParserUtils.vector3ToFloat3Array(camaraFPS.camaraFramework.viewDir));
-                mesh.Effect.SetValue("lightColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+                mesh.Effect.SetValue("lightColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).A/255f));
                 mesh.Effect.SetValue("lightIntensity", (float)GuiController.Instance.Modifiers["linternaIntensidad"]);
                 mesh.Effect.SetValue("lightAttenuation", (float)GuiController.Instance.Modifiers["linternaAtenuacion"]);
                 mesh.Effect.SetValue("spotLightExponent", (float)GuiController.Instance.Modifiers["linternaSpotExponent"]);
                 mesh.Effect.SetValue("spotLightAngleCos", FastMath.ToRad((float)GuiController.Instance.Modifiers["linternaAngulo"]));
 
                 //Cargar variables de shader de Material. El Material en realidad deberia ser propio de cada mesh. Pero en este ejemplo se simplifica con uno comun para todos
-                mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-                mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-                mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-                mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+                mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).A/255f));
+                mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).A/255f));
+                mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).A/255f));
+                mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).A/255f));
                 mesh.Effect.SetValue("materialSpecularExp", (float)GuiController.Instance.Modifiers["linternaSpecularEx"]);
 
         }
@@ -92,17 +94,17 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.linternas
         //        mesh.Effect.SetValue("lightPosition", TgcParserUtils.vector3ToFloat4Array(camaraFPS.posicion));
         //        mesh.Effect.SetValue("eyePosition", TgcParserUtils.vector3ToFloat4Array(camaraFPS.posicion));
         //        mesh.Effect.SetValue("spotLightDir", TgcParserUtils.vector3ToFloat3Array(lightDir));
-        //        mesh.Effect.SetValue("lightColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+        //        mesh.Effect.SetValue("lightColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaColor"]).A/255f));
         //        mesh.Effect.SetValue("lightIntensity", (float)GuiController.Instance.Modifiers["linternaIntensidad"]);
         //        mesh.Effect.SetValue("lightAttenuation", (float)GuiController.Instance.Modifiers["linternaAtenuacion"]);
         //        mesh.Effect.SetValue("spotLightExponent", (float)GuiController.Instance.Modifiers["linternaSpotExponent"]);
         //        mesh.Effect.SetValue("spotLightAngleCos", FastMath.ToRad((float)GuiController.Instance.Modifiers["linternaAngulo"]));
 
         //        //Cargar variables de shader de Material. El Material en realidad deberia ser propio de cada mesh. Pero en este ejemplo se simplifica con uno comun para todos
-        //        mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-        //        mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-        //        mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-        //        mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+        //        mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaEmissive"]).A/255f));
+        //        mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaAmbient"]).A/255f));
+        //        mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaDiffuse"]).A/255f));
+        //        mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["linternaSpecular"]).A/255f));
         //        mesh.Effect.SetValue("materialSpecularExp", (float)GuiController.Instance.Modifiers["linternaSpecularEx"]);
 
         //        mesh.render();

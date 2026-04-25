@@ -1,6 +1,10 @@
 using System.Runtime.InteropServices;
 using SharpDX;
 using SharpDX.Direct3D9;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 // Compatibility shim: replicates MDX's CustomVertex structs in the same namespace
 // so existing code compiles unchanged after the MDX -> SharpDX.Direct3D9 migration.

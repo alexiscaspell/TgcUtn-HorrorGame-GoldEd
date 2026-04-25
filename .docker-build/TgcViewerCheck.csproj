@@ -22,13 +22,8 @@
     <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
     <Reference Include="Ionic.Zip"><HintPath>/build/Ionic.Zip.dll</HintPath></Reference>
   </ItemGroup>
-  <!-- Resolve System.Drawing vs SharpDX type ambiguities (CS0104) -->
-  <ItemGroup>
-    <Using Include="System.Drawing.Color" Alias="Color" />
-    <Using Include="System.Drawing.Rectangle" Alias="Rectangle" />
-    <Using Include="System.Drawing.Font" Alias="Font" />
-    <Using Include="System.Drawing.Point" Alias="Point" />
-  </ItemGroup>
+  <!-- Per-file 'using Color = ...' aliases handle CS0104 ambiguity.
+       Global <Using Include> items removed to prevent CS1537 in AlumnoEjemplos. -->
   <ItemGroup>
     <Compile Include="TgcViewer/**/*.cs"
       Exclude="TgcViewer/obj/**;TgcViewer/Properties/Settings.Designer.cs;TgcViewer/**/.!*;
@@ -36,6 +31,8 @@
                TgcViewer/Utils/Sound/Tgc3dSound.cs;
                TgcViewer/Utils/Sound/TgcStaticSound.cs;
                TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalLoader.cs;
-               TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalMesh.cs" />
+               TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalMesh.cs;
+               TgcViewer/Utils/TgcGeometry/TgcGeometryStubs.cs;
+               TgcViewer/Utils/TgcSceneLoader/TgcSceneLoaderStubs.cs" />
   </ItemGroup>
 </Project>

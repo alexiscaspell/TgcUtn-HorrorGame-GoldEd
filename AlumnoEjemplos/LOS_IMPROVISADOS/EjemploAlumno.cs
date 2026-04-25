@@ -9,6 +9,8 @@ using System.Drawing;
 using System.Collections.Generic;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {

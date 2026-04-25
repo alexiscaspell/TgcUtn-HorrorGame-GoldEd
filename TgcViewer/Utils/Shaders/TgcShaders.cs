@@ -6,6 +6,10 @@ using TgcViewer.Utils.TgcSceneLoader;
 using SharpDX;
 using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer.Utils.TgcKeyFrameLoader;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.Shaders
 {

@@ -12,6 +12,8 @@ using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
 using SharpDX.Direct3D9;
 using TgcViewer.Utils.Shaders;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 
 

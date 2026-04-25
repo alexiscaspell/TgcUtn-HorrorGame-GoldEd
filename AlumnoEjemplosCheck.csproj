@@ -5,7 +5,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>disable</Nullable>
-    <NoWarn>0436;0104;0120;1591;1573;SYSLIB0011;SYSLIB0050;SYSLIB0012;SYSLIB0013</NoWarn>
+    <NoWarn>0436;0104;1591;1573;SYSLIB0011;SYSLIB0050;SYSLIB0012;SYSLIB0013</NoWarn>
     <RootNamespace>AlumnoEjemplos</RootNamespace>
     <AssemblyName>AlumnoEjemplos</AssemblyName>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
@@ -21,28 +21,14 @@
     <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Using Include="System.Drawing.Color" Alias="Color" />
-    <Using Include="System.Drawing.Rectangle" Alias="Rectangle" />
-    <Using Include="System.Drawing.Font" Alias="Font" />
-    <Using Include="System.Drawing.Point" Alias="Point" />
-    <Using Include="TgcViewer.Utils.SharpDxCompat.VertexBufferExtensions" Static="true" />
-    <Using Include="TgcViewer.Utils.SharpDxCompat.IndexBufferExtensions" Static="true" />
-    <Using Include="TgcViewer.Utils.SharpDxCompat.MeshExtensions" Static="true" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="TgcViewerCheck.csproj" />
   </ItemGroup>
+  <!-- AlumnoEjemplos files have per-file 'using Color = ...' aliases.
+       These conflict with global usings from the WinForms SDK.
+       Suppress CS1537 (duplicate alias error) since the alias is equivalent. -->
   <ItemGroup>
     <Compile Include="AlumnoEjemplos/**/*.cs"
       Exclude="AlumnoEjemplos/obj/**;AlumnoEjemplos/Properties/**;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/IyCA/ALuz.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/faroles/LuzFarol.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/fluors/LuzFluor.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/linternas/LuzLinterna.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/general/EfectoEscondido.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/general/LuzOscura.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/EfectosPosProcesado/PosProcesadoBur.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Mapa/RoomsIluminados/RoomFarol.cs;
-               AlumnoEjemplos/LOS_IMPROVISADOS/Mapa/RoomsIluminados/RoomLinterna.cs" />
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/IyCA/ALuzStub.cs" />
   </ItemGroup>
 </Project>

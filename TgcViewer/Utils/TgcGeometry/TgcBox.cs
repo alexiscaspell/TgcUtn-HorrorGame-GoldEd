@@ -99,6 +99,16 @@ namespace TgcViewer.Utils.TgcGeometry
         }
 
         /// <summary>
+        /// Crea una caja con centro (0,0,0), el tamao especificado, color y textura
+        /// </summary>
+        public static TgcBox fromSize(Vector3 size, Color color, TgcTexture texture)
+        {
+            TgcBox box = TgcBox.fromSize(new Vector3(0, 0, 0), size, color);
+            box.setTexture(texture);
+            return box;
+        }
+
+        /// <summary>
         /// Crea una caja en base al punto minimo y maximo
         /// </summary>
         /// <param name="pMin">Punto mnimo</param>

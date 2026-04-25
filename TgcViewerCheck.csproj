@@ -20,8 +20,10 @@
     <PackageReference Include="SharpDX.DirectInput" Version="4.2.0" />
     <PackageReference Include="SharpDX.DirectSound" Version="4.2.0" />
     <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
-    <Reference Include="Ionic.Zip"><HintPath>/build/Ionic.Zip.dll</HintPath></Reference>
+    <Reference Include="Ionic.Zip"><HintPath>Ionic.Zip.dll</HintPath></Reference>
   </ItemGroup>
+  <!-- Per-file 'using Color = ...' aliases handle CS0104 ambiguity.
+       Global <Using Include> items removed to prevent CS1537 in AlumnoEjemplos. -->
   <ItemGroup>
     <Compile Include="TgcViewer/**/*.cs"
       Exclude="TgcViewer/obj/**;TgcViewer/Properties/Settings.Designer.cs;TgcViewer/**/.!*;
@@ -30,27 +32,7 @@
                TgcViewer/Utils/Sound/TgcStaticSound.cs;
                TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalLoader.cs;
                TgcViewer/Utils/TgcSkeletalAnimation/TgcSkeletalMesh.cs;
-               TgcViewer/Utils/Terrain/TgcSimpleTerrain.cs;
-               TgcViewer/Utils/Terrain/TgcSkyBox.cs;
-               TgcViewer/Utils/TgcGeometry/TgcSphere.cs;
-               TgcViewer/Utils/TgcGeometry/TgcFrustum.cs;
-               TgcViewer/Utils/TgcAxisLines.cs;
-               TgcViewer/Utils/TgcGeometry/TgcArrow.cs;
-               TgcViewer/Utils/TgcGeometry/TgcBoxLine.cs;
-               TgcViewer/Utils/TgcGeometry/TgcDebugBox.cs;
-               TgcViewer/Utils/TgcGeometry/TgcConvexPolygon.cs;
-               TgcViewer/Utils/TgcGeometry/TgcConvexPolyhedron.cs;
-               TgcViewer/Utils/TgcGeometry/TgcLine.cs;
-               TgcViewer/Utils/TgcGeometry/TgcPlaneWall.cs;
-               TgcViewer/Utils/TgcGeometry/TgcQuad.cs;
-               TgcViewer/Utils/TgcGeometry/TgcTriangle.cs;
-               TgcViewer/Utils/TgcGeometry/TgcEditableLand.cs;
-               TgcViewer/Utils/TgcGeometry/TgcBox.cs;
-               TgcViewer/Utils/TgcSceneLoader/TgcMesh.cs;
-               TgcViewer/Utils/TgcSceneLoader/TgcSceneLoader.cs;
-               TgcViewer/Utils/TgcSceneLoader/TgcSceneExporter.cs;
-               TgcViewer/Utils/TgcSceneLoader/TgcTexture.cs;
-               TgcViewer/Utils/TgcKeyFrameLoader/TgcKeyFrameLoader.cs;
-               TgcViewer/Utils/TgcKeyFrameLoader/TgcKeyFrameMesh.cs" />
+               TgcViewer/Utils/TgcGeometry/TgcGeometryStubs.cs;
+               TgcViewer/Utils/TgcSceneLoader/TgcSceneLoaderStubs.cs" />
   </ItemGroup>
 </Project>

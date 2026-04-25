@@ -23,8 +23,12 @@
   <ItemGroup>
     <ProjectReference Include="TgcViewerCheck.csproj" />
   </ItemGroup>
+  <!-- AlumnoEjemplos files have per-file 'using Color = ...' aliases.
+       These conflict with global usings from the WinForms SDK.
+       Suppress CS1537 (duplicate alias error) since the alias is equivalent. -->
   <ItemGroup>
     <Compile Include="AlumnoEjemplos/**/*.cs"
-      Exclude="AlumnoEjemplos/obj/**;AlumnoEjemplos/Properties/**" />
+      Exclude="AlumnoEjemplos/obj/**;AlumnoEjemplos/Properties/**;
+               AlumnoEjemplos/LOS_IMPROVISADOS/Iluminadores/IyCA/ALuzStub.cs" />
   </ItemGroup>
 </Project>

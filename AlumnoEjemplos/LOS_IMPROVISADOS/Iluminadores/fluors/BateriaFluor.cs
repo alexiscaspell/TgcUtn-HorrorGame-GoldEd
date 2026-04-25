@@ -4,6 +4,8 @@ using System.Drawing;
 using TgcViewer;
 using TgcViewer.Utils._2D;
 using TgcViewer.Utils.TgcSceneLoader;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.fluors
 {

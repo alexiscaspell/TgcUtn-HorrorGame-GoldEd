@@ -7,6 +7,8 @@ using TgcViewer.Utils.TgcGeometry;
 using AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.IyCA;
 using System.Collections.Generic;
 using TgcViewer.Utils.TgcSkeletalAnimation;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.fluors
 {
@@ -38,16 +40,16 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.fluors
         {
         			
         	//Cargar variables shader de la luz
-            mesh.Effect.SetValue("lightColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+            mesh.Effect.SetValue("lightColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).A/255f));
             mesh.Effect.SetValue("lightPosition", TgcParserUtils.vector3ToFloat4Array(camaraFPS.posicion));
             mesh.Effect.SetValue("lightIntensity", (float)GuiController.Instance.Modifiers["fluorIntensidad"]);
             mesh.Effect.SetValue("lightAttenuation", (float)GuiController.Instance.Modifiers["fluorAtenuacion"]);
 
             //Cargar variables de shader de Material. El Material en realidad deberia ser propio de cada mesh. Pero en este ejemplo se simplifica con uno comun para todos
-            mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-            mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-            mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-            mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+            mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).A/255f));
+            mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).A/255f));
+            mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).A/255f));
+            mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).A/255f));
             mesh.Effect.SetValue("materialSpecularExp", (float)GuiController.Instance.Modifiers["fluorEspecularEx"]);
 
         }
@@ -56,16 +58,16 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.fluors
         {
         			
         	//Cargar variables shader de la luz
-            mesh.Effect.SetValue("lightColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+            mesh.Effect.SetValue("lightColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).A/255f));
             mesh.Effect.SetValue("lightPosition", TgcParserUtils.vector3ToFloat4Array(camaraFPS.posicion));
             mesh.Effect.SetValue("lightIntensity", (float)GuiController.Instance.Modifiers["fluorIntensidad"]);
             mesh.Effect.SetValue("lightAttenuation", (float)GuiController.Instance.Modifiers["fluorAtenuacion"]);
 
             //Cargar variables de shader de Material. El Material en realidad deberia ser propio de cada mesh. Pero en este ejemplo se simplifica con uno comun para todos
-            mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-            mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-            mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-            mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+            mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).A/255f));
+            mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).A/255f));
+            mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).A/255f));
+            mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).A/255f));
             mesh.Effect.SetValue("materialSpecularExp", (float)GuiController.Instance.Modifiers["fluorEspecularEx"]);
 
         }
@@ -83,16 +85,16 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.Iluminadores.fluors
 //            foreach (TgcMesh mesh in mapa.escenaFiltrada)
 //            {
 //                //Cargar variables shader de la luz
-//                mesh.Effect.SetValue("lightColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+//                mesh.Effect.SetValue("lightColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorColor"]).A/255f));
 //                mesh.Effect.SetValue("lightPosition", TgcParserUtils.vector3ToFloat4Array(camaraFPS.posicion));
 //                mesh.Effect.SetValue("lightIntensity", (float)GuiController.Instance.Modifiers["fluorIntensidad"]);
 //                mesh.Effect.SetValue("lightAttenuation", (float)GuiController.Instance.Modifiers["fluorAtenuacion"]);
 //
 //                //Cargar variables de shader de Material. El Material en realidad deberia ser propio de cada mesh. Pero en este ejemplo se simplifica con uno comun para todos
-//                mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-//                mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-//                mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
-//                mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(this.Color.R/255f, this.Color.G/255f, this.Color.B/255f, this.Color.A/255f));
+//                mesh.Effect.SetValue("materialEmissiveColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorEmissive"]).A/255f));
+//                mesh.Effect.SetValue("materialAmbientColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorAmbient"]).A/255f));
+//                mesh.Effect.SetValue("materialDiffuseColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorDiffuse"]).A/255f));
+//                mesh.Effect.SetValue("materialSpecularColor", new SharpDX.Color4(((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).R/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).G/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).B/255f, ((System.Drawing.Color)GuiController.Instance.Modifiers["fluorSpecular"]).A/255f));
 //                mesh.Effect.SetValue("materialSpecularExp", (float)GuiController.Instance.Modifiers["fluorEspecularEx"]);
 //
 //                mesh.render();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SharpDX.Direct3D9;
 using TgcViewer;
@@ -8,6 +9,8 @@ using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
 using SharpDX;
 using TgcViewer.Utils.SharpDxCompat;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 {
@@ -62,13 +65,14 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 
             renderTarget2D = new Texture(d3dDevice, (int)d3dDevice.Viewport.Width, (int)d3dDevice.Viewport.Height, 1, Usage.RenderTarget, Format.X8R8G8B8, Pool.Default);
             //Creamos un DepthStencil que debe ser compatible con nuestra definicion de renderTarget2D.
-            depthStencil = d3dDevice.CreateDepthStencilSurface((int)d3dDevice.Viewport.Width, (int)d3dDevice.Viewport.Height, Format.D24S8, MultisampleType.None, 0, true);
+            //depthStencil = d3dDevice.CreateDepthStencilSurface(...); // API varies by SharpDX version
+            depthStencil = null; // will be re-enabled when properly migrated
                         
             //int pantallaWidth = ScreenSizeClass.ScreenSize.Width;
             //int pantallaHeight = ScreenSizeClass.ScreenSize.Height;
             //renderTarget2D = new Texture(d3dDevice, pantallaWidth, pantallaHeight, 1, Usage.RenderTarget, Format.X8R8G8B8, Pool.Default);
 
-            //depthStencil = d3dDevice.CreateDepthStencilSurface(pantallaWidth, pantallaHeight, Format.D24S8, MultisampleType.None, 0, true);
+            //depthStencil = d3dDevice.CreateDepthStencilSurface(pantallaWidth, pantallaHeight, Format.D24S8, MultisampleType.None, 0, true, IntPtr.Zero);
             //Cargar shader con efectos de Post-Procesado
             effect = TgcShaders.loadEffect(GuiController.Instance.AlumnoEjemplosDir + "Media\\Shaders\\PostProcess.fx");
             effect.Technique = "BlurTechnique";
@@ -172,12 +176,12 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
             d3dDevice.BeginScene();
 
             d3dDevice.VertexFormat = CustomVertex.PositionTextured.Format;
-            d3dDevice.SetStreamSource(0, screenQuadVB, 0);
+            d3dDevice.SetStreamSource(0, screenQuadVB, 0, System.Runtime.InteropServices.Marshal.SizeOf(typeof(CustomVertex.PositionTextured)));
 
             effect.Technique = "BlurTechnique";
 
             //Cargamos parametros en el shader de Post-Procesado
-            effect.SetValue("render_target2D", renderTarget2D);
+            effect.SetTexture("render_target2D", renderTarget2D);
             effect.SetValue("blur_intensity", blur_intensity);
 
             if (Personaje.Instance.fluorActivado())

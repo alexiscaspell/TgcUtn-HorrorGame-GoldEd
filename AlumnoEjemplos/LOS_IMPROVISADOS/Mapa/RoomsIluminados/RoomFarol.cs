@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using TgcViewer;
 using TgcViewer.Utils.TgcSceneLoader;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS
 {
