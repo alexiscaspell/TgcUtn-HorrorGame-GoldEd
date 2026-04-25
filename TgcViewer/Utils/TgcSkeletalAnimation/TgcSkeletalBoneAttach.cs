@@ -82,6 +82,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// </summary>
         public void updateValues()
         {
+            if (this.mesh == null || this.bone == null) return;
             this.mesh.AutoTransformEnable = false;
             updateMeshTransform(Matrix.Identity);
         }
@@ -92,6 +93,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// </summary>
         internal void updateMeshTransform(Matrix meshTransform)
         {
+            if (this.mesh == null || this.bone == null) return;
             this.mesh.Transform = offset * bone.MatFinal * meshTransform;
         }
 
