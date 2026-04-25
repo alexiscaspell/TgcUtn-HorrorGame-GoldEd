@@ -96,7 +96,11 @@ namespace TgcViewer
             this.rotCamera = new TgcRotationalCamera();
             this.thirdPersonCamera = new TgcThirdPersonCamera();
             this.axisLines = new TgcAxisLines(tgcD3dDevice.D3dDevice);
-            this.userVars = new TgcUserVars(new System.Windows.Forms.DataGridView());
+            // DataGridView stub needs the same columns as the real one (NAME_COL, VALUE_COL)
+            var stubGrid = new System.Windows.Forms.DataGridView();
+            stubGrid.Columns.Add("ColumnName", "Name");
+            stubGrid.Columns.Add("ColumnValue", "Value");
+            this.userVars = new TgcUserVars(stubGrid);
             this.modifiers = new TgcModifiers(new System.Windows.Forms.Panel());
             this.elapsedTime = -1;
             this.frustum = new TgcFrustum();
