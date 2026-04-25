@@ -364,8 +364,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
             this.scale = new Vector3(1f, 1f, 1f);
             this.transform = Matrix.Identity;
 
-            //Shader
-            this.vertexDeclaration = new VertexDeclaration(GuiController.Instance.D3dDevice, mesh.GetDeclaration());
+            //Shader — use known declaration from renderType to avoid unreliable GetDeclaration() reflection
+            SharpDX.Direct3D9.VertexElement[] knownDecl = GetKnownDeclaration(renderType);
+            this.vertexDeclaration = new VertexDeclaration(GuiController.Instance.D3dDevice, 
+                knownDecl.Length > 1 ? knownDecl : mesh.GetDeclaration());
             this.effect = GuiController.Instance.Shaders.TgcMeshShader;
             this.technique = GuiController.Instance.Shaders.getTgcMeshTechnique(this.renderType);
         }
@@ -999,7 +1001,9 @@ namespace TgcViewer.Utils.TgcSceneLoader
         /// <param name="newD3dMesh">Nuevo mesh</param>
         public void changeD3dMesh(Mesh newD3dMesh)
         {
-            this.vertexDeclaration = new VertexDeclaration(GuiController.Instance.D3dDevice, newD3dMesh.GetDeclaration());
+            var decl = GetKnownDeclaration(this.renderType);
+            this.vertexDeclaration = new VertexDeclaration(GuiController.Instance.D3dDevice,
+                decl.Length > 1 ? decl : newD3dMesh.GetDeclaration());
             this.d3dMesh.Dispose();
             this.d3dMesh = newD3dMesh;
         }
@@ -1024,6 +1028,24 @@ namespace TgcViewer.Utils.TgcSceneLoader
             return null;
         }
 
+        /// <summary>
+        /// Returns the known VertexElement[] declaration for a given MeshRenderType.
+        /// Avoids unreliable reflection-based GetDeclaration() on FVF-created meshes.
+        /// </summary>
+        private static SharpDX.Direct3D9.VertexElement[] GetKnownDeclaration(MeshRenderType renderType)
+        {
+            switch (renderType)
+            {
+                case MeshRenderType.VERTEX_COLOR:
+                    return TgcViewer.Utils.TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements;
+                case MeshRenderType.DIFFUSE_MAP:
+                    return TgcViewer.Utils.TgcSceneLoader.TgcSceneLoader.DiffuseMapVertexElements;
+                case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
+                    return TgcViewer.Utils.TgcSceneLoader.TgcSceneLoader.DiffuseMapAndLightmapVertexElements;
+                default:
+                    return new SharpDX.Direct3D9.VertexElement[0];
+            }
+        }
 
         
     }
