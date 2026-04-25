@@ -3,8 +3,17 @@ name: Build & Release HorrorGame
 on:
   push:
     branches: [main]
-  release:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versión del release (ej: v1.2.0)'
+        required: true
+        type: string
+      prerelease:
+        description: '¿Es un pre-release?'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   # ── Job 1: Verificación de compilación (mismo Docker que build-local.sh) ─
@@ -19,12 +28,12 @@ jobs:
       - name: Build Docker image
         run: docker build -f Dockerfile.build -t horrorgame-build:latest .
 
-  # ── Job 2: Build y empaquetado del distribuible (solo en releases) ────────
+  # ── Job 2: Build y release (solo en workflow_dispatch) ───────────────────
   release:
     name: Release Build (Windows)
     runs-on: windows-latest
     needs: check
-    if: github.event_name == 'release'
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout
@@ -67,9 +76,13 @@ jobs:
         shell: pwsh
         run: Compress-Archive -Path dist\HorrorGame\* -DestinationPath HorrorGame.zip
 
-      - name: Upload a GitHub Release
+      - name: Crear tag y GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ inputs.version }}
+          name: ${{ inputs.version }}
+          prerelease: ${{ inputs.prerelease }}
           files: HorrorGame.zip
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
