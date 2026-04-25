@@ -172,26 +172,34 @@ namespace TgcViewer
 
             try
             {
+                AppendLog($"INIT starting: {example.getName()}");
                 example.init();
                 this.currentExample = example;
                 panel3d.Focus();
+                AppendLog($"INIT completed OK: {example.getName()}");
                 Logger.log("Ejecutando ejemplo: " + example.getName(), Color.Blue);
             }
             catch (Exception e)
             {
                 Logger.logError("Error en init() de ejemplo: " + example.getName(), e);
-                // Also write to file so we can diagnose without a UI logger
-                try
-                {
-                    string logPath = System.IO.Path.Combine(
-                        System.IO.Path.GetDirectoryName(
-                            System.Reflection.Assembly.GetEntryAssembly()?.Location ?? ""),
-                        "startup.log");
-                    System.IO.File.AppendAllText(logPath,
-                        $"[{System.DateTime.Now:HH:mm:ss.fff}] INIT ERROR in {example.getName()}: {e}\n");
-                }
-                catch { }
+                AppendLog($"INIT ERROR in {example.getName()}: {e}");
             }
+        }
+
+        private static void AppendLog(string msg)
+        {
+            try
+            {
+                string path = System.IO.Path.Combine(
+                    System.IO.Path.GetDirectoryName(
+                        System.Reflection.Assembly.GetEntryAssembly()?.Location ?? ""),
+                    "startup.log");
+                System.IO.File.AppendAllText(path, $"[{System.DateTime.Now:HH:mm:ss.fff}] {msg}\n");
+            }
+            catch { }
+        }
+
+        internal void _dummyPlaceholder() { // will be removed
         }
 
         /// <summary>

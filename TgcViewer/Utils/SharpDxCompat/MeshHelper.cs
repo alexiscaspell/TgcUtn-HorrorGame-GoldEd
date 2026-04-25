@@ -248,6 +248,7 @@ namespace TgcViewer.Utils.SharpDxCompat
         {
             IntPtr dataPtr;
             mesh.LockVertexBuffer((int)flags, new IntPtr(&dataPtr));
+            if (dataPtr == IntPtr.Zero) return new T[count]; // null pointer guard - avoids AccessViolation
             try { return ReadPtrRange<T>(dataPtr, count); }
             finally { mesh.UnlockVertexBuffer(); }
         }
@@ -259,6 +260,7 @@ namespace TgcViewer.Utils.SharpDxCompat
         {
             IntPtr dataPtr;
             mesh.LockIndexBuffer((int)flags, new IntPtr(&dataPtr));
+            if (dataPtr == IntPtr.Zero) return new T[count]; // null pointer guard
             try { return ReadPtrRange<T>(dataPtr, count); }
             finally { mesh.UnlockIndexBuffer(); }
         }
