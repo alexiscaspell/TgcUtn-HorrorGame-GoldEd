@@ -55,7 +55,7 @@ namespace HorrorGame
                 // D3DERR_DEVICELOST after a few minutes of inactivity.
                 var keepAlive = new System.Threading.Timer(_ =>
                 {
-                    try { gui.D3dDevice?.Present(); } catch { }
+                    gui.keepDeviceAlive();
                 }, null, 0, 100);
 
                 try

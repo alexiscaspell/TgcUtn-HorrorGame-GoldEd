@@ -254,6 +254,16 @@ namespace TgcViewer
             panel3d.Focus();
         }
 
+        /// <summary>
+        /// Presenta un frame vacío para mantener el device DirectX activo.
+        /// Llamar periódicamente durante operaciones largas de carga para
+        /// evitar D3DERR_DEVICELOST por inactividad del device.
+        /// </summary>
+        public void keepDeviceAlive()
+        {
+            try { tgcD3dDevice?.D3dDevice?.Present(); } catch { }
+        }
+
         internal void printCurrentPosition()
         {
             Logger.log(fpsCamera.getPositionCode());
