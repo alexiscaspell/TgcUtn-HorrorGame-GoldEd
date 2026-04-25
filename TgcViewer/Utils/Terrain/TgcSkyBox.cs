@@ -11,6 +11,7 @@ using Color = System.Drawing.Color;
 using Rectangle = System.Drawing.Rectangle;
 using Point = System.Drawing.Point;
 using Font = System.Drawing.Font;
+using TgcViewer.Utils.SharpDxCompat;
 
 namespace TgcViewer.Utils.Terrain
 {

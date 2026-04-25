@@ -11,6 +11,7 @@ using Color = System.Drawing.Color;
 using Rectangle = System.Drawing.Rectangle;
 using Point = System.Drawing.Point;
 using Font = System.Drawing.Font;
+using TgcViewer.Utils.SharpDxCompat;
 
 namespace TgcViewer.Utils.Terrain
 {
@@ -108,7 +109,7 @@ namespace TgcViewer.Utils.Terrain
             this.center = center;
 
             //Dispose de VertexBuffer anterior, si habia
-            if (vbTerrain != null && !vbTerrain.Disposed)
+            if (vbTerrain != null && !vbTerrain.IsDisposed)
             {
                 vbTerrain.Dispose();
             }
@@ -171,7 +172,7 @@ namespace TgcViewer.Utils.Terrain
         public void loadTexture(string path)
         {
             //Dispose textura anterior, si habia
-            if (terrainTexture != null && !terrainTexture.Disposed)
+            if (terrainTexture != null && !terrainTexture.IsDisposed)
             {
                 terrainTexture.Dispose();
             }
@@ -181,7 +182,10 @@ namespace TgcViewer.Utils.Terrain
             //Rotar e invertir textura
             Bitmap b = (Bitmap)Bitmap.FromFile(path);
             b.RotateFlip(RotateFlipType.Rotate90FlipX);
-            terrainTexture = Texture.FromBitmap(d3dDevice, b, Usage.None, Pool.Managed);
+            string tmpPath = System.IO.Path.GetTempFileName() + ".png";
+            b.Save(tmpPath);
+            terrainTexture = Texture.FromFile(d3dDevice, tmpPath, 0, 0, 0, Usage.None, Format.Unknown, Pool.Managed, Filter.None, Filter.None, 0);
+            System.IO.File.Delete(tmpPath);
         }
 
 

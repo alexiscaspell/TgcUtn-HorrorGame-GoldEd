@@ -12,6 +12,7 @@ using TgcViewer.Utils;
 using TgcViewer.Utils.TgcGeometry;
 using AlumnoEjemplos.LOS_IMPROVISADOS;
 using SharpDX;
+using TgcViewer.Utils.SharpDxCompat;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 {

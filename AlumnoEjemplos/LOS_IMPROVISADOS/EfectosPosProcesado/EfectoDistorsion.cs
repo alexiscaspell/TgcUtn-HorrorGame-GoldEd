@@ -17,6 +17,7 @@ using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Interpolation;
 using System.Drawing;
 using TgcViewer.Utils;
+using TgcViewer.Utils.SharpDxCompat;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 {

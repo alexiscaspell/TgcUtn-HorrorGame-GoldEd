@@ -7,7 +7,7 @@ using SharpDX;
 namespace TgcViewer.Utils.Sound
 {
     /// <summary>
-    /// Herramienta para reproducir un sonido WAV en 3D, variando como suena respecto de su posición
+    /// Herramienta para reproducir un sonido WAV en 3D, variando como suena respecto de su posicin
     /// en el espacio.
     /// Solo se pueden cargar sonidos WAV que sean MONO (1 channel).
     /// Sonidos stereos (2 channels) no pueden ser utilizados.
@@ -16,7 +16,7 @@ namespace TgcViewer.Utils.Sound
     {
         private SoundBuffer soundBuffer;
         /// <summary>
-        /// Buffer con la información del sonido cargado
+        /// Buffer con la informacin del sonido cargado
         /// </summary>
         public SoundBuffer SoundBuffer
         {
@@ -33,8 +33,8 @@ namespace TgcViewer.Utils.Sound
         }
 
         /// <summary>
-        /// Posición del sonido dentro del espacio.
-        /// La forma de escuchar el sonido varia según esta ubicación y la posición
+        /// Posicin del sonido dentro del espacio.
+        /// La forma de escuchar el sonido varia segn esta ubicacin y la posicin
         /// del Listener3D de sonidos.
         /// </summary>
         public Vector3 Position
@@ -44,7 +44,7 @@ namespace TgcViewer.Utils.Sound
         }
 
         /// <summary>
-        /// Mínima distancia a partir de la cual el sonido 3D comienza a atenuarse respecto de la posicion
+        /// Mnima distancia a partir de la cual el sonido 3D comienza a atenuarse respecto de la posicion
         /// del Listener3D
         /// </summary>
         public float MinDistance
@@ -83,14 +83,14 @@ namespace TgcViewer.Utils.Sound
             {
                 dispose();
 
-                BufferDescription bufferDescription = new BufferDescription();
+                SoundBufferDescription bufferDescription = new SoundBufferDescription();
                 bufferDescription.Control3D = true;
                 if (volume != -1)
                 {
                     bufferDescription.ControlVolume = true;
                 }
 
-                soundBuffer = new SoundBuffer(GuiController.Instance.DirectSound.DsDevice, bufferDescription, GuiController.Instance.DirectSound.DsDevice);
+                soundBuffer = new SoundBuffer(GuiController.Instance.DirectSound.DsDevice, bufferDescription);
                 buffer3d = new SoundBuffer3D(soundBuffer);
                 buffer3d.MinDistance = 50;
 
@@ -101,7 +101,7 @@ namespace TgcViewer.Utils.Sound
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al cargar sonido estático WAV: " + soundPath, ex);
+                throw new Exception("Error al cargar sonido esttico WAV: " + soundPath, ex);
             }
         }
 
@@ -118,17 +118,17 @@ namespace TgcViewer.Utils.Sound
 
         /// <summary>
         /// Reproduce el sonido, indicando si se hace con Loop.
-        /// Si ya se está reproduciedo, no vuelve a empezar.
+        /// Si ya se est reproduciedo, no vuelve a empezar.
         /// </summary>
         /// <param name="playLoop">TRUE para reproducir en loop</param>
         public void play(bool playLoop)
         {
-            soundBuffer.Play(0, playLoop ? BufferPlayFlags.Looping : BufferPlayFlags.Default);
+            soundBuffer.Play(0, playLoop ? PlayFlags.Looping : PlayFlags.None);
         }
 
         /// <summary>
         /// Reproduce el sonido, sin Loop.
-        /// Si ya se está reproduciedo, no vuelve a empezar.
+        /// Si ya se est reproduciedo, no vuelve a empezar.
         /// </summary>
         public void play()
         {
@@ -136,9 +136,9 @@ namespace TgcViewer.Utils.Sound
         }
 
         /// <summary>
-        /// Pausa la ejecución del sonido.
+        /// Pausa la ejecucin del sonido.
         /// Si el sonido no se estaba ejecutando, no hace nada.
-        /// Si se hace stop() y luego play(), el sonido continua desde donde había dejado la última vez.
+        /// Si se hace stop() y luego play(), el sonido continua desde donde haba dejado la ltima vez.
         /// </summary>
         public void stop()
         {

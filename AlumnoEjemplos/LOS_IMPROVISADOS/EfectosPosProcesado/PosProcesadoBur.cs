@@ -7,6 +7,7 @@ using TgcViewer.Utils.Interpolation;
 using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
 using SharpDX;
+using TgcViewer.Utils.SharpDxCompat;
 
 namespace AlumnoEjemplos.LOS_IMPROVISADOS.EfectosPosProcesado
 {

@@ -6,6 +6,7 @@ using TgcViewer.Utils.TgcSceneLoader;
 using SharpDX.Direct3D9;
 using SharpDX;
 using TgcViewer.Utils.TgcGeometry;
+using TgcViewer.Utils.SharpDxCompat;
 
 namespace TgcViewer.Utils.TgcSkeletalAnimation
 {
@@ -76,7 +77,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// </summary>
         /// <param name="meshFilePath">Ubicacion del archivo XML del modelo</param>
         /// <param name="mediaPath">Path a partir del cual hay que buscar las Texturas</param>
-        /// <param name="animationsFilePath">Array con ubicaciones de los archivos XML de cada animación</param>
+        /// <param name="animationsFilePath">Array con ubicaciones de los archivos XML de cada animacin</param>
         /// <returns>Modelo cargado con sus animaciones</returns>
         public TgcSkeletalMesh loadMeshAndAnimationsFromFile(string meshFilePath, string mediaPath, string[] animationsFilePath)
         {
@@ -93,7 +94,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         /// Se elige el directorio de texturas y recursos en base al directorio en el cual se encuntra el archivo del modelo.
         /// </summary>
         /// <param name="meshFilePath">Ubicacion del archivo XML del modelo</param>
-        /// <param name="animationsFilePath">Array con ubicaciones de los archivos XML de cada animación</param>
+        /// <param name="animationsFilePath">Array con ubicaciones de los archivos XML de cada animacin</param>
         /// <returns>Modelo cargado con sus animaciones</returns>
         public TgcSkeletalMesh loadMeshAndAnimationsFromFile(string meshFilePath, string[] animationsFilePath)
         {
@@ -115,11 +116,11 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         }
 
         /// <summary>
-        /// Carga una animación a un modelo ya cargado, en base a un archivo
-        /// La animación se agrega al modelo.
+        /// Carga una animacin a un modelo ya cargado, en base a un archivo
+        /// La animacin se agrega al modelo.
         /// </summary>
         /// <param name="mesh">Modelo ya cargado</param>
-        /// <param name="filePath">Ubicacion del archivo XML de la animación</param>
+        /// <param name="filePath">Ubicacion del archivo XML de la animacin</param>
         public void loadAnimationFromFile(TgcSkeletalMesh mesh, string filePath)
         {
             try
@@ -134,8 +135,8 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
         }
 
         /// <summary>
-        /// Carga una animación a un modelo ya cargado, a partir del string del XML.
-        /// La animación se agrega al modelo.
+        /// Carga una animacin a un modelo ya cargado, a partir del string del XML.
+        /// La animacin se agrega al modelo.
         /// </summary>
         /// <param name="mesh">Modelo ya cargado</param>
         /// <param name="xmlString">contenido del XML</param>
@@ -252,7 +253,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
 			    }
 			}
 
-            //BoundingBox de la animación, aprovechar lo que viene en el XML o utilizar el de la malla estática
+            //BoundingBox de la animacin, aprovechar lo que viene en el XML o utilizar el de la malla esttica
             TgcBoundingBox boundingBox = null;
             if (animationData.pMin != null && animationData.pMax != null)
             {
@@ -489,7 +490,7 @@ namespace TgcViewer.Utils.TgcSkeletalAnimation
             //Configurar Material y Textura para varios SubSet
             else
             {
-                //Cargar attributeBuffer con los id de las texturas de cada triángulo
+                //Cargar attributeBuffer con los id de las texturas de cada tringulo
                 int[] attributeBuffer = mesh.LockAttributeBufferArray(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
                 mesh.UnlockAttributeBuffer();
