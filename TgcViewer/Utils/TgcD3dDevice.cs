@@ -22,7 +22,7 @@ namespace TgcViewer.Utils
         }
 
         Control panel3d;
-        readonly System.Drawing.Color DEFAULT_CLEAR_COLOR = System.Drawing.Color.FromArgb(255, 78, 129, 179);
+        readonly System.Drawing.Color DEFAULT_CLEAR_COLOR = System.Drawing.Color.Black;
         public static readonly Material DEFAULT_MATERIAL = new Material();
 
         public static readonly int DIRECTX_MULTITEXTURE_COUNT = 8;
@@ -130,7 +130,8 @@ namespace TgcViewer.Utils
 
         internal void doClear()
         {
-            var sdxColor = new ColorBGRA(clearColor.B, clearColor.G, clearColor.R, clearColor.A);
+            // ColorBGRA ctor takes (R, G, B, A) despite the name
+            var sdxColor = new ColorBGRA(clearColor.R, clearColor.G, clearColor.B, clearColor.A);
             d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, sdxColor, 1.0f, 0);
             HighResolutionTimer.Instance.Set();
         }
