@@ -13,6 +13,7 @@ namespace TgcViewer.Utils.SharpDxCompat
     public static class MeshHelper
     {
         private static MethodInfo _createMeshMethod;
+        private static MethodInfo _createMeshFvfMethod;
         private static MethodInfo _getNumFacesMethod;
         private static MethodInfo _getNumVerticesMethod;
         private static MethodInfo _getDeclarationMethod;
@@ -33,6 +34,7 @@ namespace TgcViewer.Utils.SharpDxCompat
                     foreach (var m in d3dx9Type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
                     {
                         if (m.Name == "CreateMesh") _createMeshMethod = m;
+                        if (m.Name == "CreateMeshFVF") _createMeshFvfMethod = m;
                     }
                 }
 
@@ -53,18 +55,48 @@ namespace TgcViewer.Utils.SharpDxCompat
             catch { }
         }
 
-        /// <summary>Creates a D3DX Mesh (wraps D3DXCreateMesh via reflection).</summary>
+        /// <summary>
+        /// Computes an FVF code from a VertexElement[] declaration.
+        /// D3DXCreateMesh takes VertexElement (singular) via reflection which causes boxing issues.
+        /// D3DXCreateMeshFVF takes a simple int (FVF) which works perfectly with reflection.
+        /// </summary>
+        private static VertexFormat DeclarationToFvf(VertexElement[] declaration)
+        {
+            VertexFormat fvf = VertexFormat.None;
+            int texCount = 0;
+            foreach (var elem in declaration)
+            {
+                if (elem.Stream == 0xFF) break; // VertexDeclarationEnd
+                switch (elem.Usage)
+                {
+                    case DeclarationUsage.Position: fvf |= VertexFormat.Position; break;
+                    case DeclarationUsage.Normal:   fvf |= VertexFormat.Normal; break;
+                    case DeclarationUsage.Color:    fvf |= VertexFormat.Diffuse; break;
+                    case DeclarationUsage.TextureCoordinate: texCount++; break;
+                }
+            }
+            // Encode texture set count in FVF bits 8-11 (D3DFVF_TECOUNTn = n << 8)
+            if (texCount > 0) fvf |= (VertexFormat)(texCount << 8);
+            return fvf;
+        }
+
+        /// <summary>
+        /// Creates a D3DX Mesh using D3DXCreateMeshFVF (avoids VertexElement[] boxing issue).
+        /// FVF is computed from the declaration array. Vertex layouts match standard D3D FVF.
+        /// </summary>
         public static Mesh CreateMesh(Device device, int numFaces, int numVertices,
             MeshFlags flags, VertexElement[] declaration)
         {
             EnsureInitialized();
-            if (_createMeshMethod == null)
+            if (_createMeshFvfMethod == null)
                 throw new InvalidOperationException(
-                    "D3DX9.CreateMesh not found. Ensure SharpDX.Direct3D9 4.2.0 net45 is referenced.");
+                    "D3DX9.CreateMeshFVF not found. Ensure SharpDX.Direct3D9 4.2.0 net45 is referenced.");
 
-            // D3DX9.CreateMesh(int numFaces, int numVertices, int options, VertexElement[] decl, Device device, out Mesh mesh)
-            var args = new object[] { numFaces, numVertices, (int)flags, declaration, device, null };
-            _createMeshMethod.Invoke(null, args);
+            // D3DXCreateMeshFVF takes: (int numFaces, int numVertices, int options, int fvf, Device device, out Mesh mesh)
+            // All simple types — no VertexElement[] boxing issue!
+            VertexFormat fvf = DeclarationToFvf(declaration);
+            var args = new object[] { numFaces, numVertices, (int)flags, (int)fvf, device, null };
+            _createMeshFvfMethod.Invoke(null, args);
             return (Mesh)args[5];
         }
 
