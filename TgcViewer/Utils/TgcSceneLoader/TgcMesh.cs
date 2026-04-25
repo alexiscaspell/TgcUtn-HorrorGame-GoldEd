@@ -657,7 +657,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             switch (renderType)
             {
                 case MeshRenderType.VERTEX_COLOR:
-                    TgcSceneLoader.VertexColorVertex[] verts1 = ReadRange<TgcSceneLoader.VertexColorVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.VertexColorVertex[] verts1 = d3dMesh.LockVertexBufferData<TgcSceneLoader.VertexColorVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     points = new Vector3[verts1.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -667,7 +667,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     break;
 
                 case MeshRenderType.DIFFUSE_MAP:
-                    TgcSceneLoader.DiffuseMapVertex[] verts2 = ReadRange<TgcSceneLoader.DiffuseMapVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.DiffuseMapVertex[] verts2 = d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     points = new Vector3[verts2.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -677,7 +677,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     break;
 
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
-                    TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = ReadRange<TgcSceneLoader.DiffuseMapAndLightmapVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapAndLightmapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     points = new Vector3[verts3.Length];
                     for (int i = 0; i < points.Length; i++)
                     {
@@ -703,7 +703,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     throw new Exception("No se puede obtener coordenadas de UV en un mesh del tipo VERTEX_COLOR");
 
                 case MeshRenderType.DIFFUSE_MAP:
-                    TgcSceneLoader.DiffuseMapVertex[] verts2 = ReadRange<TgcSceneLoader.DiffuseMapVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.DiffuseMapVertex[] verts2 = d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     uvCoords = new Vector2[verts2.Length];
                     for (int i = 0; i < uvCoords.Length; i++)
                     {
@@ -713,7 +713,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     break;
 
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
-                    TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = ReadRange<TgcSceneLoader.DiffuseMapAndLightmapVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapAndLightmapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     uvCoords = new Vector2[verts3.Length];
                     for (int i = 0; i < uvCoords.Length; i++)
                     {
@@ -765,7 +765,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             switch (renderType)
             {
                 case MeshRenderType.VERTEX_COLOR:
-                    TgcSceneLoader.VertexColorVertex[] verts1 = ReadRange<TgcSceneLoader.VertexColorVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.VertexColorVertex[] verts1 = d3dMesh.LockVertexBufferData<TgcSceneLoader.VertexColorVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     for (int i = 0; i < verts1.Length; i++)
                     {
                         verts1[i].Color = c;
@@ -775,7 +775,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     break;
 
                 case MeshRenderType.DIFFUSE_MAP:
-                    TgcSceneLoader.DiffuseMapVertex[] verts2 = ReadRange<TgcSceneLoader.DiffuseMapVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.DiffuseMapVertex[] verts2 = d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     for (int i = 0; i < verts2.Length; i++)
                     {
                         verts2[i].Color = c;
@@ -785,7 +785,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                     break;
 
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
-                    TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = ReadRange<TgcSceneLoader.DiffuseMapAndLightmapVertex>(d3dMesh.LockVertexBuffer(LockFlags.ReadOnly), d3dMesh.GetNumVertices());
+                    TgcSceneLoader.DiffuseMapAndLightmapVertex[] verts3 = d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapAndLightmapVertex>(LockFlags.ReadOnly, d3dMesh.GetNumVertices());
                     for (int i = 0; i < verts3.Length; i++)
                     {
                         verts3[i].Color = c;
@@ -1015,11 +1015,11 @@ namespace TgcViewer.Utils.TgcSceneLoader
             switch (renderType)
             {
                 case MeshRenderType.VERTEX_COLOR:
-                    return ReadRange<TgcSceneLoader.VertexColorVertex>(d3dMesh.LockVertexBuffer(lockFlags), d3dMesh.GetNumVertices());
+                    return d3dMesh.LockVertexBufferData<TgcSceneLoader.VertexColorVertex>(lockFlags, d3dMesh.GetNumVertices());
                 case MeshRenderType.DIFFUSE_MAP:
-                    return ReadRange<TgcSceneLoader.DiffuseMapVertex>(d3dMesh.LockVertexBuffer(lockFlags), d3dMesh.GetNumVertices());
+                    return d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapVertex>(lockFlags, d3dMesh.GetNumVertices());
                 case MeshRenderType.DIFFUSE_MAP_AND_LIGHTMAP:
-                    return ReadRange<TgcSceneLoader.DiffuseMapAndLightmapVertex>(d3dMesh.LockVertexBuffer(lockFlags), d3dMesh.GetNumVertices());
+                    return d3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapAndLightmapVertex>(lockFlags, d3dMesh.GetNumVertices());
             }
             return null;
         }

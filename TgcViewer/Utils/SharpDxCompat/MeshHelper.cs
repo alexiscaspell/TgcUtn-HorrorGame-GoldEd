@@ -169,6 +169,53 @@ namespace TgcViewer.Utils.SharpDxCompat
             }
         }
 
+        /// <summary>
+        /// Reads vertex data from a BaseMesh using LockVertexBuffer(int, out IntPtr).
+        /// BaseMesh.LockVertexBuffer in SharpDX net45 returns an IntPtr, not DataStream.
+        /// </summary>
+        private static T[] ReadPtrRange<T>(IntPtr ptr, int count) where T : struct
+        {
+            T[] result = new T[count];
+            if (ptr == IntPtr.Zero) return result;
+            int stride = System.Runtime.InteropServices.Marshal.SizeOf(typeof(T));
+            for (int i = 0; i < count; i++)
+                result[i] = (T)System.Runtime.InteropServices.Marshal.PtrToStructure(
+                    new IntPtr(ptr.ToInt64() + i * stride), typeof(T));
+            return result;
+        }
+
+        /// <summary>
+        /// Reads vertex data from a BaseMesh.
+        /// net45: LockVertexBuffer(int, out IntPtr); netstandard1.3: LockVertexBuffer(int, IntPtr)
+        /// </summary>
+        public static T[] LockVertexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
+        {
+            IntPtr ptr = IntPtr.Zero;
+#if NETFRAMEWORK
+            mesh.LockVertexBuffer((int)flags, out ptr);
+#else
+            // netstandard1.3 build - runtime won't run this, just needs to compile
+            mesh.LockVertexBuffer((int)flags, ptr);
+#endif
+            try { return ReadPtrRange<T>(ptr, count); }
+            finally { mesh.UnlockVertexBuffer(); }
+        }
+
+        /// <summary>
+        /// Reads index data from a BaseMesh.
+        /// </summary>
+        public static T[] LockIndexBufferData<T>(this BaseMesh mesh, LockFlags flags, int count) where T : struct
+        {
+            IntPtr ptr = IntPtr.Zero;
+#if NETFRAMEWORK
+            mesh.LockIndexBuffer((int)flags, out ptr);
+#else
+            mesh.LockIndexBuffer((int)flags, ptr);
+#endif
+            try { return ReadPtrRange<T>(ptr, count); }
+            finally { mesh.UnlockIndexBuffer(); }
+        }
+
         /// <summary>Writes back and unlocks the attribute buffer.</summary>
         public static void UnlockAttributeBuffer(this Mesh mesh, int[] attributeBuffer = null)
         {

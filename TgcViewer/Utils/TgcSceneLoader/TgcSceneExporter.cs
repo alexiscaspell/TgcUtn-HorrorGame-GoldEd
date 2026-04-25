@@ -250,13 +250,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
             meshData.color = new float[] { defaultColor4.Red, defaultColor4.Green, defaultColor4.Blue };
 
             //Obtener datos del VertexBuffer
-            TgcSceneLoader.VertexColorVertex[] vbData = (TgcSceneLoader.VertexColorVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
-                typeof(TgcSceneLoader.VertexColorVertex),
-                LockFlags.ReadOnly,
-                tgcMesh.D3dMesh.GetNumVertices());
+            TgcSceneLoader.VertexColorVertex[] vbData = tgcMesh.D3dMesh.LockVertexBufferData<TgcSceneLoader.VertexColorVertex>(LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumVertices());
             tgcMesh.D3dMesh.UnlockVertexBuffer();
 
-            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumFaces() * 3);
+            short[] indices = tgcMesh.D3dMesh.LockIndexBufferData<short>(LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumFaces() * 3);
             tgcMesh.D3dMesh.UnlockIndexBuffer();
 
             //Armar buffer de vertices, normales y coordenadas de textura, buscando similitudes de valores
@@ -329,13 +326,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
             meshData.color = new float[] { defaultColor4.Red, defaultColor4.Green, defaultColor4.Blue };
 
             //Obtener datos del VertexBuffer
-            TgcSceneLoader.DiffuseMapVertex[] vbData = (TgcSceneLoader.DiffuseMapVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
-                typeof(TgcSceneLoader.DiffuseMapVertex),
-                LockFlags.ReadOnly,
-                tgcMesh.D3dMesh.GetNumVertices());
+            TgcSceneLoader.DiffuseMapVertex[] vbData = tgcMesh.D3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapVertex>(LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumVertices());
             tgcMesh.D3dMesh.UnlockVertexBuffer();
 
-            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumFaces()*3);
+            short[] indices = tgcMesh.D3dMesh.LockIndexBufferData<short>(LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumFaces()*3);
             tgcMesh.D3dMesh.UnlockIndexBuffer();
 
             //Armar buffer de vertices, normales y coordenadas de textura, buscando similitudes de valores
@@ -412,13 +406,10 @@ namespace TgcViewer.Utils.TgcSceneLoader
         private void exportMeshDiffuseMapAndLightmap(TgcMesh tgcMesh, MeshExport meshExport, TgcMeshData meshData)
         {
             //Obtener datos del VertexBuffer
-            TgcSceneLoader.DiffuseMapAndLightmapVertex[] vbData = (TgcSceneLoader.DiffuseMapAndLightmapVertex[])tgcMesh.D3dMesh.LockVertexBuffer(
-                typeof(TgcSceneLoader.DiffuseMapAndLightmapVertex),
-                LockFlags.ReadOnly,
-                tgcMesh.D3dMesh.GetNumVertices());
+            TgcSceneLoader.DiffuseMapAndLightmapVertex[] vbData = tgcMesh.D3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapAndLightmapVertex>(LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumVertices());
             tgcMesh.D3dMesh.UnlockVertexBuffer();
 
-            short[] indices = (short[])tgcMesh.D3dMesh.LockIndexBuffer(typeof(short), LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumFaces() * 3);
+            short[] indices = tgcMesh.D3dMesh.LockIndexBufferData<short>(LockFlags.ReadOnly, tgcMesh.D3dMesh.GetNumFaces() * 3);
             tgcMesh.D3dMesh.UnlockIndexBuffer();
 
             //Color general
@@ -1037,8 +1028,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 //Cargar VertexBuffer
                 TgcSceneLoader.VertexColorVertex[] vertsData = new TgcSceneLoader.VertexColorVertex[vertexCount];
                 //Agregar los datos del mesh1
-                TgcSceneLoader.VertexColorVertex[] verts1 = (TgcSceneLoader.VertexColorVertex[])mesh1.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, mesh1.D3dMesh.GetNumVertices());
+                TgcSceneLoader.VertexColorVertex[] verts1 = mesh1.D3dMesh.LockVertexBufferData<TgcSceneLoader.VertexColorVertex>(LockFlags.ReadOnly, mesh1.D3dMesh.GetNumVertices());
                 for (int i = 0; i < verts1.Length; i++)
                 {
                     verts1[i].Position = TgcVectorUtils.transform(verts1[i].Position, mesh1.Transform);
@@ -1048,8 +1038,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 verts1 = null;
 
                 //Agregar los datos del mesh1
-                TgcSceneLoader.VertexColorVertex[] verts2 = (TgcSceneLoader.VertexColorVertex[])mesh2.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.VertexColorVertex), LockFlags.ReadOnly, mesh2.D3dMesh.GetNumVertices());
+                TgcSceneLoader.VertexColorVertex[] verts2 = mesh2.D3dMesh.LockVertexBufferData<TgcSceneLoader.VertexColorVertex>(LockFlags.ReadOnly, mesh2.D3dMesh.GetNumVertices());
                 for (int i = 0; i < verts2.Length; i++)
                 {
                     verts2[i].Position = TgcVectorUtils.transform(verts2[i].Position, mesh2.Transform);
@@ -1067,8 +1056,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 TgcSceneLoader.DiffuseMapVertex[] vertsData = new TgcSceneLoader.DiffuseMapVertex[vertexCount];
 
                 //Agregar los datos del mesh1 (aplicarle la transformacion actual)
-                TgcSceneLoader.DiffuseMapVertex[] verts1 = (TgcSceneLoader.DiffuseMapVertex[])mesh1.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, mesh1.D3dMesh.GetNumVertices());
+                TgcSceneLoader.DiffuseMapVertex[] verts1 = mesh1.D3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapVertex>(LockFlags.ReadOnly, mesh1.D3dMesh.GetNumVertices());
                 for (int i = 0; i < verts1.Length; i++)
                 {
                     verts1[i].Position = TgcVectorUtils.transform(verts1[i].Position, mesh1.Transform);
@@ -1078,8 +1066,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 verts1 = null;
 
                 //Agregar los datos del mesh1
-                TgcSceneLoader.DiffuseMapVertex[] verts2 = (TgcSceneLoader.DiffuseMapVertex[])mesh2.D3dMesh.LockVertexBuffer(
-                    typeof(TgcSceneLoader.DiffuseMapVertex), LockFlags.ReadOnly, mesh2.D3dMesh.GetNumVertices());
+                TgcSceneLoader.DiffuseMapVertex[] verts2 = mesh2.D3dMesh.LockVertexBufferData<TgcSceneLoader.DiffuseMapVertex>(LockFlags.ReadOnly, mesh2.D3dMesh.GetNumVertices());
                 for (int i = 0; i < verts2.Length; i++)
                 {
                     verts2[i].Position = TgcVectorUtils.transform(verts2[i].Position, mesh2.Transform);
