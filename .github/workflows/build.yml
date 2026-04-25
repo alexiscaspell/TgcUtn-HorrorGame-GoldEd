@@ -95,23 +95,19 @@ jobs:
           New-Item -ItemType Directory -Force "$out\AlumnoEjemplos" | Out-Null
           Copy-Item AlumnoEjemplos\Media -Destination "$out\AlumnoEjemplos\Media" -Recurse
 
-          # Add README
-          Set-Content "$out\LEEME.txt" @"
-HorrorGame - TGC UTN Horror Game
-=================================
-IMPORTANTE: Extraer TODOS los archivos del ZIP antes de ejecutar el juego.
-No ejecutar HorrorGame.exe directamente desde el ZIP.
-
-Requisitos:
-- Windows 10 o superior
-- .NET Framework 4.8 (incluido en Windows 10+)
-- DirectX 9 (incluido en Windows)
-
-Para jugar: ejecutar HorrorGame.exe desde la carpeta extraida.
-
-Controles: WASD + mouse, F6=fluor, F=linterna, TAB=inventario, M=mapa, ESC=pausa
-Gamepad Xbox: joystick izq.=mover, joystick der.=camara, LB=fluor, RB=linterna
-"@
+          # Add README (use individual lines to avoid YAML/heredoc issues)
+          $readme = "HorrorGame - TGC UTN Horror Game`r`n"
+          $readme += "=================================`r`n"
+          $readme += "IMPORTANTE: Extraer TODOS los archivos del ZIP antes de ejecutar.`r`n"
+          $readme += "No ejecutar HorrorGame.exe directamente desde el ZIP.`r`n`r`n"
+          $readme += "Requisitos:`r`n"
+          $readme += "- Windows 10 o superior`r`n"
+          $readme += "- .NET Framework 4.8 (incluido en Windows 10+)`r`n"
+          $readme += "- DirectX 9 (incluido en Windows)`r`n`r`n"
+          $readme += "Para jugar: ejecutar HorrorGame.exe desde la carpeta extraida.`r`n`r`n"
+          $readme += "Controles: WASD + mouse, F6=fluor, F=linterna, TAB=inventario, M=mapa, ESC=pausa`r`n"
+          $readme += "Gamepad Xbox: joystick izq.=mover, joystick der.=camara, LB=fluor, RB=linterna`r`n"
+          Set-Content "$out\LEEME.txt" $readme
 
           # Verify at least one file was copied
           $files = Get-ChildItem $out -Recurse -File -ErrorAction SilentlyContinue
