@@ -102,48 +102,43 @@ namespace HorrorGame
 
             GuiController gui2 = GuiController.Instance;
 
-            // Regain focus after the long init() (form may have lost it)
+            // Regain focus after init
             this.Activate();
             panel3d.Focus();
-            Log($"Before game loop: ContainsFocus={ContainsFocus}, panel3d.Focused={panel3d.Focused}, Visible={Visible}, WindowState={WindowState}");
+            Log($"Before game loop: ContainsFocus={ContainsFocus}, panel3d.Focused={panel3d.Focused}");
 
+            // Game loop — render always, regardless of WinForms focus.
+            // ContainsFocus is unreliable for fullscreen borderless games:
+            // something in the game's render (Cursor.Position, etc.) causes
+            // WinForms to report focus loss even though D3D is still active.
             int frameCount = 0;
-            int noFocusCount = 0;
-
-            // Game loop
             while (ApplicationRunning)
             {
-                if (ContainsFocus)
+                if (frameCount == 0) Log("First render frame executing...");
+                frameCount++;
+
+                try
                 {
-                    if (frameCount == 0) Log("First render frame executing...");
-                    frameCount++;
-                    try
-                    {
-                        gui2.render();
-                    }
-                    catch (Exception renderEx) when (IsDeviceLost(renderEx))
-                    {
-                        // D3DERR_DEVICELOST (screen saver, alt-tab, sleep)
-                        RecoverDevice(gui2);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogCrash("RENDER ERROR", ex);
-                        ApplicationRunning = false;
-                        break;
-                    }
+                    gui2.render();
                 }
-                else
+                catch (Exception renderEx) when (IsDeviceLost(renderEx))
                 {
-                    noFocusCount++;
-                    if (noFocusCount == 1 || noFocusCount % 60 == 0)
-                        Log($"No focus (frame {noFocusCount}): ContainsFocus={ContainsFocus}, ActiveForm={(Form.ActiveForm?.GetType().Name ?? "null")}, panel3d.Focused={panel3d.Focused}");
-                    System.Threading.Thread.Sleep(16);
+                    Log($"Device lost at frame {frameCount}, recovering...");
+                    RecoverDevice(gui2);
+                    this.Activate();
+                    panel3d.Focus();
+                    Log("Device recovered");
+                }
+                catch (Exception ex)
+                {
+                    LogCrash("RENDER ERROR", ex);
+                    ApplicationRunning = false;
+                    break;
                 }
 
                 Application.DoEvents();
             }
-            Log($"Game loop ended. frames={frameCount}, noFocus={noFocusCount}");
+            Log($"Game loop ended after {frameCount} frames.");
         }
 
         private static bool IsDeviceLost(Exception ex)
