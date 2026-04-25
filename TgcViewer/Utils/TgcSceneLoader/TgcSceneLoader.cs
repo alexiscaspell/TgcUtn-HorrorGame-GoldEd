@@ -335,9 +335,11 @@ namespace TgcViewer.Utils.TgcSceneLoader
             else
             {
                 //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
-                Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                mesh.UnlockAttributeBuffer();
+                try {
+                    int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
+                    Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
+                    mesh.UnlockAttributeBuffer();
+                } catch { /* attribute buffer not critical for rendering */ }
 
                 //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
@@ -447,9 +449,11 @@ namespace TgcViewer.Utils.TgcSceneLoader
             else
             {
                 //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
-                Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                mesh.UnlockAttributeBuffer();
+                try {
+                    int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
+                    Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
+                    mesh.UnlockAttributeBuffer();
+                } catch { /* attribute buffer not critical for rendering */ }
 
                 //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
