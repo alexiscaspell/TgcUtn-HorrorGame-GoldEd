@@ -201,7 +201,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
                 tgcMesh.Layer = meshData.layerName;
                 
                 //Cargar AlphaBlending
-                tgcMesh.AlphaBlendEnable = meshData.alphaBlending;
+                tgcMesh.ABlendEnable = meshData.alphaBlending;
 
                 //agregar mesh a escena
                 tgcMesh.Enabled = true;
@@ -335,9 +335,9 @@ namespace TgcViewer.Utils.TgcSceneLoader
             else
             {
                 //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                mesh.LockAttributeBuffer(0, 0, out int[] attributeBuffer);
+                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                mesh.UnlockAttributeBuffer(attributeBuffer);
+                mesh.UnlockAttributeBuffer();
 
                 //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
@@ -447,9 +447,9 @@ namespace TgcViewer.Utils.TgcSceneLoader
             else
             {
                 //Cargar attributeBuffer con los id de las texturas de cada tringulo
-                mesh.LockAttributeBuffer(0, 0, out int[] attributeBuffer);
+                int[] attributeBuffer = mesh.LockAttributeBuffer(LockFlags.None);
                 Array.Copy(meshData.materialsIds, attributeBuffer, attributeBuffer.Length);
-                mesh.UnlockAttributeBuffer(attributeBuffer);
+                mesh.UnlockAttributeBuffer();
 
                 //Cargar array de Materials y Texturas
                 meshMaterials = new Material[matAux.subMaterials.Length];
