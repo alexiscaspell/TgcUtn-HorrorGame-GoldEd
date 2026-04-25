@@ -37,10 +37,23 @@ namespace HorrorGame
             this.FormClosing += GameForm_FormClosing;
         }
 
+        private static readonly string LogFile = System.IO.Path.Combine(
+            System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
+            "startup.log");
+
+        private static void Log(string msg)
+        {
+            try { File.AppendAllText(LogFile, $"[{DateTime.Now:HH:mm:ss.fff}] {msg}\n"); } catch { }
+        }
+
         private void GameForm_Load(object sender, EventArgs e)
         {
+            File.WriteAllText(LogFile, $"[{DateTime.Now:HH:mm:ss.fff}] === HorrorGame startup ===\n");
+            Log($"Form.Handle={Handle}, ContainsFocus={ContainsFocus}");
+
             this.Show();
             panel3d.Focus();
+            Log($"After Show()+Focus(): ContainsFocus={ContainsFocus}, Focused={Focused}, panel3d.Focused={panel3d.Focused}");
 
             ApplicationRunning = true;
 
@@ -48,7 +61,9 @@ namespace HorrorGame
             {
                 GuiController.newInstance();
                 GuiController gui = GuiController.Instance;
+                Log("Calling initGraphicsStandalone...");
                 gui.initGraphicsStandalone(this, panel3d);
+                Log("initGraphicsStandalone OK");
 
                 // Keep the D3D device alive AND process Windows messages during init().
                 // Without this, the form freezes and loses focus (orange screen),
@@ -69,7 +84,9 @@ namespace HorrorGame
 
                 try
                 {
+                    Log("Calling executeExample (may take several minutes)...");
                     gui.executeExample(new EjemploAlumno());
+                    Log("executeExample OK");
                 }
                 finally
                 {
@@ -88,12 +105,18 @@ namespace HorrorGame
             // Regain focus after the long init() (form may have lost it)
             this.Activate();
             panel3d.Focus();
+            Log($"Before game loop: ContainsFocus={ContainsFocus}, panel3d.Focused={panel3d.Focused}, Visible={Visible}, WindowState={WindowState}");
+
+            int frameCount = 0;
+            int noFocusCount = 0;
 
             // Game loop
             while (ApplicationRunning)
             {
                 if (ContainsFocus)
                 {
+                    if (frameCount == 0) Log("First render frame executing...");
+                    frameCount++;
                     try
                     {
                         gui2.render();
@@ -112,11 +135,15 @@ namespace HorrorGame
                 }
                 else
                 {
+                    noFocusCount++;
+                    if (noFocusCount == 1 || noFocusCount % 60 == 0)
+                        Log($"No focus (frame {noFocusCount}): ContainsFocus={ContainsFocus}, ActiveForm={(Form.ActiveForm?.GetType().Name ?? "null")}, panel3d.Focused={panel3d.Focused}");
                     System.Threading.Thread.Sleep(16);
                 }
 
                 Application.DoEvents();
             }
+            Log($"Game loop ended. frames={frameCount}, noFocus={noFocusCount}");
         }
 
         private static bool IsDeviceLost(Exception ex)
