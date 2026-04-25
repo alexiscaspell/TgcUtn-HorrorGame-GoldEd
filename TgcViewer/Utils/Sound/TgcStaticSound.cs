@@ -8,16 +8,15 @@ namespace TgcViewer.Utils.Sound
 {
     /// <summary>
     /// Reproduce archivos WAV con dos mecanismos:
-    /// - Loops (música, pasos): SoundPlayer.PlayLooping() — sin gaps, seamless.
-    /// - Efectos de un solo uso: MCI con alias único — verdaderamente concurrente.
-    ///   MCI usa waveOut handles independientes de PlaySound(), por lo que
-    ///   no cancela sonidos en loop ni otros efectos simultáneos.
+    /// - Loops (musica, pasos): SoundPlayer.PlayLooping() - sin gaps, seamless.
+    ///   Solo inicia si no esta ya en loop (evita reinicios por llamada per-frame).
+    /// - Efectos de un solo uso: MCI con alias unico - verdaderamente concurrente.
+    ///   MCI usa waveOut handles independientes de PlaySound().
     /// </summary>
     public class TgcStaticSound
     {
-        // ??? MCI (for non-looping concurrent effects) ??????????????????????
         [DllImport("winmm.dll", CharSet = CharSet.Auto)]
-        private static extern int mciSendString(string command, StringBuilder retVal, int retLen, IntPtr cb);
+        private static extern int mciSendString(string cmd, StringBuilder retVal, int retLen, IntPtr cb);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern int GetShortPathName(string longPath, StringBuilder shortPath, int bufSize);
@@ -25,15 +24,13 @@ namespace TgcViewer.Utils.Sound
         private static int _counter = 0;
         private static string NewAlias() => "snd" + Interlocked.Increment(ref _counter);
 
-        // ??? Fields ?????????????????????????????????????????????????????????
         private string loadedPath;
         private string shortPath;
-
-        // For looping sounds (SoundPlayer — seamless gapless loop)
         private SoundPlayer loopPlayer;
+        private bool _isLooping = false;
 
         public object SoundBuffer => null;
-        public bool IsPlaying => loopPlayer != null;
+        public bool IsPlaying => _isLooping;
 
         public TgcStaticSound() { }
 
@@ -45,8 +42,6 @@ namespace TgcViewer.Utils.Sound
             loadedPath = soundPath;
             var sb = new StringBuilder(260);
             shortPath = GetShortPathName(soundPath, sb, 260) > 0 ? sb.ToString() : soundPath;
-
-            // Pre-load loop player (fast start when play(true) is called)
             loopPlayer?.Dispose();
             loopPlayer = new SoundPlayer(soundPath);
             try { loopPlayer.Load(); } catch { }
@@ -58,18 +53,25 @@ namespace TgcViewer.Utils.Sound
 
             if (playLoop)
             {
-                // Seamless looping via SoundPlayer — no gaps between repetitions
-                try
+                // Guard: only start if not already looping.
+                // Personaje.cs calls play(true) EVERY FRAME while moving.
+                // Without this guard, SoundPlayer restarts each frame = "rain" sound.
+                if (!_isLooping)
                 {
-                    loopPlayer?.Stop();
-                    loopPlayer = new SoundPlayer(loadedPath);
-                    loopPlayer.PlayLooping();
+                    _isLooping = true;
+                    try
+                    {
+                        loopPlayer?.Stop();
+                        loopPlayer = new SoundPlayer(loadedPath);
+                        loopPlayer.PlayLooping();
+                    }
+                    catch { _isLooping = false; }
                 }
-                catch { }
+                // Already looping: do nothing, let SoundPlayer continue gaplessly
             }
             else
             {
-                // Concurrent one-shot via MCI — doesn't cancel loops or other effects
+                // Concurrent one-shot via MCI: own waveOut handle, never cancels loops
                 string alias = NewAlias();
                 string path = shortPath ?? loadedPath;
                 ThreadPool.QueueUserWorkItem(_ =>
@@ -89,6 +91,7 @@ namespace TgcViewer.Utils.Sound
 
         public void stop()
         {
+            _isLooping = false;
             try { loopPlayer?.Stop(); } catch { }
         }
 
