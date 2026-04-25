@@ -7,6 +7,10 @@ using TgcViewer;
 using TgcViewer.Utils;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.Terrain
 {
@@ -184,10 +188,6 @@ namespace TgcViewer.Utils.Terrain
 
                 // Cargo los ndices
                 using (IndexBuffer ib = m.IndexBuffer)
-using Color = System.Drawing.Color;
-using Rectangle = System.Drawing.Rectangle;
-using Point = System.Drawing.Point;
-using Font = System.Drawing.Font;
                 {
                     short[] ibArray = new short[6];
                     cargarIndices(ibArray);

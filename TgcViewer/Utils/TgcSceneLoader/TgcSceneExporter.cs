@@ -8,6 +8,10 @@ using System.Drawing;
 using System.Xml;
 using System.IO;
 using TgcViewer.Utils.TgcGeometry;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcSceneLoader
 {
@@ -1088,10 +1092,6 @@ namespace TgcViewer.Utils.TgcSceneLoader
 
             //Cargar indexBuffer en forma plana
             using (IndexBuffer ib = mesh.IndexBuffer)
-using Color = System.Drawing.Color;
-using Rectangle = System.Drawing.Rectangle;
-using Point = System.Drawing.Point;
-using Font = System.Drawing.Font;
             {
                 short[] indices = new short[vertexCount];
                 for (int i = 0; i < indices.Length; i++)

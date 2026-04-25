@@ -6,6 +6,10 @@ using SharpDX;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Shaders;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
+using Point = System.Drawing.Point;
+using Font = System.Drawing.Font;
 
 namespace TgcViewer.Utils.TgcGeometry
 {
@@ -714,10 +718,6 @@ namespace TgcViewer.Utils.TgcGeometry
 
                 //Cargar IndexBuffer en forma plana
                 using (IndexBuffer ib = d3dMesh.IndexBuffer)
-using Color = System.Drawing.Color;
-using Rectangle = System.Drawing.Rectangle;
-using Point = System.Drawing.Point;
-using Font = System.Drawing.Font;
                 {
                     short[] indices = new short[vertices.Length];
                     for (int j = 0; j < indices.Length; j++)
