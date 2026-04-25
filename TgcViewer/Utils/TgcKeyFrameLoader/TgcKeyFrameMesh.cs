@@ -403,7 +403,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             this.meshInstances = new List<TgcKeyFrameMesh>();
             this.alphaBlendEnable = false;
 
-            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.Declaration);
+            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.VertexDeclaration);
 
             //variables de movimiento
             this.autoTransformEnable = true;

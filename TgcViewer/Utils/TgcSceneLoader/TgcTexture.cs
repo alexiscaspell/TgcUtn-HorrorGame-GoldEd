@@ -433,7 +433,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             /// <param name="texture">Textura a aplicar</param>
             public void shaderSet(Effect effect, string parameterName, TgcTexture texture)
             {
-                effect.SetValue(parameterName, texture.D3dTexture);
+                effect.SetTexture(parameterName, texture.D3dTexture);
             }
 
             /// <summary>

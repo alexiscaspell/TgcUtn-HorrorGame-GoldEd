@@ -229,7 +229,7 @@ namespace TgcViewer.Utils.Terrain
             TgcTexture.Manager texturesManager = GuiController.Instance.TexturesManager;
 
             //Textura
-            effect.SetValue("texDiffuseMap", terrainTexture);
+            effect.SetTexture("texDiffuseMap", terrainTexture);
             texturesManager.clear(1);
 
             GuiController.Instance.Shaders.setShaderMatrix(this.effect, Matrix.Identity);
