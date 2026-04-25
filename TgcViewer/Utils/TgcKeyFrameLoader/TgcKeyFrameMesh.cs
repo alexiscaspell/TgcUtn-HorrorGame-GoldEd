@@ -403,7 +403,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             this.meshInstances = new List<TgcKeyFrameMesh>();
             this.alphaBlendEnable = false;
 
-            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.VertexDeclaration);
+            vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.Declaration);
 
             //variables de movimiento
             this.autoTransformEnable = true;
@@ -707,7 +707,7 @@ namespace TgcViewer.Utils.TgcKeyFrameLoader
             updateMeshTransform();
 
             //Cargar VertexDeclaration
-            device.VertexDeclaration = vertexDeclaration;
+            device.Declaration = vertexDeclaration;
 
             //Activar AlphaBlending si corresponde
             activateAlphaBlend();

@@ -1029,7 +1029,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             int triCount = mesh1.NumberTriangles + mesh2.NumberTriangles;
             int vertexCount = mesh1.VertexCount + mesh2.VertexCount;
             VertexElement[] vertexElements = mesh1.RenderType == TgcMesh.MeshRenderType.VERTEX_COLOR ? TgcSceneLoader.VertexColorVertexElements : TgcSceneLoader.DiffuseMapVertexElements;
-            Mesh mesh = new Mesh(triCount, vertexCount, MeshFlags.Managed, vertexElements, GuiController.Instance.D3dDevice);
+            Mesh mesh = D3DX9.CreateMesh(triCount, vertexCount, MeshFlags.Managed, vertexElements, GuiController.Instance.D3dDevice);
 
             //VertexColor
             if (mesh1.RenderType == TgcMesh.MeshRenderType.VERTEX_COLOR)

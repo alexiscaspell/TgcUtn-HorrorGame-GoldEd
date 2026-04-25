@@ -363,7 +363,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             this.transform = Matrix.Identity;
 
             //Shader
-            this.vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.VertexDeclaration);
+            this.vertexDeclaration = new VertexDeclaration(mesh.Device, mesh.Declaration);
             this.effect = GuiController.Instance.Shaders.TgcMeshShader;
             this.technique = GuiController.Instance.Shaders.getTgcMeshTechnique(this.renderType);
         }
@@ -384,7 +384,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             updateMeshTransform();
 
             //Cargar VertexDeclaration
-            device.VertexDeclaration = vertexDeclaration;
+            device.Declaration = vertexDeclaration;
 
             //Activar AlphaBlending si corresponde
             activateAlphaBlend();
@@ -950,7 +950,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
             Device device = GuiController.Instance.D3dDevice;
 
             //Clonar D3dMesh
-            Mesh d3dCloneMesh = this.d3dMesh.Clone(MeshFlags.Managed, this.d3dMesh.VertexDeclaration, device);
+            Mesh d3dCloneMesh = this.d3dMesh.Clone(MeshFlags.Managed, this.d3dMesh.Declaration, device);
 
             //Crear mesh de TGC y cargar atributos generales
             TgcMesh cloneMesh = new TgcMesh(d3dCloneMesh, cloneName, this.renderType);

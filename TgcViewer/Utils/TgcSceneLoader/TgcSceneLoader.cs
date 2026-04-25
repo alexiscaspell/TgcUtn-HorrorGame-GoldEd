@@ -251,7 +251,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         private TgcMesh crearMeshDiffuseMapLightmap(TgcSceneData sceneData, string mediaPath, TgcSceneLoaderMaterialAux[] materialsArray, TgcMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapAndLightmapVertexElements);
+            Mesh mesh = D3DX9.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapAndLightmapVertexElements);
 
             //Cargar vertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
@@ -368,7 +368,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         private TgcMesh crearMeshDiffuseMap(TgcSceneLoaderMaterialAux[] materialsArray, TgcMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
+            Mesh mesh = D3DX9.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, DiffuseMapVertexElements);
             
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)
@@ -476,7 +476,7 @@ namespace TgcViewer.Utils.TgcSceneLoader
         private TgcMesh crearMeshSoloColor(TgcMeshData meshData)
         {
             //Crear Mesh
-            Mesh mesh = new Mesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
+            Mesh mesh = D3DX9.CreateMesh(device, meshData.coordinatesIndices.Length / 3, meshData.coordinatesIndices.Length, MeshFlags.Managed, VertexColorVertexElements);
 
             //Cargar VertexBuffer
             using (VertexBuffer vb = mesh.VertexBuffer)

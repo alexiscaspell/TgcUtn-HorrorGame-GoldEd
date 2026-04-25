@@ -231,7 +231,7 @@ namespace TgcViewer.Utils.TgcGeometry
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             //Crear Mesh con solo color
-            Mesh d3dMesh = new Mesh(d3dDevice, 1, 3, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
+            Mesh d3dMesh = D3DX9.CreateMesh(d3dDevice, 1, 3, MeshFlags.Managed, TgcSceneLoader.TgcSceneLoader.VertexColorVertexElements);
 
             //Calcular normal: left-handed
             Vector3 normal = computeNormal();
