@@ -69,7 +69,11 @@ namespace AlumnoEjemplos.LOS_IMPROVISADOS
             diosMapa.generarCaminos();
 
             bossAnimado = AnimatedBoss.Instance;
-            bossAnimado.init(300f, new Vector3(1062, 0, 3020));
+            try { bossAnimado.init(300f, new Vector3(1062, 0, 3020)); }
+            catch (System.Exception bossEx)
+            {
+                try { System.IO.File.AppendAllText("startup.log", $"[{System.DateTime.Now:HH:mm:ss}] BOSS INIT ERROR: {bossEx.Message}\n"); } catch { }
+            }
 
             sonidoFondo = new TgcStaticSound();
             sonidoFondo.loadSound(GuiController.Instance.AlumnoEjemplosDir + "Media\\Sonidos\\asd16.wav");
